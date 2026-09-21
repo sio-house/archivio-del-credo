@@ -12,4 +12,4 @@ fonti:
 verificato: true
 ---
 
-Banchiere fiorentino e Assassino al servizio di Lorenzo de' Medici, Giovanni lavora nell'ombra contro la rete templare dei Borgia. Viene tradito e impiccato nel 1476 insieme ai figli Federico e Petruccio: è l'evento che mette in moto tutta la saga di Ezio.
+Banchiere fiorentino e Assassino al servizio di Lorenzo de' Medici, Giovanni lavora nell'ombra contro la rete templare dei Borgia. Viene tradito e impiccato nel 1476 insieme ai figli Federico e Petruccio, e da lì parte tutta la saga di Ezio.

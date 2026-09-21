@@ -19,4 +19,4 @@ fonti:
 verificato: true
 ---
 
-Le prime ore di Assassin's Creed III si giocano nei suoi panni, prima che si capisca chi sia davvero: Gran Maestro dei Templari coloniali, convinto che l'ordine porti stabilità dove gli Assassini portano caos. Il conflitto con il figlio Connor attraversa tutto il gioco e finisce come deve finire.
+Le prime ore di Assassin's Creed III si giocano nei suoi panni, e solo dopo si scopre che è il Gran Maestro dei Templari coloniali, convinto che l'ordine porti stabilità dove gli Assassini portano caos. Lo scontro con il figlio Connor dura per tutto il gioco.

@@ -13,6 +13,6 @@ verificato: true
 morte: 259
 ---
 
-Nato a Lugdunum da Lucius, un Occulto romano, Aquilus viene addestrato dal padre fin da bambino dentro il Liberalis Circulus, il nome che la Confraternita si dà in quell'epoca. La sua vita è una lunga contesa con l'Ordine degli Antichi per il possesso dell'Ankh, uno dei Frutti dell'Eden.
+Nato a Lugdunum da Lucius, un Occulto romano, Aquilus viene addestrato dal padre fin da bambino dentro il Liberalis Circulus, il nome che la Confraternita si dà in quell'epoca. Passa la vita a contendere all'Ordine degli Antichi l'Ankh, uno dei Frutti dell'Eden.
 
 Ottiene l'artefatto dal cugino Accipiter, lo perde di nuovo e muore nel 259, mentre viene deportato insieme alla moglie.

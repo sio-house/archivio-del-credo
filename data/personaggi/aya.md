@@ -15,4 +15,4 @@ fonti:
 verificato: true
 ---
 
-Alessandrina, vicina alla corte tolemaica, Aya porta la lotta dove Bayek non arriva: nelle stanze del potere, fino a Roma. È lei a dare all'ordine nascente la sua forma, e più tardi prende il nome di Amunet.
+Alessandrina, vicina alla corte tolemaica, Aya combatte dove Bayek non può arrivare, nei palazzi del potere, e si spinge fino a Roma. Dà forma all'ordine appena nato e più tardi prende il nome di Amunet.

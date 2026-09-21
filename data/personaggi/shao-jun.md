@@ -12,4 +12,4 @@ fonti:
 verificato: true
 ---
 
-Sfuggita allo sterminio della Confraternita cinese, Shao Jun raggiunge l'Italia per farsi addestrare da Ezio, ormai anziano. Torna in patria nel 1526 con una scatola degli Isu e un compito: ricostruire l'ordine e abbattere le Otto Tigri.
+Sfuggita allo sterminio della Confraternita cinese, Shao Jun raggiunge l'Italia per farsi addestrare da Ezio, ormai anziano. Torna in patria nel 1526 con una scatola degli Isu, per ricostruire l'ordine e abbattere le Otto Tigri.

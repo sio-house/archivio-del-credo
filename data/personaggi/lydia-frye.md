@@ -13,6 +13,6 @@ verificato: true
 nascita: 1893
 ---
 
-Nata il 19 marzo 1893, Lydia è cresciuta in una famiglia di Assassini ma all'inizio preferisce gli studi alla Confraternita. Sono le perdite della guerra fra Assassini e Templari a farle accettare l'eredità di famiglia.
+Nata il 19 marzo 1893, Lydia è cresciuta in una famiglia di Assassini ma all'inizio preferisce gli studi alla Confraternita. Cambia idea dopo le perdite subite nella guerra fra Assassini e Templari.
 
 Addestrata dal nonno Jacob e dalla prozia Evie, resta a Londra mentre il marito Sam Crowder parte per il fronte, e nel 1916 dà la caccia alle spie tedesche in città su incarico di Winston Churchill.

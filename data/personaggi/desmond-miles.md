@@ -12,6 +12,6 @@ fonti:
 - https://it.wikipedia.org/wiki/Desmond_Miles
 ---
 
-Cresciuto in una comunità di Assassini e fuggito da adolescente, Desmond viene rapito da Abstergo nel 2012 e costretto a entrare nell'Animus. Attraverso i suoi ricordi genetici si rivivono le storie di Altaïr ed Ezio: è lui il filo che tiene insieme i primi cinque capitoli.
+Cresciuto in una comunità di Assassini e fuggito da adolescente, Desmond viene rapito da Abstergo nel 2012 e costretto a entrare nell'Animus. Attraverso i suoi ricordi genetici si rivivono le storie di Altaïr ed Ezio, e la sua vicenda collega i primi cinque capitoli.
 
-L'effetto osmosi gli trasmette le abilità degli antenati, e insieme gli costa la lucidità. La sua storia si chiude nel Grande Tempio, con una scelta che decide il destino del mondo.
+L'effetto osmosi gli trasmette le abilità degli antenati ma gli fa perdere lucidità. La sua storia finisce nel Grande Tempio, dove una sua scelta decide le sorti del mondo.

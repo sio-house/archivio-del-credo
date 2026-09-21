@@ -2,7 +2,7 @@
 nome: Eivor Varinsdottir
 affiliazione: altro
 sommario: Il capo del clan del Corvo
-epoca: Norvegia e Inghilterra, nata nel 847
+epoca: Norvegia e Inghilterra, nata nell'847
 curiosita:
 - Valhalla è stato il primo capitolo su PS5 e Xbox Series X|S e ha superato il miliardo di dollari di ricavi.
 - Nata nell'847 da Varin e Rosta, perde i genitori per mano di Kjotve il Crudele e viene cresciuta da Styrbjorn insieme al figlio Sigurd.

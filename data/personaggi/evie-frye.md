@@ -14,6 +14,6 @@ fonti:
 verificato: true
 ---
 
-Nata a Crawley il 9 novembre 1847, quattro minuti prima del gemello Jacob, Evie perde la madre il giorno stesso della nascita e cresce dentro la Confraternita, addestrata dal padre. Dove Jacob improvvisa, lei studia.
+Nata a Crawley il 9 novembre 1847, quattro minuti prima del gemello Jacob, Evie perde la madre il giorno stesso della nascita e cresce dentro la Confraternita, addestrata dal padre. Studia più di Jacob, che improvvisa.
 
-A Londra insegue la Sindone dell'Eden per impedire che finisca in mano a Crawford Starrick. Con il fratello viene insignita dell'Ordine della Giarrettiera dalla regina Vittoria; nel 1888 i due danno la caccia a Jack lo Squartatore. Sposa Henry Green e parte con lui per l'India.
+A Londra insegue la Sindone dell'Eden per impedire che finisca in mano a Crawford Starrick. Con il fratello riceve dalla regina Vittoria l'Ordine della Giarrettiera; nel 1888 i due danno la caccia a Jack lo Squartatore. Sposa Henry Green e parte con lui per l'India.

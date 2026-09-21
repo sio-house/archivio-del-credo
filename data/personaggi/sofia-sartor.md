@@ -10,4 +10,4 @@ fonti:
 verificato: true
 ---
 
-Sofia gestisce una libreria a Costantinopoli e aiuta Ezio a ritrovare le chiavi di Masyaf. Il loro rapporto è la ragione per cui Ezio, alla fine, sceglie di posare la lama: si sposano e si ritirano in Toscana, dove crescono Flavia e Marcello.
+Sofia gestisce una libreria a Costantinopoli e aiuta Ezio a ritrovare le chiavi di Masyaf. È per lei che Ezio, alla fine, sceglie di posare la lama. Si sposano e si ritirano in Toscana, dove crescono Flavia e Marcello.

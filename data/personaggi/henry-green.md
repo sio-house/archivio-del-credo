@@ -6,7 +6,7 @@ affiliazione: assassini
 sommario: Jayadeep Mir, l'Assassino indiano a Londra
 epoca: Londra, XIX secolo
 curiosita:
-- 'È figlio di Arbaaz Mir, protagonista del fumetto Brahman: uno dei collegamenti più diretti fra fumetti e giochi.'
+- 'Figlio di Arbaaz Mir, protagonista del fumetto Brahman, è uno dei collegamenti più diretti fra fumetti e giochi.'
 - I genitori sono Arbaaz Mir e Pyara Kaur, principessa dell'impero sikh; da bambino fu addestrato da Ethan Frye, il padre dei gemelli.
 - Il suo nome in codice è «il Fantasma».
 fonti:

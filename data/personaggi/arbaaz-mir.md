@@ -14,4 +14,4 @@ fonti:
 verificato: true
 ---
 
-Arbaaz agisce nel Punjab quando i Templari britannici mettono le mani sui Frutti dell'Eden. La sua storia è raccontata nel fumetto Brahman e prosegue, senza che il lettore se lo aspetti, dentro un gioco.
+Arbaaz agisce nel Punjab quando i Templari britannici mettono le mani sui Frutti dell'Eden. La sua storia è raccontata nel fumetto Brahman e continua in un gioco.

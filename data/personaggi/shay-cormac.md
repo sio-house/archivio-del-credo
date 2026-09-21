@@ -5,7 +5,7 @@ nascita: 1731
 sommario: L'Assassino che passa ai Templari
 epoca: Atlantico del Nord, nato nel 1731
 curiosita:
-- 'Rogue è il rovescio di Black Flag: stessa epoca, stesso mare, punto di vista opposto.'
+- 'Rogue ha l''epoca e il mare di Black Flag, visti dalla parte opposta.'
 - La sua storia si chiude dove comincia Assassin's Creed III e prepara gli eventi di Unity.
 - Achille lo recluta nel 1748; la rottura arriva dopo Lisbona, quando Shay collega i terremoti alla manomissione dei templi degli Isu.
 - Convince i Templari a risparmiare Achille, ormai un Mentore senza confraternita.
