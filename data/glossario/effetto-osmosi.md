@@ -16,4 +16,4 @@ fonti:
 
 L'uso prolungato dell'Animus fa filtrare i ricordi dell'antenato nella mente di chi li rivive. Chi ne è colpito acquisisce abilità che non ha mai imparato, ma rischia di confondere il proprio presente con il passato altrui.
 
-È ciò che rende Desmond un Assassino, ciò che spezza Daniel Cross in The Fall e ciò che permette a Lisa di combattere come Shao Jun nel manga.
+Per questo Desmond diventa un Assassino e Lisa, nel manga, riesce a combattere come Shao Jun. Daniel Cross invece, in The Fall, ne esce distrutto.

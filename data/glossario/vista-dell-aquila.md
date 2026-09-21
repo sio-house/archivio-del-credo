@@ -12,6 +12,6 @@ fonti:
 - https://assassinscreed.fandom.com/it/wiki/Occhio_dell%27aquila
 ---
 
-Sulla wiki italiana è chiamato occhio dell'aquila: una capacità che permette di distinguere a colpo d'occhio amici, bersagli e indizi. Chiunque potrebbe averla, ma è nelle linee di sangue con eredità Isu che si manifesta davvero.
+Sulla wiki italiana si chiama occhio dell'aquila. Permette di distinguere a colpo d'occhio amici, bersagli e indizi. In teoria chiunque potrebbe averla, ma si manifesta con forza solo nelle linee di sangue che discendono dagli Isu.
 
-Non è un semplice filtro colorato: risente delle emozioni di chi la usa, tanto che Al Mualim appare come alleato agli occhi di Altaïr, pur non essendolo. In Origins il suo ruolo passa all'aquila Senu, che sorvola la mappa al posto tuo.
+Risente anche delle emozioni di chi la usa, tanto che Altaïr vede Al Mualim come un alleato anche se non lo è. In Origins il suo ruolo passa all'aquila Senu, che sorvola la mappa al posto tuo.

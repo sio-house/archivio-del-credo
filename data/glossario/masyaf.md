@@ -12,4 +12,4 @@ fonti:
 - https://it.wikipedia.org/wiki/Alta%C3%AFr_Ibn-La%27Ahad
 ---
 
-La fortezza siriana che fu la casa degli Assassini del Levante, realmente esistita e legata alla setta storica dei Nizariti. È il punto di partenza del primo gioco e il punto d'arrivo del viaggio di Ezio in Revelations.
+Fortezza siriana realmente esistita, legata alla setta storica dei Nizariti e casa degli Assassini del Levante. Il primo gioco comincia qui, e qui arriva Ezio alla fine del suo percorso in Revelations.

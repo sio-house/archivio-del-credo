@@ -9,6 +9,6 @@ fonti:
   - https://www.gamefile.news/p/assassins-creed-black-flag-resynced-review
 ---
 
-L'Animus Hub è la cornice comparsa con Shadows e ripresa da Black Flag Resynced: invece di un personaggio moderno con un nome e una storia, il gioco si apre su una linea del tempo da cui si sceglie quale ricordo rivivere. Chi usa l'Animus, in pratica, sei tu.
+L'Animus Hub è la cornice introdotta con Shadows e ripresa da Black Flag Resynced. Al posto di un personaggio moderno con un nome e una storia c'è una linea del tempo da cui scegli quale ricordo rivivere, quindi chi usa l'Animus sei tu.
 
-In Black Flag Resynced dietro questa interfaccia c'è EGO, un'intelligenza artificiale che mostra «falle»: versioni alternative dei ricordi, scenari ipotetici su che cosa sarebbe successo se Edward avesse scelto diversamente. È anche il modo in cui la saga racconta un presente molto più avanti del 2012, in un futuro dominato da Abstergo.
+In Black Flag Resynced dietro l'interfaccia c'è EGO, un'intelligenza artificiale che mostra «falle», cioè versioni alternative dei ricordi in cui si vede che cosa sarebbe successo se Edward avesse scelto diversamente. Con questa cornice la saga racconta anche un presente molto più avanti del 2012, in un futuro dominato da Abstergo.

@@ -15,4 +15,4 @@ fonti:
 - https://it.wikipedia.org/wiki/Desmond_Miles
 ---
 
-Le strutture lasciate dagli Isu sotto le città e nei sotterranei: la Volta sotto il Vaticano, il Grande Tempio dello Stato di New York. Custodiscono messaggi, macchinari e soluzioni per salvare l'umanità dalla catastrofe che ha distrutto i loro creatori.
+Strutture lasciate dagli Isu sotto le città e nei sotterranei, come la Volta sotto il Vaticano o il Grande Tempio nello Stato di New York. Contengono messaggi, macchinari e soluzioni per salvare l'umanità dalla catastrofe che ha distrutto i loro creatori.
