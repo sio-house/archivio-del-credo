@@ -1,0 +1,21 @@
+---
+import { u } from '../../lib/url';
+import Base from '../../layouts/Base.astro';
+import Passi from '../../components/Passi.astro';
+import { dati } from '../../lib/data';
+const { perCronologia } = await dati();
+// ogni opera compare una volta, alla posizione del suo primo segmento storico
+const visti = new Set<string>();
+const passi = perCronologia.filter((s) => s.data.filone !== 'moderno').flatMap((s) => {
+  const id = s.data.opera.id;
+  if (visti.has(id)) return [];
+  visti.add(id);
+  return [{ opera: { id }, nota: `${s.data.inizio} · ${s.data.titolo}` }];
+});
+---
+<Base titolo="Ordine cronologico">
+  <p class="eyebrow"><a href={u('/percorsi')}>Percorsi</a> · generato</p>
+  <h1>Ordine cronologico</h1>
+  <p class="muted">Ogni opera è posizionata sul suo primo segmento nell'epoca storica. L'epoca moderna segue quasi sempre l'ordine di uscita.</p>
+  <Passi passi={passi} />
+</Base>

@@ -1,0 +1,27 @@
+---
+import { u } from '../lib/url';
+import type { CollectionEntry } from 'astro:content';
+import { dati } from '../lib/data';
+interface Props { n: CollectionEntry<'notizie'>; breve?: boolean; livello?: 2 | 3 }
+const { n, breve = false, livello = 2 } = Astro.props;
+const Titolo = `h${livello}` as 'h2' | 'h3';
+const { idx } = await dati();
+const host = (u: string) => new URL(u).hostname.replace('www.', '');
+---
+<article class="notizia card" data-sync>
+  <p class="eyebrow">
+    <time datetime={n.data.data.toISOString().slice(0, 10)}>{n.data.data.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</time>
+    {n.data.stato === 'indiscrezione' && <span class="tag warn">indiscrezione</span>}
+  </p>
+  <Titolo class="titolo">{n.data.titolo}</Titolo>
+  {!breve && <p>{n.data.testo}</p>}
+  <p class="small muted">
+    {n.data.opere.map((o) => <><a href={u(`/opere/${o.id}`)}>{idx.opere.get(o.id)!.data.titolo}</a> · </>)}
+    Fonte: {n.data.fonti.map((f, i) => <>{i > 0 && ', '}<a href={f} rel="noopener">{host(f)}</a></>)}
+  </p>
+</article>
+<style>
+  .notizia :global(.titolo) { margin-top: 4px; font-size: 1.25rem; }
+  .notizia p { margin: 6px 0; }
+  .eyebrow { display: flex; gap: 8px; align-items: center; }
+</style>

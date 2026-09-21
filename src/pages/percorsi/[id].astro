@@ -1,0 +1,20 @@
+---
+import { u } from '../../lib/url';
+import Base from '../../layouts/Base.astro';
+import Passi from '../../components/Passi.astro';
+import { render, type CollectionEntry } from 'astro:content';
+import { dati } from '../../lib/data';
+export async function getStaticPaths() {
+  const { percorsi } = await dati();
+  return percorsi.map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+const { p } = Astro.props as { p: CollectionEntry<'percorsi'> };
+const { Content } = await render(p);
+---
+<Base titolo={p.data.titolo} descrizione={p.data.sommario}>
+  <p class="eyebrow"><a href={u('/percorsi')}>Percorsi</a></p>
+  <h1 data-sync>{p.data.titolo}</h1>
+  <p class="muted">{p.data.sommario}</p>
+  <Content />
+  <Passi passi={p.data.passi} />
+</Base>

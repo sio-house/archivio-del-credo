@@ -1,0 +1,44 @@
+# Edizioni possedute. Completa piattaforma, editore, ISBN/EAN quando vuoi.
+- { id: assassins-creed-gioco, opera: assassins-creed, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: assassins-creed-ii-gioco, opera: assassins-creed-ii, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: brotherhood-gioco, opera: brotherhood, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: revelations-gioco, opera: revelations, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: assassins-creed-iii-gioco, opera: assassins-creed-iii, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: black-flag-gioco, opera: black-flag, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: rogue-gioco, opera: rogue, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: unity-gioco, opera: unity, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: syndicate-gioco, opera: syndicate, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: origins-gioco, opera: origins, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: odyssey-gioco, opera: odyssey, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: valhalla-gioco, opera: valhalla, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: mirage-gioco, opera: mirage, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: shadows-gioco, opera: shadows, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: chronicles-china-gioco, opera: chronicles-china, nome: "Da specificare", lingua: it, formato: fisico }
+- { id: crociata-segreta-it, opera: crociata-segreta, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer", formato: fisico }
+- { id: rinascimento-it, opera: rinascimento, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer", formato: fisico }
+- { id: romanzo-brotherhood-it, opera: romanzo-brotherhood, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer", formato: fisico }
+- { id: romanzo-revelations-it, opera: romanzo-revelations, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer", formato: fisico }
+- { id: romanzo-forsaken-it, opera: romanzo-forsaken, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer", formato: fisico }
+- { id: romanzo-black-flag-it, opera: romanzo-black-flag, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer (Pickwick)", formato: fisico }
+- { id: romanzo-unity-it, opera: romanzo-unity, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer (Pickwick)", formato: fisico }
+- { id: romanzo-underworld-it, opera: romanzo-underworld, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer", formato: fisico }
+- { id: romanzo-desert-oath-it, opera: romanzo-desert-oath, nome: "Edizione italiana", lingua: it, formato: fisico }
+- { id: romanzo-odyssey-it, opera: romanzo-odyssey, nome: "Edizione italiana", lingua: it, formato: fisico }
+- { id: the-chain-vol1-it, opera: the-chain, nome: "Vol. 1", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: the-chain-vol2-it, opera: the-chain, nome: "Vol. 2", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: the-fall-vol1-it, opera: the-fall, nome: "Vol. 1", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: the-fall-vol2-it, opera: the-fall, nome: "Vol. 2", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: ritorno-a-casa-vol1-it, opera: ritorno-a-casa, nome: "Vol. 1", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: ritorno-a-casa-vol2-it, opera: ritorno-a-casa, nome: "Vol. 2", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: brahman-vol1-it, opera: brahman, nome: "Vol. 1", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: brahman-vol2-it, opera: brahman, nome: "Vol. 2", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: fumetto-desmond-it, opera: fumetto-desmond, nome: "Edizione italiana", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: fumetto-aquilus-it, opera: fumetto-aquilus, nome: "Edizione italiana", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: fumetto-accipiter-it, opera: fumetto-accipiter, nome: "Edizione italiana", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: fumetto-hawk-it, opera: fumetto-hawk, nome: "Edizione italiana", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: fumetto-el-cakr-it, opera: fumetto-el-cakr, nome: "Edizione italiana", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: fumetto-leila-it, opera: fumetto-leila, nome: "Edizione italiana", lingua: it, editore: "Panini Comics", formato: fisico }
+- { id: blade-of-shao-jun-vol1, opera: blade-of-shao-jun, nome: "Vol. 1", lingua: it, editore: "Planet Manga", formato: fisico }
+- { id: blade-of-shao-jun-vol2, opera: blade-of-shao-jun, nome: "Vol. 2", lingua: it, editore: "Planet Manga", formato: fisico }
+- { id: blade-of-shao-jun-vol3, opera: blade-of-shao-jun, nome: "Vol. 3", lingua: it, editore: "Planet Manga", formato: fisico }
+- { id: blade-of-shao-jun-vol4, opera: blade-of-shao-jun, nome: "Vol. 4", lingua: it, editore: "Planet Manga", formato: fisico }

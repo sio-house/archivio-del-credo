@@ -1,0 +1,41 @@
+---
+import { u } from '../../lib/url';
+import Base from '../../layouts/Base.astro';
+import { dati } from '../../lib/data';
+const { glossario } = await dati();
+const CAT = { organizzazione: 'Organizzazioni', tecnologia: 'Tecnologia', artefatto: 'Artefatti', concetto: 'Concetti', luogo: 'Luoghi' };
+const voci = [...glossario].sort((a, b) => a.data.termine.localeCompare(b.data.termine));
+const gruppi = Object.entries(CAT).map(([k, label]) => ({ k, label, voci: voci.filter((v) => v.data.categoria === k) })).filter((g) => g.voci.length);
+---
+<Base titolo="Glossario" descrizione="Il glossario di Assassin's Creed: Animus, Isu, Frutti dell'Eden, Templari, Occulti e gli altri termini della saga spiegati.">
+  <h1 data-sync>Glossario</h1>
+  <p class="muted">I termini che tornano in tutta la saga, spiegati una volta sola. Ogni voce rimanda alle opere in cui compare.</p>
+  <div class="chips filtri" role="group" aria-label="Filtra per categoria">
+    <button class="chip" data-cat="tutte" aria-pressed="true">Tutte</button>
+    {gruppi.map((g) => <button class="chip" data-cat={g.k} aria-pressed="false">{g.label}</button>)}
+  </div>
+  {gruppi.map((g) => (
+    <section data-gruppo={g.k}>
+      <h2 data-sync>{g.label}</h2>
+      <div class="grid">
+        {g.voci.map((v) => (
+          <a class="card" href={u(`/glossario/${v.id}`)} data-sync>
+            <h3>{v.data.termine}</h3>
+            {v.data.alias.length > 0 && <p class="small muted">{v.data.alias.join(' · ')}</p>}
+          </a>
+        ))}
+      </div>
+    </section>
+  ))}
+</Base>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-cat]').forEach((b) => b.addEventListener('click', () => {
+    const cat = b.dataset.cat!;
+    document.querySelectorAll<HTMLButtonElement>('[data-cat]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    document.querySelectorAll<HTMLElement>('[data-gruppo]').forEach((s) => (s.hidden = cat !== 'tutte' && s.dataset.gruppo !== cat));
+  }));
+</script>
+<style>
+  .filtri { margin: 20px 0 8px; }
+  section h2 { margin-top: 1.8em; }
+</style>

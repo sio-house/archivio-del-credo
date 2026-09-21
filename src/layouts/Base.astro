@@ -1,0 +1,75 @@
+---
+import { u, senzaBase } from '../lib/url';
+import '../styles/global.css';
+import '../styles/animus.css';
+import Animus from '../components/Animus.astro';
+import { ClientRouter } from 'astro:transitions';
+interface Props { titolo: string; descrizione?: string }
+const { titolo, descrizione = "Portale non ufficiale su Assassin's Creed: timeline, guide all'ordine di lettura e una collezione." } = Astro.props;
+const voci = [
+  ['/timeline', 'Timeline'], ['/mappa', 'Mappa'], ['/percorsi', 'Percorsi'], ['/opere', 'Opere'], ['/storia', 'Storia'],
+  ['/personaggi', 'Personaggi'], ['/glossario', 'Glossario'], ['/collezione', 'Collezione'], ['/notizie', 'Notizie'], ['/about', 'Info'],
+];
+const qui = Astro.url.pathname;            // include il base, se c'è
+const relativo = senzaBase(qui);            // lo stesso percorso visto dalla radice del sito
+// ogni pagina ha la sua anteprima social, generata in build
+const slug = relativo === '/' ? 'home' : relativo.replace(/^\/|\/$/g, '');
+const og = new URL(u(`/og/${slug}.png`), Astro.site);
+---
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{titolo} · Archivio del Credo</title>
+  <meta name="description" content={descrizione} />
+  <link rel="canonical" href={new URL(qui, Astro.site)} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Archivio del Credo" />
+  <meta property="og:title" content={titolo} />
+  <meta property="og:description" content={descrizione} />
+  <meta property="og:url" content={new URL(qui, Astro.site)} />
+  <meta property="og:image" content={og} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="alternate" type="application/rss+xml" title="Archivio del Credo · Notizie" href={u('/notizie.xml')} />
+  <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
+  <ClientRouter />
+  <slot name="head" />
+</head>
+<body>
+  <header class="top">
+    <div class="wrap bar">
+      <a href={u('/')} class="brand">Archivio del Credo</a>
+      <nav>
+        {voci.map(([href, label]) => (
+          <a href={u(href)} aria-current={relativo.startsWith(href) ? 'page' : undefined}>{label}</a>
+        ))}
+      </nav>
+      <Animus />
+    </div>
+  </header>
+  <main class="wrap" data-pagefind-body>
+    <slot />
+  </main>
+  <footer class="wrap small muted">
+    Sito amatoriale non ufficiale, non affiliato né approvato da Ubisoft. Assassin's Creed è un marchio di Ubisoft Entertainment.
+    · Un progetto di <a href="https://s-io.net">S-IO</a>
+  </footer>
+</body>
+</html>
+<style>
+  .top { border-bottom: 1px solid var(--line); background: var(--surface); position: sticky; top: 0; z-index: 10; }
+  .bar { display: flex; align-items: center; gap: 12px 24px; min-height: 60px; flex-wrap: wrap; padding-block: 8px; }
+  .bar :global(.animus-btn) { margin-left: auto; }
+  .brand { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; text-decoration: none; }
+  nav { display: flex; gap: 4px 16px; flex-wrap: wrap; font-size: .92rem; }
+  nav a { text-decoration: none; color: var(--muted); }
+  nav a[aria-current='page'] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; }
+  main { padding-block: 40px 64px; min-height: 70vh; }
+  footer { border-top: 1px solid var(--line); padding-block: 24px 40px; }
+</style>

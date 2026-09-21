@@ -1,0 +1,33 @@
+- { id: r1, da: giovanni-auditore, a: ezio-auditore, tipo: genitore }
+- { id: r2, da: mario-auditore, a: ezio-auditore, tipo: parente, dettaglio: zio }
+- { id: r3, da: mario-auditore, a: ezio-auditore, tipo: mentore }
+- { id: r4, da: leonardo-da-vinci, a: ezio-auditore, tipo: alleato }
+- { id: r5, da: rodrigo-borgia, a: cesare-borgia, tipo: genitore }
+- { id: r6, da: ezio-auditore, a: rodrigo-borgia, tipo: nemico }
+- { id: r7, da: ezio-auditore, a: cesare-borgia, tipo: nemico }
+- { id: r8, da: ezio-auditore, a: shao-jun, tipo: mentore }
+- { id: r9, da: ezio-auditore, a: desmond-miles, tipo: antenato }
+- { id: r10, da: altair, a: desmond-miles, tipo: antenato }
+- { id: r11, da: edward-kenway, a: haytham-kenway, tipo: genitore }
+- { id: r12, da: haytham-kenway, a: connor, tipo: genitore }
+- { id: r13, da: connor, a: haytham-kenway, tipo: nemico }
+- { id: r14, da: arno-dorian, a: elise-de-la-serre, tipo: amore }
+- { id: r15, da: jacob-frye, a: evie-frye, tipo: parente, dettaglio: gemelli }
+- { id: r16, da: evie-frye, a: henry-green, tipo: amore }
+- { id: r17, da: nikolai-orelov, a: daniel-cross, tipo: antenato }
+- { id: r18, da: basim, a: eivor, tipo: alleato }
+- { id: r19, da: naoe, a: yasuke, tipo: alleato }
+- { id: r20, da: ezio-auditore, a: sofia-sartor, tipo: amore }
+- { id: r21, da: bayek, a: aya, tipo: amore }
+- { id: r22, da: aya, a: bayek, tipo: alleato, dettaglio: "fondano insieme gli Occulti" }
+- { id: r23, da: edward-kenway, a: adewale, tipo: alleato }
+- { id: r24, da: achille-davenport, a: connor, tipo: mentore }
+- { id: r25, da: achille-davenport, a: shay-cormac, tipo: mentore }
+- { id: r26, da: shay-cormac, a: achille-davenport, tipo: nemico }
+- { id: r27, da: haytham-kenway, a: shay-cormac, tipo: alleato }
+- { id: r28, da: jacob-frye, a: lydia-frye, tipo: antenato, dettaglio: nonno }
+- { id: r29, da: arbaaz-mir, a: henry-green, tipo: genitore, dettaglio: "Henry Green è Jayadeep Mir" }
+- { id: r30, da: shao-jun, a: lisa, tipo: antenato }
+- { id: r31, da: shao-jun, a: zhang-yong, tipo: nemico }
+- { id: r32, da: achille-davenport, a: adewale, tipo: alleato, dettaglio: "amici dai tempi della Confraternita caraibica" }
+- { id: r33, da: kassandra, a: aya, tipo: antenato, dettaglio: "tramite il figlio Elpidio" }

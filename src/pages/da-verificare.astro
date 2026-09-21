@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import { dati, TIPI } from '../lib/data';
+import { u } from '../lib/url';
+const { opere, personaggi, glossario } = await dati();
+
+const senzaFonte = <T extends { id: string; data: any }>(xs: T[]) =>
+  xs.filter((x) => !(x.data.fonti?.length || x.data.fontiInterne?.length));
+
+const gruppi = [
+  { nome: 'Personaggi', voci: senzaFonte(personaggi).map((p) => ({ id: p.id, titolo: p.data.nome, dove: `data/personaggi/${p.id}.md`, url: `/personaggi/${p.id}` })) },
+  { nome: 'Opere', voci: senzaFonte(opere).map((o) => ({ id: o.id, titolo: `${o.data.titolo} (${TIPI[o.data.tipo]})`, dove: `data/opere/${o.id}.md`, url: `/opere/${o.id}` })) },
+  { nome: 'Glossario', voci: senzaFonte(glossario).map((g) => ({ id: g.id, titolo: g.data.termine, dove: `data/glossario/${g.id}.md`, url: `/glossario/${g.id}` })) },
+].filter((g) => g.voci.length);
+const totale = gruppi.reduce((n, g) => n + g.voci.length, 0);
+const esempio = `fontiInterne:
+  - { opera: assassins-creed-ii, riferimento: "voce del database: Mela dell'Eden" }
+  - { opera: rinascimento, riferimento: "capitolo 12" }`;
+---
+<Base titolo="Da verificare" descrizione="Elenco di lavoro: le voci del portale che non hanno ancora una fonte.">
+  <Fragment slot="head"><meta name="robots" content="noindex" /></Fragment>
+  <h1 data-sync>Da verificare</h1>
+  <p class="lead muted">Pagina di lavoro: {totale} voci non hanno ancora nessuna fonte, né un link né una citazione dal materiale in collezione. Non è indicizzata dai motori di ricerca.</p>
+
+  <section class="card come" data-sync>
+    <p class="eyebrow">Come si cita il materiale che possiedi</p>
+    <p class="small">Nel file della voce, dentro il blocco iniziale fra i tre trattini, aggiungi:</p>
+    <pre>{esempio}</pre>
+    <p class="small muted">L'id dell'opera è il nome del file in <code>data/opere/</code>. Il riferimento è libero: una voce del database del gioco, un capitolo, una tavola, un minuto del cortometraggio. Se l'opera citata è in collezione, la scheda lo segnala. Se l'id non esiste, la build si ferma.</p>
+  </section>
+
+  {gruppi.map((g) => (
+    <section data-sync>
+      <h2>{g.nome} <span class="muted">({g.voci.length})</span></h2>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Voce</th><th>File da modificare</th></tr></thead>
+          <tbody>
+            {g.voci.map((v) => <tr><td><a href={u(v.url)}>{v.titolo}</a></td><td><code>{v.dove}</code></td></tr>)}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
+  {totale === 0 && <p>Tutte le voci hanno almeno una fonte.</p>}
+</Base>
+<style>
+  .lead { max-width: 66ch; }
+  .come { max-width: 760px; margin: 20px 0; }
+  pre { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; overflow-x: auto; font-size: .85rem; }
+  code { font-size: .85em; }
+  h2 { margin-top: 1.8em; }
+</style>

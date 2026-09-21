@@ -1,0 +1,73 @@
+---
+import { u } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import { dati, TIPI, type Opera } from '../lib/data';
+const { idx, opere, copie } = await dati();
+
+const righe = copie.map((c) => {
+  const e = idx.edizioni.get(c.data.edizione.id)!;
+  return { c, e, o: idx.opere.get(e.data.opera.id)! as Opera };
+}).sort((a, b) => +a.o.data.uscita - +b.o.data.uscita);
+
+const possedute = righe.filter((r) => r.c.data.stato === 'posseduto');
+const opereCoperte = new Set(possedute.map((r) => r.o.id));
+const completate = possedute.filter((r) => r.c.data.fruizione === 'completato' || r.c.data.fruizione === 'platinato').length;
+const desiderate = righe.filter((r) => r.c.data.stato === 'desiderato');
+const perTipo = Object.entries(TIPI).map(([t, label]) => {
+  const tot = opere.filter((o) => o.data.tipo === t).length;
+  const mie = opere.filter((o) => o.data.tipo === t && opereCoperte.has(o.id)).length;
+  return { label, tot, mie };
+}).filter((x) => x.tot > 0);
+const fruizione = { 'da-iniziare': 'Da iniziare', 'in-corso': 'In corso', completato: 'Completato', platinato: 'Platinato' };
+---
+<Base titolo="Collezione">
+  <h1 data-sync>Collezione</h1>
+  <p class="muted">Le copie possedute, collegate alle opere del portale. Vedi anche <a href={u('/collezione/mancanti')}>cosa manca</a>.</p>
+
+  <div class="stats">
+    <div class="card" data-sync><p class="eyebrow">Pezzi</p><p class="big">{possedute.length}</p></div>
+    <div class="card" data-sync><p class="eyebrow">Opere coperte</p><p class="big">{opereCoperte.size}<span class="muted small"> / {opere.length}</span></p></div>
+    <div class="card" data-sync><p class="eyebrow">Completate</p><p class="big">{completate}</p></div>
+    <div class="card" data-sync><p class="eyebrow">Lista desideri</p><p class="big">{desiderate.length}</p></div>
+  </div>
+
+  <h2>Copertura per tipo</h2>
+  <div class="bars">
+    {perTipo.map((t) => (
+      <div class="bar-row" data-sync>
+        <span>{t.label}</span>
+        <div class="track" role="img" aria-label={`${t.mie} su ${t.tot}`}><div class="fill" style={`width:${(t.mie / t.tot) * 100}%`}></div></div>
+        <span class="small muted num">{t.mie}/{t.tot}</span>
+      </div>
+    ))}
+  </div>
+
+  <h2>Tutti i pezzi</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Opera</th><th>Edizione</th><th>Lingua</th><th>Stato</th><th>Fruizione</th><th>Voto</th></tr></thead>
+      <tbody>
+        {righe.map(({ c, e, o }) => (
+          <tr>
+            <td><a href={u(`/opere/${o.id}`)}>{o.data.titolo}</a><div class="small muted">{TIPI[o.data.tipo]}</div></td>
+            <td>{e.data.nome}{e.data.piattaforma && <span class="muted"> · {e.data.piattaforma}</span>}{e.data.isbn && <div class="small muted">ISBN {e.data.isbn}</div>}</td>
+            <td>{e.data.lingua.toUpperCase()}</td>
+            <td><span class="tag">{c.data.stato}</span></td>
+            <td>{c.data.fruizione ? fruizione[c.data.fruizione] : '—'}</td>
+            <td>{c.data.voto ?? '—'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</Base>
+<style>
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 24px 0; }
+  .big { font-variant-numeric: lining-nums tabular-nums; font-family: var(--serif); font-size: 2.4rem; font-weight: 600; margin: 0; line-height: 1; }
+  .stats .eyebrow { margin: 0 0 8px; }
+  .bars { display: grid; gap: 10px; max-width: 560px; }
+  .bar-row { display: grid; grid-template-columns: 90px 1fr 44px; gap: 12px; align-items: center; }
+  .track { height: 10px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .fill { height: 100%; background: var(--accent); border-radius: 99px; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+</style>

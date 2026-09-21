@@ -1,0 +1,50 @@
+---
+import { u } from '../../lib/url';
+import Base from '../../layouts/Base.astro';
+import { dati, TIPI, anno } from '../../lib/data';
+const { opere, copie, idx, percorsi, segmenti } = await dati();
+
+const possedute = new Set(copie.filter((c) => c.data.stato === 'posseduto').map((c) => idx.edizioni.get(c.data.edizione.id)!.data.opera.id));
+const desiderate = new Set(copie.filter((c) => c.data.stato === 'desiderato').map((c) => idx.edizioni.get(c.data.edizione.id)!.data.opera.id));
+
+// quanto "pesa" un'opera che manca: compare nei percorsi curati? quante storie racconta? è canonica?
+const mancanti = opere.filter((o) => !possedute.has(o.id)).map((o) => {
+  const neiPercorsi = percorsi.filter((p) => p.data.passi.some((s) => s.opera.id === o.id));
+  const nonOpzionale = neiPercorsi.filter((p) => p.data.passi.some((s) => s.opera.id === o.id && !s.opzionale)).length;
+  const frammenti = segmenti.filter((s) => s.data.opera.id === o.id).length;
+  const punti = nonOpzionale * 3 + neiPercorsi.length + frammenti + (o.data.canonicita === 'canonico' ? 1 : 0);
+  return { o, neiPercorsi, punti, desiderata: desiderate.has(o.id) };
+}).sort((a, b) => b.punti - a.punti || +a.o.data.uscita - +b.o.data.uscita);
+
+const perc = Math.round((possedute.size / opere.length) * 100);
+---
+<Base titolo="Cosa mi manca" descrizione="Le opere di Assassin's Creed che non sono ancora in collezione, ordinate per quanto contano nei percorsi.">
+  <p class="eyebrow"><a href={u('/collezione')}>Collezione</a></p>
+  <h1 data-sync>Cosa mi manca</h1>
+  <p class="muted">{possedute.size} opere su {opere.length} sono in collezione ({perc}%). In cima quelle che pesano di più: contano i percorsi curati in cui compaiono e quante storie raccontano.</p>
+
+  {mancanti.length === 0 ? <p>Collezione completa: non manca niente.</p> : (
+    <ul class="mancanti">
+      {mancanti.map(({ o, neiPercorsi, desiderata }) => (
+        <li class="card" data-sync>
+          <a class="t" href={u(`/opere/${o.id}`)}>{o.data.titolo}</a>
+          <div class="chips small">
+            <span class="tag">{TIPI[o.data.tipo]}</span>
+            <span class="tag">{anno(o.data.uscita)}</span>
+            {o.data.canonicita !== 'canonico' && <span class="tag warn">{o.data.canonicita}</span>}
+            {desiderata && <span class="tag">nella lista desideri</span>}
+          </div>
+          {neiPercorsi.length > 0 && (
+            <p class="small muted">Serve in: {neiPercorsi.map((p, i) => <>{i > 0 && ', '}<a href={u(`/percorsi/${p.id}`)}>{p.data.titolo}</a></>)}</p>
+          )}
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>
+<style>
+  .mancanti { list-style: none; padding: 0; display: grid; gap: 12px; margin-top: 24px; max-width: 760px; }
+  .t { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; text-decoration: none; display: inline-block; }
+  .mancanti p { margin: 8px 0 0; }
+  .chips { margin-top: 6px; }
+</style>

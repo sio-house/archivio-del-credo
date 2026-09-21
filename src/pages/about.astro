@@ -1,0 +1,60 @@
+---
+import { u } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import { dati } from '../lib/data';
+import metriche from '../../data/metriche.json';
+const { opere, segmenti, personaggi, relazioni, glossario, copie, percorsi } = await dati();
+const daVerificare = opere.filter((o) => !o.data.verificato).length;
+const curiosita = opere.reduce((n, o) => n + o.data.curiosita.length, 0);
+const numeri = [
+  ['Opere schedate', opere.length], ['Frammenti sulla timeline', segmenti.length], ['Personaggi', personaggi.length],
+  ['Relazioni', relazioni.length], ['Voci di glossario', glossario.length], ['Curiosità con fonte', curiosita],
+  ['Percorsi curati', percorsi.length], ['Pezzi in collezione', copie.filter((c) => c.data.stato === 'posseduto').length],
+];
+---
+<Base titolo="Info" descrizione="Cos'è Archivio del Credo, com'è costruito e con quali dati.">
+  <h1 data-sync>Info</h1>
+  <p class="lead">Archivio del Credo è un portale amatoriale su Assassin's Creed: una timeline che incrocia giochi, libri e fumetti, una mappa dei luoghi, guide all'ordine di fruizione, un glossario e la collezione che tiene insieme il tutto.</p>
+  <p class="muted small">Non è affiliato né approvato da Ubisoft. Assassin's Creed è un marchio di Ubisoft Entertainment; marchi e opere citati appartengono ai rispettivi proprietari. Le immagini della collezione sono foto personali.</p>
+
+  <h2>In numeri</h2>
+  <div class="numeri">
+    {numeri.map(([label, n]) => <div class="card" data-sync><p class="eyebrow">{label}</p><p class="big">{n}</p></div>)}
+  </div>
+
+  <h2>Com'è costruito</h2>
+  <ul class="elenco">
+    <li><strong>Un modello di dati, tante viste.</strong> Opere, segmenti narrativi, personaggi, relazioni, edizioni, copie, luoghi, percorsi, glossario e notizie stanno in file di testo versionati. Timeline, mappa, ordini automatici, statistiche della collezione e pagina "cosa mi manca" sono tutte derivate dagli stessi dati: nessun dato è scritto due volte.</li>
+    <li><strong>Integrità garantita dalla build.</strong> Ogni riferimento è tipizzato con uno schema: se un segmento punta a un'opera inesistente o un luogo non ha coordinate, la build si ferma o avvisa. Controllo dei tipi senza errori su tutto il progetto.</li>
+    <li><strong>Calcoli in fase di build, non nel browser.</strong> Il layout del grafo delle relazioni e la proiezione della mappa sono calcolati quando il sito viene generato: il visitatore riceve coordinate già pronte. Le coste ad alta definizione si caricano solo se ingrandisce.</li>
+    <li><strong>Sito statico.</strong> Astro, nessun framework di interfaccia, JavaScript solo dove serve davvero: {metriche.jsKB} KB di script e {metriche.cssKB} KB di CSS in tutto il sito. Ricerca full-text lato client con Pagefind.</li>
+    <li><strong>Accessibilità e condivisione.</strong> Nessuna violazione rilevata da axe-core sulle pagine chiave, in tema chiaro e scuro; le animazioni si spengono se il sistema chiede meno movimento. Ogni pagina ha dati strutturati schema.org e un'anteprima social generata in build.</li>
+    <li><strong>Tracciabilità.</strong> Ogni affermazione dovrebbe avere una fonte consultabile: le opere non ancora controllate sono marcate "da verificare" ({daVerificare} su {opere.length}), le schede personaggio senza fonte lo dicono in testa, le notizie non confermate sono marcate come indiscrezioni. L'elenco di lavoro delle voci ancora senza fonte sta in <a href={u('/da-verificare')}>/da-verificare</a>. Dove le fonti non concordano — l'anno della cornice moderna di Black Flag Resynced, per esempio — il portale riporta entrambe le versioni invece di sceglierne una.</li>
+  </ul>
+
+  <h2>Misure dell'ultima build</h2>
+  <p class="muted small">Rilevate il {new Date(metriche.misurato).toLocaleDateString('it-IT', { dateStyle: 'long', timeZone: 'UTC' })}.</p>
+  <div class="table-scroll">
+    <table>
+      <tbody>
+        <tr><th>Pagine generate</th><td>{metriche.pagine}</td></tr>
+        <tr><th>Peso medio di una pagina</th><td>{metriche.htmlMedioKB} KB</td></tr>
+        <tr><th>Pagina più pesante</th><td>{metriche.paginaPiuPesante.f} ({metriche.paginaPiuPesante.kb} KB)</td></tr>
+        <tr><th>Sito completo, immagini social incluse</th><td>{metriche.pesoTotaleMB} MB</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Fonti</h2>
+  <p>I testi sono originali. I dati provengono da Wikipedia, dalle pagine ufficiali Ubisoft, dagli editori e da siti di settore, elencati in fondo a ogni scheda. Le wiki sono pubblicate con licenza CC BY-SA: per questo qui si citano, non si copiano.</p>
+  <p class="muted small">Un progetto di <a href="https://s-io.net">S-IO</a>.</p>
+</Base>
+<style>
+  .lead { font-size: 1.15rem; max-width: 65ch; }
+  .numeri { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 20px 0; }
+  .numeri .eyebrow { margin: 0 0 6px; }
+  .big { font-family: var(--serif); font-variant-numeric: lining-nums; font-size: 2.2rem; margin: 0; line-height: 1; }
+  .elenco { display: grid; gap: 12px; max-width: 70ch; padding-left: 20px; }
+  .elenco li::marker { color: var(--accent); }
+  table th { text-transform: none; font-size: .95rem; letter-spacing: 0; color: var(--ink); font-weight: 500; }
+</style>

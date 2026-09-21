@@ -1,0 +1,171 @@
+---
+import { u } from '../../lib/url';
+import Base from '../../layouts/Base.astro';
+import { forceSimulation, forceLink, forceManyBody, forceCollide, forceCenter, forceX, forceY } from 'd3-force';
+import { dati } from '../../lib/data';
+
+const { personaggi, relazioni } = await dati();
+const W = 1200, H = 780;
+
+const gradi = new Map<string, number>();
+for (const r of relazioni) for (const id of [r.data.da.id, r.data.a.id]) gradi.set(id, (gradi.get(id) ?? 0) + 1);
+const isolati = personaggi.filter((p) => !gradi.has(p.id)).sort((a, b) => a.data.nome.localeCompare(b.data.nome));
+
+type N = { id: string; nome: string; aff: string; g: number; x: number; y: number; fx?: number; fy?: number };
+const nodi: N[] = personaggi.filter((p) => gradi.has(p.id)).map((p, i, a) => ({
+  id: p.id, nome: p.data.nome, aff: p.data.affiliazione, g: gradi.get(p.id)!,
+  // posizioni iniziali deterministiche: il layout è identico a ogni build
+  x: W / 2 + Math.cos((i / a.length) * Math.PI * 2) * 260,
+  y: H / 2 + Math.sin((i / a.length) * Math.PI * 2) * 220,
+}));
+const archi = relazioni.map((r) => ({ source: r.data.da.id, target: r.data.a.id, tipo: r.data.tipo, dettaglio: r.data.dettaglio }));
+
+const sim = forceSimulation(nodi as any)
+  .force('link', forceLink(archi as any).id((d: any) => d.id).distance(110).strength(.55))
+  .force('carica', forceManyBody().strength(-620))
+  // il raggio tiene conto della larghezza dell'etichetta, così i nomi non si sovrappongono
+  .force('urto', forceCollide().radius((d: any) => Math.min(78, 26 + d.nome.length * 2.6)).strength(.95))
+  .force('centro', forceCenter(W / 2, H / 2))
+  .force('x', forceX(W / 2).strength(.05))
+  .force('y', forceY(H / 2).strength(.07))
+  .stop();
+for (let i = 0; i < 600; i++) sim.tick();
+
+// riporta tutto dentro la cornice
+const xs = nodi.map((n) => n.x), ys = nodi.map((n) => n.y);
+const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+const k = Math.min((W - 130) / (x1 - x0), (H - 90) / (y1 - y0));
+const posizioni = new Map(nodi.map((n) => [n.id, {
+  x: +((n.x - (x0 + x1) / 2) * k + W / 2).toFixed(1),
+  y: +((n.y - (y0 + y1) / 2) * k + H / 2).toFixed(1),
+}]));
+
+const AFF = { assassini: 'Assassini', templari: 'Templari', isu: 'Isu', alleato: 'Alleati', neutrale: 'Neutrali', altro: 'Altri' };
+// per ogni tipo: come si legge dal soggetto e come si legge al contrario
+const TIPO = {
+  genitore: ['genitore di', 'figlio/a di'], parente: ['parente di', 'parente di'], mentore: ['mentore di', 'allievo/a di'],
+  alleato: ['alleato di', 'alleato di'], nemico: ['nemico di', 'nemico di'], antenato: ['antenato di', 'discendente di'], amore: ['legato a', 'legato a'],
+};
+const affPresenti = [...new Set(nodi.map((n) => n.aff))] as (keyof typeof AFF)[];
+const dati_client = {
+  nodi: nodi.map((n) => ({ ...posizioni.get(n.id)!, id: n.id, nome: n.nome, aff: n.aff, g: n.g })),
+  archi: archi.map((a) => ({ a: (a.source as any).id ?? a.source, b: (a.target as any).id ?? a.target, tipo: a.tipo, dettaglio: a.dettaglio ?? null })),
+  TIPO,
+};
+---
+<Base titolo="Grafo delle relazioni" descrizione="Chi è parente, mentore, alleato o nemico di chi nella saga di Assassin's Creed.">
+  <p class="eyebrow"><a href={u('/personaggi')}>Personaggi</a></p>
+  <h1 data-sync>Grafo delle relazioni</h1>
+  <p class="muted">{nodi.length} personaggi collegati da {archi.length} relazioni. Passa sopra un nodo per isolarne i legami, tocca per aprire la scheda.</p>
+
+  <div class="chips" role="group" aria-label="Filtra per affiliazione">
+    {affPresenti.map((a) => <button class="chip" data-aff={a} aria-pressed="true"><span class="dot" style={`background:var(--aff-${a})`}></span>{AFF[a]}</button>)}
+  </div>
+
+  <div class="telaio">
+    <svg id="grafo" viewBox={`0 0 ${W} ${H}`} role="group" aria-label="Grafo delle relazioni tra i personaggi">
+      <g id="archi"></g>
+      <g id="nodi"></g>
+    </svg>
+    <p id="dettaglio" class="dettaglio small muted" aria-live="polite">Nessun personaggio selezionato.</p>
+  </div>
+
+  {isolati.length > 0 && (
+    <p class="small muted">Senza relazioni registrate: {isolati.map((p, i) => <>{i > 0 && ', '}<a href={u(`/personaggi/${p.id}`)}>{p.data.nome}</a></>)}.</p>
+  )}
+
+  <script is:inline type="application/json" id="grafo-dati" set:html={JSON.stringify(dati_client)} />
+</Base>
+
+<script>
+  type Nodo = { id: string; nome: string; aff: string; g: number; x: number; y: number };
+  type Arco = { a: string; b: string; tipo: string; dettaglio: string | null };
+  const D = JSON.parse(document.getElementById('grafo-dati')!.textContent!) as { nodi: Nodo[]; archi: Arco[]; TIPO: Record<string, [string, string]> };
+  const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const NS = 'http://www.w3.org/2000/svg';
+  const gArchi = document.getElementById('archi')!, gNodi = document.getElementById('nodi')!;
+  const dett = document.getElementById('dettaglio')!;
+  const pos = new Map(D.nodi.map((n) => [n.id, n]));
+  const spenti = new Set<string>();
+  let attivo = '';
+
+  const el = (t: string, a: Record<string, string | number>) => {
+    const e = document.createElementNS(NS, t);
+    for (const [k, v] of Object.entries(a)) e.setAttribute(k, String(v));
+    return e;
+  };
+  const visibile = (id: string) => !spenti.has(pos.get(id)!.aff);
+  const vicini = (id: string) => new Set(D.archi.flatMap((x) => x.a === id ? [x.b] : x.b === id ? [x.a] : []));
+
+  function disegna() {
+    gArchi.replaceChildren(); gNodi.replaceChildren();
+    const vic = attivo ? vicini(attivo) : null;
+    for (const x of D.archi) {
+      if (!visibile(x.a) || !visibile(x.b)) continue;
+      const A = pos.get(x.a)!, B = pos.get(x.b)!;
+      const attinente = !attivo || x.a === attivo || x.b === attivo;
+      const l = el('line', { x1: A.x, y1: A.y, x2: B.x, y2: B.y, class: `arco t-${x.tipo}${attinente ? '' : ' fioco'}` });
+      const t = document.createElementNS(NS, 'title');
+      t.textContent = `${A.nome} ${D.TIPO[x.tipo]?.[0] ?? x.tipo} ${B.nome}${x.dettaglio ? ` (${x.dettaglio})` : ''}`;
+      l.append(t); gArchi.append(l);
+    }
+    for (const n of D.nodi) {
+      if (!visibile(n.id)) continue;
+      const r = 7 + Math.min(9, n.g * 1.5);
+      const attinente = !attivo || n.id === attivo || vic!.has(n.id);
+      const g = el('g', { class: `nodo${n.id === attivo ? ' attivo' : ''}${attinente ? '' : ' fioco'}`, transform: `translate(${n.x} ${n.y})`, tabindex: 0, role: 'link', 'aria-label': n.nome });
+      g.append(el('circle', { r, class: `pallino aff-${n.aff}` }));
+      const t = el('text', { y: r + 15, 'text-anchor': 'middle', class: 'etichetta' }); t.textContent = n.nome;
+      g.append(t);
+      const mostra = () => {
+        attivo = n.id;
+        const legami = D.archi.filter((x) => x.a === n.id || x.b === n.id).map((x) => {
+          const altro = x.a === n.id ? x.b : x.a;
+          const verso = D.TIPO[x.tipo]?.[x.a === n.id ? 0 : 1] ?? x.tipo;
+          return `${verso} ${pos.get(altro)!.nome}`;
+        });
+        dett.innerHTML = `<strong>${n.nome}</strong> — ${legami.join(' · ')}`;
+        disegna();
+      };
+      g.addEventListener('mouseenter', mostra);
+      g.addEventListener('focus', mostra);
+      g.addEventListener('click', () => (location.href = `${B}/personaggi/${n.id}`));
+      g.addEventListener('keydown', (e) => { if ((e as KeyboardEvent).key === 'Enter') location.href = `${B}/personaggi/${n.id}`; });
+      gNodi.append(g);
+    }
+  }
+  document.getElementById('grafo')!.addEventListener('mouseleave', () => { attivo = ''; dett.textContent = 'Nessun personaggio selezionato.'; disegna(); });
+  document.querySelectorAll<HTMLButtonElement>('[data-aff]').forEach((b) => b.addEventListener('click', () => {
+    const on = b.getAttribute('aria-pressed') === 'true';
+    b.setAttribute('aria-pressed', String(!on));
+    on ? spenti.add(b.dataset.aff!) : spenti.delete(b.dataset.aff!);
+    disegna();
+  }));
+  disegna();
+</script>
+
+<style>
+  :global(:root) { --aff-assassini: #a3262a; --aff-templari: #2463a6; --aff-isu: #7a4bb0; --aff-alleato: #2f7d5b; --aff-neutrale: #8a8279; --aff-altro: #9a7a2e; }
+  .chips { margin: 20px 0 12px; }
+  .telaio { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 8px; }
+  svg { display: block; width: 100%; height: auto; }
+  .dettaglio { margin: 4px 8px 6px; min-height: 2.6em; }
+  :global(#grafo .arco) { stroke: var(--muted); stroke-opacity: .55; stroke-width: 1.4; }
+  :global(#grafo .arco.t-nemico) { stroke: #c0392b; stroke-dasharray: 5 4; }
+  :global(#grafo .arco.t-mentore) { stroke-dasharray: 2 5; stroke-opacity: .8; }
+  :global(#grafo .arco.t-amore) { stroke: #b0416b; }
+  :global(#grafo .arco.t-antenato) { stroke-dasharray: 9 5; }
+  :global(#grafo .arco.fioco) { stroke-opacity: .12; }
+  :global(#grafo .nodo) { cursor: pointer; transition: opacity .15s; }
+  :global(#grafo .nodo.fioco) { opacity: .25; }
+  :global(#grafo .pallino) { stroke: var(--surface); stroke-width: 2.5; }
+  :global(#grafo .pallino.aff-assassini) { fill: var(--aff-assassini); }
+  :global(#grafo .pallino.aff-templari) { fill: var(--aff-templari); }
+  :global(#grafo .pallino.aff-isu) { fill: var(--aff-isu); }
+  :global(#grafo .pallino.aff-alleato) { fill: var(--aff-alleato); }
+  :global(#grafo .pallino.aff-neutrale) { fill: var(--aff-neutrale); }
+  :global(#grafo .pallino.aff-altro) { fill: var(--aff-altro); }
+  :global(#grafo .nodo.attivo .pallino) { stroke: var(--accent); stroke-width: 3.5; }
+  :global(#grafo .etichetta) { font: 500 13px Inter, sans-serif; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3.5px; }
+  :global(#grafo .nodo:focus) { outline: none; }
+</style>

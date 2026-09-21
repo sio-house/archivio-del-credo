@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { u } from '../lib/url';
+---
+<Base titolo="Pagina non trovata" descrizione="La pagina che cercavi non esiste o è stata spostata.">
+  <p class="boot">Desincronizzazione</p>
+  <h1>Questo ricordo non esiste</h1>
+  <p class="lead muted">La pagina che cercavi non c'è, oppure è stata spostata. Succede anche nell'Animus: si riparte dall'ultimo punto sincronizzato.</p>
+  <p class="chips">
+    <a class="chip" href={u('/')}>Home</a>
+    <a class="chip" href={u('/timeline')}>Timeline</a>
+    <a class="chip" href={u('/opere')}>Opere</a>
+    <a class="chip" href={u('/personaggi')}>Personaggi</a>
+  </p>
+</Base>
+<style>.lead { font-size: 1.1rem; max-width: 60ch; }</style>

@@ -1,0 +1,483 @@
+# Ogni voce = una porzione di opera ambientata in un periodo. L'id è la chiave.
+- id: lineage-firenze
+  opera: lineage
+  titolo: Giovanni Auditore a Firenze
+  filone: storico
+  inizio: 1476
+  fine: 1476
+  luoghi: [Firenze, Milano]
+  personaggi: [giovanni-auditore, rodrigo-borgia]
+- id: ac2-ezio
+  opera: assassins-creed-ii
+  titolo: La vendetta di Ezio
+  filone: storico
+  inizio: 1476
+  fine: 1499
+  luoghi: [Firenze, Monteriggioni, San Gimignano, Forlì, Venezia, Roma]
+  personaggi: [ezio-auditore, giovanni-auditore, mario-auditore, leonardo-da-vinci, rodrigo-borgia]
+- id: ac2-desmond
+  opera: assassins-creed-ii
+  titolo: Desmond fugge da Abstergo
+  filone: moderno
+  inizio: 2012
+  fine: 2012
+  personaggi: [desmond-miles]
+- id: brotherhood-roma
+  opera: brotherhood
+  titolo: Ezio a Roma contro i Borgia
+  filone: storico
+  inizio: 1499
+  fine: 1507
+  luoghi: [Monteriggioni, Roma, Viana]
+  personaggi: [ezio-auditore, mario-auditore, leonardo-da-vinci, cesare-borgia, rodrigo-borgia]
+- id: brotherhood-desmond
+  opera: brotherhood
+  titolo: Desmond a Monteriggioni
+  filone: moderno
+  inizio: 2012
+  fine: 2012
+  luoghi: [Monteriggioni, Roma]
+  personaggi: [desmond-miles]
+- id: revelations-ezio
+  opera: revelations
+  titolo: Ezio a Costantinopoli
+  filone: storico
+  inizio: 1511
+  fine: 1512
+  luoghi: [Masyaf, Costantinopoli, Cappadocia]
+  personaggi: [ezio-auditore]
+- id: revelations-altair
+  opera: revelations
+  titolo: I ricordi di Altaïr
+  filone: storico
+  inizio: 1189
+  fine: 1257
+  luoghi: [Masyaf]
+  personaggi: [altair]
+- id: revelations-desmond
+  opera: revelations
+  titolo: Desmond sull'Isola dell'Animus
+  filone: moderno
+  inizio: 2012
+  fine: 2012
+  personaggi: [desmond-miles]
+- id: embers-toscana
+  opera: embers
+  titolo: Gli ultimi giorni di Ezio
+  filone: storico
+  inizio: 1524
+  fine: 1524
+  luoghi: [Toscana, Firenze]
+  personaggi: [ezio-auditore, shao-jun, sofia-sartor]
+- id: blade-cina
+  opera: blade-of-shao-jun
+  titolo: Il ritorno di Shao Jun in Cina
+  filone: storico
+  inizio: 1526
+  fine: 1532
+  approssimato: true
+  luoghi: [Pechino]
+  personaggi: [shao-jun]
+- id: chronicles-cina
+  opera: chronicles-china
+  titolo: Shao Jun contro le Otto Tigri
+  filone: storico
+  inizio: 1526
+  fine: 1526
+  approssimato: false
+  luoghi: [Maijishan, Macao, Pechino]
+  personaggi: [shao-jun]
+- id: rinascimento-romanzo
+  opera: rinascimento
+  titolo: La vendetta di Ezio (romanzo)
+  filone: storico
+  inizio: 1476
+  fine: 1499
+  luoghi: [Firenze, Venezia, Roma]
+  personaggi: [ezio-auditore]
+- id: brotherhood-romanzo
+  opera: romanzo-brotherhood
+  titolo: Ezio a Roma (romanzo)
+  filone: storico
+  inizio: 1499
+  fine: 1507
+  luoghi: [Roma]
+  personaggi: [ezio-auditore]
+- id: revelations-romanzo
+  opera: romanzo-revelations
+  titolo: Ezio a Costantinopoli (romanzo)
+  filone: storico
+  inizio: 1511
+  fine: 1512
+  luoghi: [Costantinopoli]
+  personaggi: [ezio-auditore]
+
+# --- aggiunti con la collezione ---
+- id: ac1-altair
+  opera: assassins-creed
+  titolo: "Altaïr e i nove bersagli"
+  filone: storico
+  inizio: 1191
+  fine: 1191
+  luoghi: ["Masyaf", "Gerusalemme", "Acri", "Damasco"]
+  personaggi: ["altair"]
+- id: ac1-desmond
+  opera: assassins-creed
+  titolo: "Desmond prigioniero di Abstergo"
+  filone: moderno
+  inizio: 2012
+  fine: 2012
+  luoghi: [Roma]
+  personaggi: ["desmond-miles"]
+- id: ac3-coloniale
+  opera: assassins-creed-iii
+  titolo: "Haytham e Connor nella Rivoluzione americana"
+  filone: storico
+  inizio: 1753
+  fine: 1783
+  luoghi: ["Boston", "New York"]
+  personaggi: ["haytham-kenway", "connor", "achille-davenport"]
+- id: ac3-desmond
+  opera: assassins-creed-iii
+  titolo: "Desmond e il Grande Tempio"
+  filone: moderno
+  inizio: 2012
+  fine: 2012
+  personaggi: ["desmond-miles"]
+- id: ac4-caraibi
+  opera: black-flag
+  titolo: "Edward Kenway nei Caraibi"
+  filone: storico
+  inizio: 1715
+  fine: 1722
+  luoghi: ["Avana", "Nassau", "Kingston"]
+  personaggi: ["edward-kenway", "adewale"]
+  approssimato: true
+- id: ac4-abstergo
+  opera: black-flag
+  titolo: "Abstergo Entertainment"
+  filone: moderno
+  inizio: 2013
+  fine: 2013
+  luoghi: ["Montréal"]
+- id: rogue-nordamerica
+  opera: rogue
+  titolo: "Shay Cormac contro la confraternita"
+  filone: storico
+  inizio: 1752
+  fine: 1776
+  luoghi: [New York, Lisbona, Versailles]
+  personaggi: ["shay-cormac", "haytham-kenway", "achille-davenport"]
+- id: unity-parigi
+  opera: unity
+  titolo: "Arno nella Rivoluzione francese"
+  filone: storico
+  inizio: 1789
+  fine: 1794
+  luoghi: ["Versailles", "Parigi"]
+  personaggi: ["arno-dorian", "elise-de-la-serre"]
+- id: syndicate-londra
+  opera: syndicate
+  titolo: "I Frye liberano Londra"
+  filone: storico
+  inizio: 1868
+  fine: 1868
+  luoghi: ["Londra"]
+  personaggi: ["jacob-frye", "evie-frye", "henry-green", "lydia-frye"]
+- id: origins-egitto
+  opera: origins
+  titolo: "Bayek e la nascita degli Occulti"
+  filone: storico
+  inizio: -49
+  fine: -47
+  approssimato: true
+  luoghi: ["Siwa", "Alessandria", "Menfi"]
+  personaggi: ["bayek", "aya"]
+  nota: "Gli Occulti nascono ad Alessandria nel 47 a.C."
+- id: origins-layla
+  opera: origins
+  titolo: "Layla trova Bayek"
+  filone: moderno
+  inizio: 2017
+  fine: 2017
+  luoghi: ["Egitto"]
+  personaggi: ["layla-hassan"]
+- id: odyssey-grecia
+  opera: odyssey
+  titolo: "La Guerra del Peloponneso"
+  filone: storico
+  inizio: -431
+  fine: -422
+  luoghi: [Atene, Sparta, Delfi]
+  personaggi: ["kassandra"]
+- id: odyssey-layla
+  opera: odyssey
+  titolo: "Layla e la lancia di Leonida"
+  filone: moderno
+  inizio: 2018
+  fine: 2018
+  personaggi: ["layla-hassan"]
+- id: valhalla-inghilterra
+  opera: valhalla
+  titolo: "Eivor e il clan del Corvo"
+  filone: storico
+  inizio: 872
+  fine: 885
+  approssimato: true
+  luoghi: ["Norvegia", "Inghilterra"]
+  personaggi: ["eivor", "basim"]
+- id: valhalla-layla
+  opera: valhalla
+  titolo: "Layla e la fine del mondo"
+  filone: moderno
+  inizio: 2020
+  fine: 2020
+  personaggi: ["layla-hassan"]
+- id: mirage-baghdad
+  opera: mirage
+  titolo: "Basim a Baghdad"
+  filone: storico
+  inizio: 861
+  fine: 861
+  approssimato: true
+  luoghi: [Baghdad, Alamut]
+  personaggi: ["basim"]
+  nota: "Le fonti indicano l'861 come anno d'inizio."
+- id: shadows-giappone
+  opera: shadows
+  titolo: "Naoe e Yasuke nel Giappone Sengoku"
+  filone: storico
+  inizio: 1579
+  fine: 1582
+  approssimato: true
+  luoghi: [Kyoto, Osaka, Iga]
+  personaggi: ["naoe", "yasuke"]
+- id: crociata-altair
+  opera: crociata-segreta
+  titolo: "La vita di Altaïr"
+  filone: storico
+  inizio: 1191
+  fine: 1257
+  approssimato: true
+  luoghi: ["Masyaf"]
+  personaggi: ["altair"]
+- id: forsaken-haytham
+  opera: romanzo-forsaken
+  titolo: "Il diario di Haytham"
+  filone: storico
+  inizio: 1735
+  fine: 1781
+  approssimato: true
+  luoghi: ["Londra", "Boston"]
+  personaggi: ["haytham-kenway", "edward-kenway", "connor"]
+- id: blackflag-romanzo
+  opera: romanzo-black-flag
+  titolo: "Edward da Bristol ai Caraibi"
+  filone: storico
+  inizio: 1712
+  fine: 1722
+  approssimato: true
+  luoghi: ["Bristol", "Nassau"]
+  personaggi: ["edward-kenway"]
+- id: unity-romanzo
+  opera: romanzo-unity
+  titolo: "La Rivoluzione vista da Élise"
+  filone: storico
+  inizio: 1776
+  fine: 1794
+  approssimato: true
+  luoghi: ["Versailles", "Parigi"]
+  personaggi: ["elise-de-la-serre", "arno-dorian"]
+- id: underworld-londra
+  opera: romanzo-underworld
+  titolo: "Henry Green a Londra"
+  filone: storico
+  inizio: 1862
+  fine: 1868
+  approssimato: true
+  luoghi: ["Londra"]
+  personaggi: ["henry-green"]
+- id: odyssey-romanzo
+  opera: romanzo-odyssey
+  titolo: "La Guerra del Peloponneso (romanzo)"
+  filone: storico
+  inizio: -431
+  fine: -422
+  approssimato: true
+  luoghi: ["Atene", "Sparta"]
+  personaggi: ["kassandra"]
+- id: fall-nikolai
+  opera: the-fall
+  titolo: "Nikolai Orelov in Russia"
+  filone: storico
+  inizio: 1888
+  fine: 1908
+  approssimato: true
+  luoghi: ["Russia"]
+  personaggi: ["nikolai-orelov"]
+- id: fall-cross
+  opera: the-fall
+  titolo: "Daniel Cross"
+  filone: moderno
+  inizio: 1998
+  fine: 2000
+  approssimato: true
+  personaggi: ["daniel-cross"]
+- id: chain-nikolai
+  opera: the-chain
+  titolo: "Nikolai Orelov e la fuga"
+  filone: storico
+  inizio: 1918
+  fine: 1918
+  approssimato: true
+  luoghi: ["Russia"]
+  personaggi: ["nikolai-orelov"]
+- id: brahman-india
+  opera: brahman
+  titolo: "Arbaaz Mir nell'India britannica"
+  filone: storico
+  inizio: 1841
+  fine: 1841
+  approssimato: true
+  luoghi: ["India"]
+  personaggi: ["arbaaz-mir"]
+- id: ritorno-firenze
+  opera: ritorno-a-casa
+  titolo: "Ricordi nella Firenze del 1516"
+  filone: storico
+  inizio: 1516
+  fine: 1516
+  approssimato: true
+  luoghi: ["Firenze"]
+- id: ritorno-charlotte
+  opera: ritorno-a-casa
+  titolo: "La squadra di Charlotte"
+  filone: moderno
+  inizio: 2016
+  fine: 2016
+  approssimato: true
+  personaggi: ["charlotte-de-la-cruz"]
+- id: iside-aquilus
+  opera: fumetto-aquilus
+  titolo: "Aquilus in Gallia"
+  filone: storico
+  inizio: 259
+  fine: 259
+  approssimato: true
+  luoghi: ["Lugdunum"]
+  personaggi: ["aquilus"]
+- id: blade-lisa
+  opera: blade-of-shao-jun
+  titolo: "Lisa rivive i ricordi di Shao Jun"
+  filone: moderno
+  inizio: 2020
+  fine: 2020
+  luoghi: [Yokohama]
+  personaggi: [lisa]
+- id: desert-oath-egitto
+  opera: romanzo-desert-oath
+  titolo: "La giovinezza di Bayek"
+  filone: storico
+  inizio: -70
+  fine: -70
+  approssimato: true
+  luoghi: [Siwa, Alessandria]
+  personaggi: [bayek, aya]
+
+# --- il piano degli Isu: eventi raccontati dentro le opere, non giocati ---
+- id: isu-catastrofe
+  opera: assassins-creed-ii
+  titolo: "La catastrofe che distrugge gli Isu"
+  filone: isu
+  inizio: -75000
+  fine: -75000
+  approssimato: true
+  nota: "Le fonti consultate non datano l'evento: la collocazione sulla linea del tempo è convenzionale."
+- id: isu-volte
+  opera: brotherhood
+  titolo: "Le Volte costruite per la seconda catastrofe"
+  filone: isu
+  inizio: -75000
+  fine: -75000
+  approssimato: true
+  nota: "Le fonti consultate non datano l'evento: la collocazione sulla linea del tempo è convenzionale."
+- id: isu-grande-tempio
+  opera: assassins-creed-iii
+  titolo: "Il messaggio lasciato nel Grande Tempio"
+  filone: isu
+  inizio: -75000
+  fine: -75000
+  approssimato: true
+  nota: "Le fonti consultate non datano l'evento: la collocazione sulla linea del tempo è convenzionale."
+- id: isu-valhalla
+  opera: valhalla
+  titolo: "I ricordi dell'era degli Isu"
+  filone: isu
+  inizio: -75000
+  fine: -75000
+  approssimato: true
+  nota: "Le fonti consultate non datano l'evento: la collocazione sulla linea del tempo è convenzionale."
+
+# --- la cornice moderna di Black Flag Resynced ---
+- id: resynced-ego
+  opera: black-flag-resynced
+  titolo: "Un utente anonimo dell'Animus e l'IA EGO"
+  filone: moderno
+  inizio: 2095
+  fine: 2096
+  approssimato: true
+  nota: "Abstergo domina, e una fazione di Assassini chiamata Watchers usa i ricordi di Edward come propaganda. Le fonti indicano 2095 o 2096."
+- id: resynced-caraibi
+  opera: black-flag-resynced
+  titolo: "Edward Kenway nei Caraibi (remake)"
+  filone: storico
+  inizio: 1715
+  fine: 1722
+  luoghi: [Avana, Nassau, Kingston]
+  personaggi: [edward-kenway, adewale]
+
+# --- serie Titan e manga Awakening ---
+- id: trial-salem
+  opera: assassins-trial-by-fire
+  titolo: "I ricordi di Tom Stoddard a Salem"
+  filone: storico
+  inizio: 1692
+  fine: 1692
+  approssimato: true
+  luoghi: [Salem]
+  personaggi: [charlotte-de-la-cruz]
+  nota: "Le fonti indicano solo «la Salem del Seicento»: l'anno è quello dei processi alle streghe."
+- id: trial-charlotte
+  opera: assassins-trial-by-fire
+  titolo: "Charlotte de la Cruz entra nella Confraternita"
+  filone: moderno
+  inizio: 2015
+  fine: 2015
+  approssimato: true
+  personaggi: [charlotte-de-la-cruz]
+- id: templars-shanghai
+  opera: fumetto-templars
+  titolo: "I Templari nella Shanghai degli anni Venti"
+  filone: storico
+  inizio: 1920
+  fine: 1929
+  approssimato: true
+  luoghi: [Shanghai]
+  nota: "Le fonti indicano «gli anni Venti», non un anno preciso."
+- id: uprising-presente
+  opera: fumetto-uprising
+  titolo: "Charlotte chiude i conti con Abstergo"
+  filone: moderno
+  inizio: 2017
+  fine: 2018
+  approssimato: true
+  personaggi: [charlotte-de-la-cruz]
+- id: locus-londra
+  opera: last-descendants-locus
+  titolo: "Tommy Greyling nella Londra vittoriana"
+  filone: storico
+  inizio: 1868
+  fine: 1868
+  approssimato: true
+  luoghi: [Londra]
+  nota: "Le fonti indicano solo «Londra vittoriana»."

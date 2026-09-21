@@ -1,0 +1,13 @@
+---
+import { u } from '../../lib/url';
+import Base from '../../layouts/Base.astro';
+import Passi from '../../components/Passi.astro';
+import { dati } from '../../lib/data';
+const { perUscita } = await dati();
+const passi = perUscita.map((o) => ({ opera: { id: o.id } }));
+---
+<Base titolo="Ordine di uscita">
+  <p class="eyebrow"><a href={u('/percorsi')}>Percorsi</a> · generato</p>
+  <h1>Ordine di uscita</h1>
+  <Passi passi={passi} />
+</Base>

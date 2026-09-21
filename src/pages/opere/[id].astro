@@ -1,0 +1,107 @@
+---
+import { u } from '../../lib/url';
+import Base from '../../layouts/Base.astro';
+import Fonti from '../../components/Fonti.astro';
+import StoriaFinzione from '../../components/StoriaFinzione.astro';
+import { render } from 'astro:content';
+import { dati, TIPI, FILONI, periodo, type Opera } from '../../lib/data';
+
+export async function getStaticPaths() {
+  const { opere } = await dati();
+  return opere.map((o) => ({ params: { id: o.id }, props: { o } }));
+}
+const { o } = Astro.props as { o: Opera };
+const { Content } = await render(o);
+const { idx, opere, segmenti, edizioni, copie, percorsi, glossario, verita } = await dati();
+const sf = verita.find((v) => v.data.opera.id === o.id);
+const d = o.data;
+
+const miei = segmenti.filter((s) => s.data.opera.id === o.id).sort((a, b) => a.data.inizio - b.data.inizio);
+const personaggi = [...new Set(miei.flatMap((s) => s.data.personaggi.map((p) => p.id)))].map((id) => idx.personaggi.get(id)!);
+// collegamenti in entrambe le direzioni
+const inversi = { seguito: 'prequel', prequel: 'seguito', adattamento: 'adattato da', parallelo: 'parallelo', 'spin-off': 'spin-off di', remake: 'remake di' } as const;
+const collegamenti = [
+  ...d.collegamenti.map((c) => ({ o: idx.opere.get(c.opera.id)!, tipo: c.tipo as string, nota: c.nota })),
+  ...opere.flatMap((x) => x.data.collegamenti.filter((c) => c.opera.id === o.id).map((c) => ({ o: x, tipo: inversi[c.tipo] as string, nota: c.nota }))),
+];
+const mieEdizioni = edizioni.filter((e) => e.data.opera.id === o.id);
+const copieMie = copie.filter((c) => mieEdizioni.some((e) => e.id === c.data.edizione.id));
+const neiPercorsi = percorsi.filter((p) => p.data.passi.some((s) => s.opera.id === o.id));
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': d.tipo === 'gioco' ? 'VideoGame' : ['romanzo', 'manga', 'fumetto'].includes(d.tipo) ? 'Book' : 'CreativeWork',
+  name: d.titolo, datePublished: d.uscita.toISOString().slice(0, 10),
+  author: d.autori.map((name) => ({ '@type': 'Person', name })),
+  ...(d.studio && { creator: { '@type': 'Organization', name: d.studio } }),
+};
+---
+<Base titolo={d.titolo} descrizione={`${TIPI[d.tipo]} del ${d.uscita.getUTCFullYear()}: dove si colloca nella timeline di Assassin's Creed e cosa leggere o giocare prima e dopo.`}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+  <p class="eyebrow">{TIPI[d.tipo]}{d.serie && ` · ${d.serie}`}</p>
+  <h1 data-sync>{d.titolo}</h1>
+  {!d.verificato && <p><span class="tag warn">dati da verificare sulle fonti</span></p>}
+
+  <div class="layout">
+    <article><Content /></article>
+    <aside class="card">
+      <dl class="meta small">
+        {d.titoloOriginale && <><dt>Titolo originale</dt><dd>{d.titoloOriginale}</dd></>}
+        <dt>Uscita</dt><dd>{d.uscitaApprossimata ? d.uscita.getUTCFullYear() : d.uscita.toLocaleDateString('it-IT', { dateStyle: 'long', timeZone: 'UTC' })}</dd>
+        {d.autori.length > 0 && <><dt>Autori</dt><dd>{d.autori.join(', ')}</dd></>}
+        {d.studio && <><dt>Studio</dt><dd>{d.studio}</dd></>}
+        {d.editore && <><dt>Editore</dt><dd>{d.editore}</dd></>}
+        {d.piattaforme.length > 0 && <><dt>Piattaforme</dt><dd>{d.piattaforme.join(', ')}</dd></>}
+        <dt>Canonicità</dt><dd>{d.canonicita}</dd>
+      </dl>
+    </aside>
+  </div>
+
+  {d.curiosita.length > 0 && <>
+    <h2>Curiosità</h2>
+    <ul class="curiosita" data-sync>{d.curiosita.map((c) => <li>{c}</li>)}</ul>
+  </>}
+
+  {sf && <StoriaFinzione v={sf} />}
+
+  {miei.length > 0 && <>
+    <h2>Dove si colloca</h2>
+    <ul class="plain">
+      {miei.map((s) => <li><span class="dot" style={`background:var(--${s.data.filone})`}></span><strong>{periodo(s.data.inizio, s.data.fine, s.data.approssimato)}</strong> · {s.data.titolo} <span class="muted small">({FILONI[s.data.filone]}{s.data.luoghi.length ? `, ${s.data.luoghi.join(', ')}` : ''})</span>{s.data.nota && <div class="small muted nota">{s.data.nota}</div>}</li>)}
+    </ul>
+  </>}
+
+  {personaggi.length > 0 && <>
+    <h2>Personaggi</h2>
+    <div class="chips">{personaggi.map((p) => <a class="chip" href={u(`/personaggi/${p.id}`)}>{p.data.nome}</a>)}</div>
+  </>}
+
+  {collegamenti.length > 0 && <>
+    <h2>Collegamenti</h2>
+    <ul class="plain">{collegamenti.map((c) => <li><span class="tag">{c.tipo}</span> <a href={u(`/opere/${c.o.id}`)}>{c.o.data.titolo}</a>{c.nota && <span class="muted small"> · {c.nota}</span>}</li>)}</ul>
+  </>}
+
+  {neiPercorsi.length > 0 && <>
+    <h2>Nei percorsi</h2>
+    <ul class="plain">{neiPercorsi.map((p) => <li><a href={u(`/percorsi/${p.id}`)}>{p.data.titolo}</a> <span class="muted small">(passo {p.data.passi.findIndex((s) => s.opera.id === o.id) + 1} di {p.data.passi.length})</span></li>)}</ul>
+  </>}
+
+  {copieMie.length > 0 && <>
+    <h2>In collezione</h2>
+    <ul class="plain">{copieMie.map((c) => { const e = idx.edizioni.get(c.data.edizione.id)!; return <li>{e.data.nome}{e.data.piattaforma && ` (${e.data.piattaforma})`} · {e.data.lingua.toUpperCase()} <span class="tag">{c.data.stato}</span></li>; })}</ul>
+  </>}
+  {glossario.filter((g) => g.data.opere.some((x) => x.id === o.id)).length > 0 && <>
+    <h2>Dal glossario</h2>
+    <div class="chips">{glossario.filter((g) => g.data.opere.some((x) => x.id === o.id)).map((g) => <a class="chip" href={u(`/glossario/${g.id}`)}>{g.data.termine}</a>)}</div>
+  </>}
+
+  <Fonti fonti={d.fonti} interne={d.fontiInterne} />
+</Base>
+<style>
+  .curiosita { display: grid; gap: 10px; padding-left: 20px; max-width: 70ch; }
+  .curiosita li::marker { color: var(--accent); }
+  .layout { display: grid; grid-template-columns: 1fr 300px; gap: 32px; align-items: start; margin-top: 16px; }
+  article { font-size: 1.05rem; max-width: 65ch; }
+  @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } }
+  .plain { list-style: none; padding: 0; display: grid; gap: 8px; }
+  .nota { font-style: italic; margin-top: 2px; }
+</style>

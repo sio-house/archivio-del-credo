@@ -1,0 +1,45 @@
+---
+import { u } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import { dati, TIPI, anno } from '../lib/data';
+import { render } from 'astro:content';
+const { verita, idx } = await dati();
+const schede = await Promise.all(verita.map(async (v) => {
+  const { Content } = await render(v);
+  return { v, Content, o: idx.opere.get(v.data.opera.id)! };
+}));
+schede.sort((a, b) => +a.o.data.uscita - +b.o.data.uscita);
+const totali = schede.reduce((n, s) => n + s.v.data.reali.length, 0);
+---
+<Base titolo="Storia e finzione" descrizione="Che cosa è vero nei giochi di Assassin's Creed e che cosa è inventato: eventi, personaggi e licenze narrative, opera per opera.">
+  <h1 data-sync>Storia e finzione</h1>
+  <p class="lead muted">La saga costruisce le sue storie dentro eventi reali. Qui, gioco per gioco, si distingue ciò che è documentato da ciò che è inventato e dai punti in cui la storia è stata piegata per farci stare il racconto. {totali} fatti storici verificati su {schede.length} giochi. Se invece cerchi come sono organizzati i piani narrativi della saga, c'è la pagina sui <a href={u('/storia/piani')}>tre piani della storia</a>.</p>
+
+  <div class="elenco">
+    {schede.map(({ v, Content, o }) => (
+      <article class="card" data-sync>
+        <p class="eyebrow">{TIPI[o.data.tipo]} · {anno(o.data.uscita)}</p>
+        <h2><a href={u(`/opere/${o.id}#storia`)}>{o.data.titolo}</a></h2>
+        <div class="contesto"><Content /></div>
+        <p class="conta small">
+          <span class="pallino vero"></span>{v.data.reali.length} fatti storici
+          <span class="pallino finto"></span>{v.data.inventati.length} elementi inventati
+          {v.data.licenze.length > 0 && <><span class="pallino licenza"></span>{v.data.licenze.length} licenze</>}
+        </p>
+        <p class="small"><a href={u(`/opere/${o.id}#storia`)}>Leggi il confronto →</a></p>
+      </article>
+    ))}
+  </div>
+</Base>
+<style>
+  .lead { font-size: 1.12rem; max-width: 68ch; }
+  .elenco { display: grid; gap: 16px; margin-top: 24px; max-width: 820px; }
+  .elenco h2 { margin: .1em 0 .4em; font-size: 1.45rem; }
+  .elenco h2 a { text-decoration: none; }
+  .contesto :global(p) { margin: 0 0 .8em; }
+  .conta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; color: var(--muted); }
+  .pallino { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 2px; }
+  .pallino.vero { background: #2f7d5b; }
+  .pallino.finto { background: var(--accent); }
+  .pallino.licenza { background: var(--gold); }
+</style>

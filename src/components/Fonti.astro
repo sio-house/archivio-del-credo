@@ -1,0 +1,41 @@
+---
+import { u } from '../lib/url';
+import { dati } from '../lib/data';
+interface Props { fonti?: string[]; interne?: { opera: { id: string }; riferimento: string }[]; titolo?: string }
+const { fonti = [], interne = [], titolo = 'Fonti' } = Astro.props;
+const { idx, copie } = await dati();
+const possedute = new Set(copie.filter((c) => c.data.stato === 'posseduto').map((c) => idx.edizioni.get(c.data.edizione.id)!.data.opera.id));
+const etichetta = (u: string) => decodeURIComponent(new URL(u).hostname.replace('www.', '') + new URL(u).pathname).slice(0, 90);
+---
+{(fonti.length > 0 || interne.length > 0) && (
+  <section class="fonti">
+    <h2>{titolo}</h2>
+    {interne.length > 0 && (
+      <>
+        <p class="eyebrow">Dal materiale in collezione</p>
+        <ul class="plain small">
+          {interne.map((f) => {
+            const o = idx.opere.get(f.opera.id)!;
+            return (
+              <li>
+                <a href={u(`/opere/${o.id}`)}>{o.data.titolo}</a> · {f.riferimento}
+                {possedute.has(o.id) && <> <span class="tag">verificata sulla copia</span></>}
+              </li>
+            );
+          })}
+        </ul>
+      </>
+    )}
+    {fonti.length > 0 && (
+      <>
+        {interne.length > 0 && <p class="eyebrow">Sul web</p>}
+        <ul class="plain small">{fonti.map((f) => <li><a href={f} rel="noopener">{etichetta(f)}</a></li>)}</ul>
+      </>
+    )}
+  </section>
+)}
+<style>
+  .fonti { margin-top: 2em; }
+  .fonti .eyebrow { margin: 1.2em 0 .5em; }
+  .plain { list-style: none; padding: 0; display: grid; gap: 8px; }
+</style>

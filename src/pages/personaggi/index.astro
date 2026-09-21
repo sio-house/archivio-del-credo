@@ -1,0 +1,24 @@
+---
+import { u } from '../../lib/url';
+import Base from '../../layouts/Base.astro';
+import { dati, annoTesto } from '../../lib/data';
+const { personaggi } = await dati();
+const ord = [...personaggi].sort((a, b) => (a.data.nascita ?? a.data.morte ?? 9999) - (b.data.nascita ?? b.data.morte ?? 9999));
+---
+<Base titolo="Personaggi">
+  <h1 data-sync>Personaggi</h1>
+  <p class="muted">Chi è legato a chi lo vedi nel <a href={u('/personaggi/grafo')}>grafo delle relazioni</a>.</p>
+  <div class="grid">
+    {ord.map((p) => (
+      <a class="card" href={u(`/personaggi/${p.id}`)} data-sync>
+        <p class="eyebrow">{p.data.affiliazione}{p.data.storico && ' · storico'}</p>
+        <h3>{p.data.nome}</h3>
+        {p.data.sommario && <p class="small muted">{p.data.sommario}</p>}
+        <p class="small tenue">{p.data.epoca ?? `${p.data.nascita ? annoTesto(p.data.nascita) : '?'}–${p.data.morte ? annoTesto(p.data.morte) : '?'}`}</p>
+      </a>
+    ))}
+  </div>
+</Base>
+<style>
+  .tenue { color: var(--muted); opacity: .8; margin-bottom: 0; }
+</style>

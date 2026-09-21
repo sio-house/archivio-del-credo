@@ -1,0 +1,94 @@
+---
+import { u } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import { dati } from '../lib/data';
+import Notizia from '../components/Notizia.astro';
+import { getCollection } from 'astro:content';
+const { opere, segmenti, personaggi, copie, percorsi, glossario } = await dati();
+const ultime = (await getCollection('notizie')).sort((a, b) => +b.data.data - +a.data.data).slice(0, 3);
+const possedute = copie.filter((c) => c.data.stato === 'posseduto').length;
+---
+<Base titolo="Home">
+  <p class="boot" id="boot" aria-hidden="true"></p>
+  <p class="eyebrow" data-sync>Portale non ufficiale</p>
+  <h1 data-sync>Tutto il Credo, in ordine.</h1>
+  <p class="lead muted" data-sync>Giochi, romanzi, fumetti, manga e corti di Assassin's Creed messi su un'unica linea del tempo, con percorsi di lettura e la collezione che li tiene insieme.</p>
+
+  <div id="search" class="search" data-sync></div>
+
+  <div class="grid feat">
+    <a class="card" href={u('/timeline')} data-sync>
+      <p class="eyebrow">Timeline</p><p class="titolo-scheda">{segmenti.length} momenti</p>
+      <p class="muted small">Epoca storica ed epoca moderna, in ordine di storia o di uscita.</p>
+    </a>
+    <a class="card" href={u('/mappa')} data-sync>
+      <p class="eyebrow">Mappa</p><p class="titolo-scheda">Dove accade</p>
+      <p class="muted small">Tutti i luoghi della saga su una mappa interattiva, con i viaggi dei personaggi.</p>
+    </a>
+    <a class="card" href={u('/percorsi')} data-sync>
+      <p class="eyebrow">Percorsi</p><p class="titolo-scheda">{percorsi.length + 2} guide</p>
+      <p class="muted small">Cosa leggere e giocare, in che ordine, e cosa si può saltare.</p>
+    </a>
+    <a class="card" href={u('/storia')} data-sync>
+      <p class="eyebrow">Storia e finzione</p><p class="titolo-scheda">Quanto è vero?</p>
+      <p class="muted small">Cosa prendono dalla storia i giochi, e cosa inventano.</p>
+    </a>
+    <a class="card" href={u('/collezione')} data-sync>
+      <p class="eyebrow">Collezione</p><p class="titolo-scheda">{possedute} pezzi</p>
+      <p class="muted small">Edizioni, stato e note della collezione personale.</p>
+    </a>
+  </div>
+  <h2 data-sync>Ultime notizie</h2>
+  <div class="grid news">{ultime.map((n) => <Notizia n={n} breve livello={3} />)}</div>
+  <p class="small"><a href={u('/notizie')}>Tutte le notizie →</a></p>
+  <p class="small muted">{opere.length} opere · {personaggi.length} personaggi · {glossario.length} voci di glossario. <a href={u('/personaggi/grafo')}>Grafo delle relazioni</a> · <a href={u('/glossario')}>Glossario</a></p>
+
+  <Fragment slot="head">
+    <link href={u('/pagefind/pagefind-ui.css')} rel="stylesheet" />
+    <script is:inline src={u('/pagefind/pagefind-ui.js')}></script>
+    <script is:inline>
+      const avviaRicerca = () => {
+        const box = document.getElementById('search');
+        if (window.PagefindUI && box && !box.dataset.pronto) {
+          box.dataset.pronto = '1';
+          new PagefindUI({ element: '#search', showImages: false, translations: { placeholder: 'Cerca opere, personaggi, luoghi…' } });
+        }
+      };
+      window.addEventListener('DOMContentLoaded', avviaRicerca);
+      // il campo di Pagefind arriva senza etichetta accessibile
+      const etichetta = () => document.querySelector('#search input')?.setAttribute('aria-label', 'Cerca nel sito');
+      document.addEventListener('astro:page-load', etichetta);
+      setTimeout(etichetta, 300);
+      document.addEventListener('astro:page-load', avviaRicerca);
+    </script>
+  </Fragment>
+  <script define:vars={{ nOpere: opere.length, nSegmenti: segmenti.length }}>
+    // Sequenza di avvio: si può saltare, e non parte se il sistema chiede meno animazioni.
+    const righe = [
+      'Avvio Animus…',
+      `Memorie caricate: <b>${nOpere}</b> opere, <b>${nSegmenti}</b> frammenti`,
+      'Sincronizzazione <b>100%</b>',
+    ];
+    const boot = () => {
+      const el = document.getElementById('boot');
+      if (!el || el.dataset.fatto) return;
+      el.dataset.fatto = '1';
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.innerHTML = righe.at(-1); return; }
+      let i = 0;
+      const passo = () => {
+        el.innerHTML = righe[i] + '<span class="cursore">&nbsp;</span>';
+        if (++i < righe.length) setTimeout(passo, 620);
+        else setTimeout(() => (el.innerHTML = righe.at(-1)), 900);
+      };
+      passo();
+    };
+    boot();
+    document.addEventListener('astro:page-load', boot);
+  </script>
+</Base>
+<style>
+  .lead { font-size: 1.15rem; max-width: 60ch; }
+  .search { margin: 28px 0; --pagefind-ui-font: var(--sans); --pagefind-ui-border: var(--line); --pagefind-ui-background: var(--surface); --pagefind-ui-text: var(--ink); --pagefind-ui-primary: var(--accent); }
+  .feat { margin: 24px 0 12px; }
+  .titolo-scheda { font-family: var(--serif); font-size: 1.25rem; font-weight: 600; margin: .2em 0 .3em; line-height: 1.15; }
+</style>

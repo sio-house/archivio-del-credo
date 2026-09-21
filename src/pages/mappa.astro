@@ -1,0 +1,316 @@
+---
+import Base from '../layouts/Base.astro';
+import { geoGraticule } from 'd3-geo';
+import { W, H, proj, path } from '../lib/proiezione';
+import { feature } from 'topojson-client';
+import world from 'world-atlas/land-110m.json';
+import { dati, TIPI, periodo } from '../lib/data';
+
+const land = path(feature(world as any, (world as any).objects.land) as any);
+const grid = path(geoGraticule().step([20, 20])() as any);
+
+const { coord, perCronologia, idx, copie, personaggi } = await dati();
+const possedute = new Set(copie.filter((c) => c.data.stato === 'posseduto').map((c) => idx.edizioni.get(c.data.edizione.id)!.data.opera.id));
+const era = (y: number) => y < -10000 ? 'isu' : y < 500 ? 'antichita' : y < 1300 ? 'medioevo' : y < 1600 ? 'rinascimento' : y < 1900 ? 'moderna' : 'contemporanea';
+const ERE = { isu: 'Era degli Isu', antichita: 'Antichità', medioevo: 'Medioevo', rinascimento: 'Rinascimento', moderna: 'Età moderna', contemporanea: 'Contemporanea' };
+
+const usati = new Set(perCronologia.flatMap((s) => s.data.luoghi));
+const luoghi = [...usati].filter((l) => coord.has(l)).map((id) => {
+  const c = coord.get(id)!; const [x, y] = proj([c.lon, c.lat])!;
+  return { id, x: +x.toFixed(1), y: +y.toFixed(1) };
+});
+const segmenti = perCronologia.map((s) => {
+  const o = idx.opere.get(s.data.opera.id)!;
+  return {
+    t: s.data.titolo, y: s.data.inizio, p: periodo(s.data.inizio, s.data.fine, s.data.approssimato), e: era(s.data.inizio),
+    o: o.id, ot: o.data.titolo, tp: TIPI[o.data.tipo], own: possedute.has(o.id),
+    l: s.data.luoghi.filter((l) => coord.has(l)), pg: s.data.personaggi.map((p) => p.id),
+  };
+});
+const conPercorso = personaggi
+  .filter((p) => new Set(segmenti.filter((s) => s.pg.includes(p.id)).flatMap((s) => s.l)).size >= 2)
+  .map((p) => ({ id: p.id, nome: p.data.nome }))
+  .sort((a, b) => a.nome.localeCompare(b.nome));
+const payload = { W, H, luoghi, segmenti, ERE };
+---
+<Base titolo="Mappa" descrizione="Mappa interattiva dei luoghi di Assassin's Creed: dove si svolgono giochi, romanzi, fumetti e manga.">
+  <h1 data-sync>Mappa</h1>
+  <p class="muted">Tutti i luoghi toccati dalle opere del portale. Trascina per spostarti, usa la rotella o i pulsanti per lo zoom, tocca un segnaposto per vedere cosa succede lì.</p>
+
+  <div class="controls">
+    <div class="chips" role="group" aria-label="Filtra per epoca">
+      {Object.entries(ERE).map(([k, v]) => <button class="chip" data-era={k} aria-pressed="true">{v}</button>)}
+    </div>
+    <div class="row">
+      <label class="small">Viaggio di
+        <select id="pg">
+          <option value="">— nessuno —</option>
+          {conPercorso.map((p) => <option value={p.id}>{p.nome}</option>)}
+        </select>
+      </label>
+      <label class="small check"><input type="checkbox" id="mine" /> solo la mia collezione</label>
+    </div>
+  </div>
+
+  <div class="atlas">
+    <div class="stage">
+      <svg id="map" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" role="application" aria-label="Mappa del mondo con i luoghi della saga">
+        <defs>
+          <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" />
+            <feDisplacementMap in="SourceGraphic" scale="3.5" data-base="3.5" />
+          </filter>
+          <filter id="smudge" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="3" seed="2" />
+            <feDisplacementMap in="SourceGraphic" scale="9" data-base="9" />
+            <feGaussianBlur stdDeviation="3.2" data-base="3.2" />
+          </filter>
+          <filter id="grain">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="4" />
+            <feColorMatrix values="0 0 0 0 .24  0 0 0 0 .19  0 0 0 0 .12  0 0 0 .22 0" />
+          </filter>
+          <radialGradient id="vignette" cx="50%" cy="50%" r="72%">
+            <stop offset="60%" stop-color="#6b5330" stop-opacity="0" />
+            <stop offset="100%" stop-color="#6b5330" stop-opacity=".38" />
+          </radialGradient>
+        </defs>
+        <rect class="pergamena" width={W} height={H} fill="#eee4cc" />
+        <g id="world">
+          <path d={grid} class="grid" />
+          <path d={land} class="land-smudge" />
+          <path d={land} class="land" />
+          <path d={land} class="land-ink" />
+          <g class="compass" transform={`translate(${W * 0.1} ${H * 0.8})`}>
+            <circle r="46" /><circle r="38" />
+            <path d="M0-62 L7-7 L0 0 L-7-7Z M0 62 L7 7 L0 0 L-7 7Z M-62 0 L-7-7 L0 0 L-7 7Z M62 0 L7-7 L0 0 L7 7Z" class="star" />
+            <path d="M0-62 L-7-7 L0 0Z M0 62 L-7 7 L0 0Z M-62 0 L-7 7 L0 0Z M62 0 L7 7 L0 0Z" class="star-dark" />
+            <text y="-70" text-anchor="middle">N</text>
+          </g>
+        </g>
+        <rect class="grana" width={W} height={H} filter="url(#grain)" pointer-events="none" />
+        <rect class="vignetta" width={W} height={H} fill="url(#vignette)" pointer-events="none" />
+        <g id="route"></g>
+        <g id="pins"></g>
+        <text x={W - 36} y={H - 30} text-anchor="end" class="cartouche">Mappa del Credo</text>
+      </svg>
+      <div class="zoom">
+        <button type="button" data-z="in" aria-label="Ingrandisci">+</button>
+        <button type="button" data-z="out" aria-label="Riduci">−</button>
+        <button type="button" data-z="reset" aria-label="Vista intera">⤢</button>
+      </div>
+    </div>
+    <aside id="panel" class="card" aria-live="polite">
+      <p class="eyebrow">Luogo</p>
+      <p class="muted small">Seleziona un segnaposto. I numeri indicano quante storie sono ambientate lì; i gruppi si aprono ingrandendo.</p>
+    </aside>
+  </div>
+
+  <script is:inline type="application/json" id="map-data" set:html={JSON.stringify(payload)} />
+</Base>
+
+<script>
+  type Luogo = { id: string; x: number; y: number };
+  type Seg = { t: string; y: number; p: string; e: string; o: string; ot: string; tp: string; own: boolean; l: string[]; pg: string[] };
+  const D = JSON.parse(document.getElementById('map-data')!.textContent!) as { W: number; H: number; luoghi: Luogo[]; segmenti: Seg[]; ERE: Record<string, string> };
+  const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('map') as unknown as SVGSVGElement;
+  const world = document.getElementById('world')!;
+  const pins = document.getElementById('pins')!;
+  const routeG = document.getElementById('route')!;
+  const panel = document.getElementById('panel')!;
+
+  const KMAX = 40;
+  let k = 1, tx = 0, ty = 0;
+  const ereOff = new Set<string>();
+  let soloMie = false, pg = '', selezionato = '';
+
+  const visibile = (s: Seg) => !ereOff.has(s.e) && (!soloMie || s.own);
+  const perLuogo = () => {
+    const m = new Map<string, Seg[]>();
+    for (const s of D.segmenti) if (visibile(s)) for (const l of s.l) (m.get(l) ?? m.set(l, []).get(l)!).push(s);
+    return m;
+  };
+  // area del viewBox effettivamente visibile (preserveAspectRatio = slice)
+  const vista = () => {
+    const cw = svg.clientWidth || D.W, ch = svg.clientHeight || D.H;
+    const sc = Math.max(cw / D.W, ch / D.H), vw = cw / sc, vh = ch / sc;
+    return { x0: (D.W - vw) / 2, y0: (D.H - vh) / 2, vw, vh, u: 1 / sc };
+  };
+  const clamp = () => {
+    const v = vista();
+    k = Math.min(KMAX, Math.max(1, k));
+    tx = Math.min(v.x0, Math.max(v.x0 + v.vw - D.W * k, tx));
+    ty = Math.min(v.y0, Math.max(v.y0 + v.vh - D.H * k, ty));
+  };
+  const reset = () => { const v = vista(); k = 1; tx = v.x0 + v.vw / 2 - D.W * 0.52; ty = 0; };
+  // coste dettagliate caricate solo al primo zoom
+  let caricato = false;
+  const dettaglio = () => {
+    if (caricato) return; caricato = true;
+    fetch(`${B}/mappa-dettaglio.txt`).then((r) => r.ok ? r.text() : Promise.reject()).then((d) => {
+      document.querySelectorAll('#map .land, #map .land-ink, #map .land-smudge').forEach((p) => p.setAttribute('d', d));
+    }).catch(() => { caricato = false; });
+  };
+  let kFiltri = 0;
+  const filtri = () => { // tratto e sbavature restano uguali a ogni livello di zoom
+    if (kFiltri === k) return; kFiltri = k;
+    document.querySelectorAll<SVGElement>('#map [data-base]').forEach((f) => {
+      const attr = f.tagName === 'feGaussianBlur' ? 'stdDeviation' : 'scale';
+      f.setAttribute(attr, String(+f.dataset.base! / k));
+    });
+  };
+  const el = (tag: string, attrs: Record<string, string | number>) => {
+    const e = document.createElementNS(NS, tag);
+    for (const [a, v] of Object.entries(attrs)) e.setAttribute(a, String(v));
+    return e;
+  };
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+
+  function mostra(nomi: string[], segs: Seg[]) {
+    const unici = [...new Map(segs.map((s) => [s.t + s.o, s])).values()];
+    panel.innerHTML = `<p class="eyebrow">${nomi.length > 1 ? 'Luoghi' : 'Luogo'}</p><h2>${esc(nomi.join(', '))}</h2>` +
+      `<ul class="segs">${unici.map((s) => `<li><strong>${s.p}</strong> · ${esc(s.t)}<br><a href="${B}/opere/${s.o}">${esc(s.ot)}</a> <span class="tag">${s.tp}</span>${s.own ? ' <span class="tag">in collezione</span>' : ''}</li>`).join('')}</ul>`;
+  }
+
+  function disegna() {
+    clamp(); filtri(); if (k > 2.5) dettaglio();
+    const u = vista().u; // unità SVG per pixel sullo schermo
+    world.setAttribute('transform', `translate(${tx} ${ty}) scale(${k})`);
+    const m = perLuogo();
+    const pts = D.luoghi.filter((l) => m.has(l.id)).map((l) => ({ ...l, sx: l.x * k + tx, sy: l.y * k + ty, n: m.get(l.id)!.length }));
+    // raggruppa i segnaposto troppo vicini sullo schermo
+    const gruppi: { ids: string[]; sx: number; sy: number; n: number }[] = [];
+    for (const p of pts.sort((a, b) => b.n - a.n)) {
+      const g = gruppi.find((g) => Math.hypot(g.sx - p.sx, g.sy - p.sy) < 26 * u);
+      if (g) { g.ids.push(p.id); g.n += p.n; } else gruppi.push({ ids: [p.id], sx: p.sx, sy: p.sy, n: p.n });
+    }
+    pins.replaceChildren();
+    for (const g of gruppi) {
+      const r = 8 + Math.min(8, Math.sqrt(g.n) * 2);
+      const gr = el('g', { class: 'pin' + (g.ids.includes(selezionato) ? ' on' : ''), transform: `translate(${g.sx} ${g.sy}) scale(${u})`, tabindex: 0, role: 'button',
+        'aria-label': `${g.ids.join(', ')}: ${g.n} storie` });
+      gr.append(el('circle', { r: r + 5, class: 'halo' }), el('circle', { r, class: 'disc' }), el('path', { d: `M0 ${-r * .55}L${r * .4} 0L0 ${r * .55}L${-r * .4} 0Z`, class: 'gem' }));
+      if (g.n > 1) { const b = el('text', { x: r * .9, y: -r * .75, class: 'count' }); b.textContent = String(g.n); gr.append(b); }
+      const lab = el('text', { y: r + 16, class: 'label', 'text-anchor': 'middle' });
+      lab.textContent = g.ids.length > 1 ? `${g.ids[0]} +${g.ids.length - 1}` : g.ids[0];
+      gr.append(lab);
+      const scegli = () => {
+        if (g.ids.length > 1 && k < KMAX) { zoomSu(g.sx, g.sy, 2.5); return; }
+        selezionato = g.ids[0]; mostra(g.ids, g.ids.flatMap((id) => m.get(id)!)); disegna();
+      };
+      gr.addEventListener('click', scegli);
+      gr.addEventListener('keydown', (e) => { if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') { e.preventDefault(); scegli(); } });
+      pins.append(gr);
+    }
+    // viaggio del personaggio selezionato
+    routeG.replaceChildren();
+    if (pg) {
+      const tappe: Luogo[] = [];
+      const visti = new Set<string>();
+      const suoi = D.segmenti.map((s, i) => ({ s, i })).filter(({ s }) => visibile(s) && s.pg.includes(pg) && s.l.length)
+        .sort((a, b) => a.s.y - b.s.y || (a.s.tp === 'Gioco' ? 0 : 1) - (b.s.tp === 'Gioco' ? 0 : 1) || a.i - b.i)
+        .map(({ s }) => s)
+        // un romanzo che ripete luoghi già visitati è un adattamento: non aggiunge tappe
+        .filter((s) => { const nuovo = s.tp !== 'Romanzo' || s.l.some((l) => !visti.has(l)); s.l.forEach((l) => visti.add(l)); return nuovo; });
+      for (const s of suoi) for (const l of s.l) {
+        const L = D.luoghi.find((x) => x.id === l)!;
+        if (tappe.at(-1)?.id !== L.id) tappe.push(L);
+      }
+      let d = '';
+      tappe.forEach((a, i) => {
+        const ax = a.x * k + tx, ay = a.y * k + ty;
+        if (i === 0) { d += `M${ax} ${ay}`; return; }
+        const b = tappe[i - 1], bx = b.x * k + tx, by = b.y * k + ty;
+        const mx = (ax + bx) / 2, my = (ay + by) / 2, dx = ax - bx, dy = ay - by;
+        d += ` Q${mx - dy * .25} ${my + dx * .25} ${ax} ${ay}`;
+      });
+      const tracciato = el('path', { d, class: 'route', 'stroke-width': 2.5 * u, 'stroke-dasharray': `${2 * u} ${7 * u}` });
+      (tracciato as SVGElement).style.setProperty('--passo', String(9 * u));
+      routeG.append(tracciato);
+      if (tappe.length && !selezionato) panel.innerHTML = `<p class="eyebrow">Viaggio</p><h2>${esc((document.querySelector(`#pg option[value="${pg}"]`) as HTMLOptionElement).text)}</h2><ol class="segs">${tappe.map((t) => `<li>${esc(t.id)}</li>`).join('')}</ol>`;
+    }
+  }
+
+  function zoomSu(sx: number, sy: number, f: number) {
+    const nk = Math.min(KMAX, Math.max(1, k * f));
+    tx = sx - (sx - tx) * (nk / k); ty = sy - (sy - ty) * (nk / k); k = nk; disegna();
+  }
+  const aSvg = (cx: number, cy: number): [number, number] => { const p = new DOMPoint(cx, cy).matrixTransform(svg.getScreenCTM()!.inverse()); return [p.x, p.y]; };
+
+  svg.addEventListener('wheel', (e) => { e.preventDefault(); const [x, y] = aSvg(e.clientX, e.clientY); zoomSu(x, y, e.deltaY < 0 ? 1.25 : 0.8); }, { passive: false });
+  const puntatori = new Map<number, [number, number]>();
+  let pinch = 0;
+  svg.addEventListener('pointerdown', (e) => {
+    if ((e.target as Element).closest('.pin')) return;
+    svg.setPointerCapture(e.pointerId); puntatori.set(e.pointerId, aSvg(e.clientX, e.clientY));
+    if (puntatori.size === 2) { const [a, b] = [...puntatori.values()]; pinch = Math.hypot(a[0] - b[0], a[1] - b[1]); }
+  });
+  svg.addEventListener('pointermove', (e) => {
+    if (!puntatori.has(e.pointerId)) return;
+    const prev = puntatori.get(e.pointerId)!, cur = aSvg(e.clientX, e.clientY);
+    puntatori.set(e.pointerId, cur);
+    if (puntatori.size === 1) { tx += cur[0] - prev[0]; ty += cur[1] - prev[1]; svg.classList.add('moving'); disegna(); }
+    else if (puntatori.size === 2) {
+      const [a, b] = [...puntatori.values()]; const dd = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      if (pinch) zoomSu((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, dd / pinch); pinch = dd;
+    }
+  });
+  const fine = (e: PointerEvent) => { puntatori.delete(e.pointerId); pinch = 0; svg.classList.remove('moving'); };
+  svg.addEventListener('pointerup', fine); svg.addEventListener('pointercancel', fine);
+
+  document.querySelectorAll<HTMLButtonElement>('[data-z]').forEach((b) => b.addEventListener('click', () => {
+    const v = vista(); if (b.dataset.z === 'reset') { reset(); disegna(); } else zoomSu(v.x0 + v.vw / 2, v.y0 + v.vh / 2, b.dataset.z === 'in' ? 1.6 : 0.625);
+  }));
+  document.querySelectorAll<HTMLButtonElement>('[data-era]').forEach((b) => b.addEventListener('click', () => {
+    const on = b.getAttribute('aria-pressed') === 'true'; b.setAttribute('aria-pressed', String(!on));
+    on ? ereOff.add(b.dataset.era!) : ereOff.delete(b.dataset.era!); disegna();
+  }));
+  (document.getElementById('mine') as HTMLInputElement).addEventListener('change', (e) => { soloMie = (e.target as HTMLInputElement).checked; disegna(); });
+  (document.getElementById('pg') as HTMLSelectElement).addEventListener('change', (e) => { pg = (e.target as HTMLSelectElement).value; selezionato = ''; disegna(); });
+  reset();
+  new ResizeObserver(() => disegna()).observe(svg);
+</script>
+
+<style>
+  .controls { display: grid; gap: 12px; margin: 20px 0; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; }
+  select { font: inherit; margin-left: 6px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); max-width: 60vw; }
+  .check { display: flex; gap: 6px; align-items: center; }
+  .atlas { position: relative; width: min(1400px, calc(100vw - 32px)); margin-left: 50%; transform: translateX(-50%); display: grid; gap: 16px; }
+  @media (min-width: 1000px) {
+    #panel { position: absolute; left: 14px; top: 14px; width: 320px; max-height: calc(100% - 28px); background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(4px); }
+  }
+  .stage { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); box-shadow: 0 10px 30px -18px #000; }
+  svg { display: block; width: 100%; aspect-ratio: 1600 / 820; height: auto; touch-action: none; cursor: grab; user-select: none; background: #eee4cc; }
+  svg:active { cursor: grabbing; }
+  @media (max-width: 700px) { .stage svg { aspect-ratio: auto; height: 68vh; } }
+  .zoom { position: absolute; right: 10px; top: 10px; display: grid; gap: 6px; }
+  .zoom button { width: 36px; height: 36px; border-radius: 8px; border: 1px solid #b9a67f; background: #f6eedb; color: #2b2418; font-size: 1.2rem; cursor: pointer; }
+  #panel { overflow: auto; }
+  #panel :global(h2) { margin-top: 0; font-size: 1.5rem; }
+  #panel :global(.segs) { padding-left: 18px; display: grid; gap: 10px; font-size: .9rem; }
+
+  :global(#map .grid) { fill: none; stroke: #5a4a30; stroke-opacity: .28; stroke-width: 1; vector-effect: non-scaling-stroke; filter: url(#rough); }
+  :global(#map .land-smudge) { fill: none; stroke: #2b2418; stroke-opacity: .35; stroke-width: 9; vector-effect: non-scaling-stroke; filter: url(#smudge); }
+  :global(#map .land) { fill: #f5ecd6; }
+  :global(#map .land-ink) { fill: none; stroke: #2b2418; stroke-width: 1.6; stroke-linejoin: round; vector-effect: non-scaling-stroke; filter: url(#rough); }
+  :global(#map.moving .land-ink), :global(#map.moving .land-smudge), :global(#map.moving .grid) { filter: none; }
+  :global(#map .compass circle) { fill: none; stroke: #2b2418; stroke-opacity: .55; stroke-dasharray: 3 3; }
+  :global(#map .compass .star) { fill: #f5ecd6; stroke: #2b2418; stroke-width: 1; }
+  :global(#map .compass .star-dark) { fill: #2b2418; opacity: .75; }
+  :global(#map .compass text), :global(#map .cartouche) { font-family: 'Cormorant Garamond', serif; fill: #2b2418; font-style: italic; }
+  :global(#map .compass text) { font-size: 20px; }
+  :global(#map .cartouche) { font-size: 34px; opacity: .8; }
+  :global(#map .pin) { cursor: pointer; }
+  :global(#map .pin .halo) { fill: #a3262a; opacity: .12; }
+  :global(#map .pin .disc) { fill: #f8f1df; stroke: #2b2418; stroke-width: 2; }
+  :global(#map .pin .gem) { fill: #a3262a; }
+  :global(#map .pin .count) { font: 600 13px Inter, sans-serif; fill: #2b2418; paint-order: stroke; stroke: #f8f1df; stroke-width: 3px; }
+  :global(#map .pin .label) { font: 600 15px 'Cormorant Garamond', serif; fill: #2b2418; paint-order: stroke; stroke: #eee4cc; stroke-width: 4px; opacity: 0; transition: opacity .15s; pointer-events: none; }
+  :global(#map .pin:hover .label), :global(#map .pin:focus .label), :global(#map .pin.on .label) { opacity: 1; }
+  :global(#map .pin.on .disc) { stroke: #a3262a; stroke-width: 3; }
+  :global(#map .pin:focus) { outline: none; }
+  :global(#map .pin:focus-visible .halo) { opacity: .45; }
+  :global(#map .route) { fill: none; stroke: #a3262a; stroke-width: 2.5; stroke-dasharray: 2 7; stroke-linecap: round; }
+</style>

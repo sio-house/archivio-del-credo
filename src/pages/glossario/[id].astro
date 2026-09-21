@@ -1,0 +1,42 @@
+---
+import { u } from '../../lib/url';
+import Base from '../../layouts/Base.astro';
+import Fonti from '../../components/Fonti.astro';
+import { render, type CollectionEntry } from 'astro:content';
+import { dati, TIPI, anno } from '../../lib/data';
+export async function getStaticPaths() {
+  const { glossario } = await dati();
+  return glossario.map((g) => ({ params: { id: g.id }, props: { g } }));
+}
+const { g } = Astro.props as { g: CollectionEntry<'glossario'> };
+const { Content } = await render(g);
+const { idx, glossario } = await dati();
+const byId = new Map(glossario.map((x) => [x.id, x]));
+const correlati = [
+  ...g.data.correlati.map((c) => byId.get(c.id)!),
+  ...glossario.filter((x) => x.data.correlati.some((c) => c.id === g.id) && !g.data.correlati.some((c) => c.id === x.id)),
+];
+const opere = g.data.opere.map((o) => idx.opere.get(o.id)!).sort((a, b) => +a.data.uscita - +b.data.uscita);
+---
+<Base titolo={g.data.termine} descrizione={`${g.data.termine} in Assassin's Creed: cos'è, a cosa serve e in quali opere compare.`}>
+  <p class="eyebrow"><a href={u('/glossario')}>Glossario</a> · {g.data.categoria}</p>
+  <h1 data-sync>{g.data.termine}</h1>
+  {g.data.alias.length > 0 && <p class="muted">Anche: {g.data.alias.join(', ')}</p>}
+  <article data-sync><Content /></article>
+
+  {correlati.length > 0 && <>
+    <h2>Vedi anche</h2>
+    <div class="chips">{correlati.map((c) => <a class="chip" href={u(`/glossario/${c.id}`)}>{c.data.termine}</a>)}</div>
+  </>}
+
+  {opere.length > 0 && <>
+    <h2>Dove compare</h2>
+    <ul class="plain">{opere.map((o) => <li><a href={u(`/opere/${o.id}`)}>{o.data.titolo}</a> <span class="tag">{TIPI[o.data.tipo]}</span> <span class="muted small">{anno(o.data.uscita)}</span></li>)}</ul>
+  </>}
+  <Fonti fonti={g.data.fonti} interne={g.data.fontiInterne} />
+</Base>
+<style>
+  article { font-size: 1.06rem; max-width: 65ch; }
+  article :global(p) { margin: 0 0 1em; }
+  .plain { list-style: none; padding: 0; display: grid; gap: 8px; }
+</style>

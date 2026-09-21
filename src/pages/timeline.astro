@@ -1,0 +1,119 @@
+---
+import { u } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import { dati, TIPI, FILONI, anno, periodo } from '../lib/data';
+const { idx, perCronologia, perUscita } = await dati();
+
+const epoca = (y: number) => y < -10000 ? 'Era degli Isu' : y < 1000 ? 'Antichità' : y < 1300 ? 'Medioevo' : y < 1600 ? 'Rinascimento' : y < 1900 ? 'Età moderna' : 'Epoca contemporanea';
+const tipiPresenti = [...new Set(perUscita.map((o) => o.data.tipo))];
+const cronologia = perCronologia.map((s) => ({ s, o: idx.opere.get(s.data.opera.id)!, era: epoca(s.data.inizio) }));
+---
+<Base titolo="Timeline" descrizione="La linea del tempo di Assassin's Creed che incrocia giochi, romanzi, fumetti e manga.">
+  <h1 data-sync>Timeline</h1>
+  <p class="muted">Ogni voce è un segmento narrativo: un'opera può comparire più volte se racconta epoche diverse. La saga si muove su <a href={u('/storia/piani')}>tre piani</a>: l'era degli Isu, i ricordi dentro l'Animus e il presente.</p>
+
+  <div class="controls">
+    <div class="chips" role="group" aria-label="Vista">
+      <button class="chip" data-vista="storia" aria-pressed="true">In ordine di storia</button>
+      <button class="chip" data-vista="uscita" aria-pressed="false">In ordine di uscita</button>
+    </div>
+    <div class="chips" role="group" aria-label="Filtra per tipo">
+      {tipiPresenti.map((t) => <button class="chip" data-tipo={t} aria-pressed="true">{TIPI[t]}</button>)}
+    </div>
+    <div class="chips" role="group" aria-label="Filtra per filone">
+      {Object.entries(FILONI).map(([k, v]) => <button class="chip" data-filone={k} aria-pressed="true"><span class="dot" style={`background:var(--${k})`}></span>{v}</button>)}
+    </div>
+  </div>
+
+  <ol class="tl" id="vista-storia">
+    {cronologia.map(({ s, o, era }, i) => (
+      <>
+        {(i === 0 || cronologia[i - 1].era !== era) && <li class="era" data-era data-sync>{era}</li>}
+        <li class="ev" data-sync data-tipo={o.data.tipo} data-filone={s.data.filone} style={`--c:var(--${s.data.filone})`}>
+          <span class="y">{periodo(s.data.inizio, s.data.fine, s.data.approssimato)}</span>
+          <div class="body">
+            <strong>{s.data.titolo}</strong>
+            <div class="small"><a href={u(`/opere/${o.id}`)}>{o.data.titolo}</a> <span class="tag">{TIPI[o.data.tipo]}</span></div>
+            {s.data.luoghi.length > 0 && <div class="small muted">{s.data.luoghi.join(' · ')}</div>}
+            {s.data.nota && <div class="small nota">{s.data.nota}</div>}
+            {s.data.personaggi.length > 0 && (
+              <div class="small muted">{s.data.personaggi.map((p, j) => <>{j > 0 && ', '}<a href={u(`/personaggi/${p.id}`)}>{idx.personaggi.get(p.id)!.data.nome}</a></>)}</div>
+            )}
+          </div>
+        </li>
+      </>
+    ))}
+  </ol>
+
+  <ol class="tl" id="vista-uscita" hidden>
+    {perUscita.map((o) => (
+      <li class="ev" data-sync data-tipo={o.data.tipo} data-filone="storico" style="--c:var(--muted)">
+        <span class="y">{o.data.uscitaApprossimata ? anno(o.data.uscita) : o.data.uscita.toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })}</span>
+        <div class="body">
+          <strong><a href={u(`/opere/${o.id}`)}>{o.data.titolo}</a></strong>
+          <div class="small"><span class="tag">{TIPI[o.data.tipo]}</span> <span class="muted">{o.data.studio ?? o.data.autori.join(', ')}</span></div>
+        </div>
+      </li>
+    ))}
+  </ol>
+  <p id="vuoto" class="muted" hidden>Nessuna voce con questi filtri.</p>
+</Base>
+
+<script>
+  const off = { tipo: new Set<string>(), filone: new Set<string>() };
+  let vista = 'storia';
+  // /timeline?filone=isu apre la pagina già filtrata
+  const chiesto = new URLSearchParams(location.search).get('filone');
+  if (chiesto) {
+    document.querySelectorAll<HTMLButtonElement>('[data-filone]').forEach((b) => {
+      if (b.dataset.filone !== chiesto) { off.filone.add(b.dataset.filone!); b.setAttribute('aria-pressed', 'false'); }
+    });
+  }
+  const aggiorna = () => {
+    document.querySelectorAll<HTMLElement>('.tl').forEach((l) => (l.hidden = l.id !== `vista-${vista}`));
+    const lista = document.getElementById(`vista-${vista}`)!;
+    let visibili = 0;
+    lista.querySelectorAll<HTMLElement>('.ev').forEach((el) => {
+      const nascosto = off.tipo.has(el.dataset.tipo!) || (vista === 'storia' && off.filone.has(el.dataset.filone!));
+      el.hidden = nascosto; if (!nascosto) visibili++;
+    });
+    // nasconde le intestazioni di era rimaste vuote
+    lista.querySelectorAll<HTMLElement>('[data-era]').forEach((era) => {
+      let n = era.nextElementSibling as HTMLElement | null, vuota = true;
+      while (n && !n.hasAttribute('data-era')) { if (!n.hidden) { vuota = false; break; } n = n.nextElementSibling as HTMLElement | null; }
+      era.hidden = vuota;
+    });
+    document.getElementById('vuoto')!.hidden = visibili > 0;
+  };
+  document.querySelectorAll<HTMLButtonElement>('.chip').forEach((b) => b.addEventListener('click', () => {
+    if (b.dataset.vista) {
+      vista = b.dataset.vista;
+      document.querySelectorAll<HTMLButtonElement>('[data-vista]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    } else {
+      const [k, v] = b.dataset.tipo ? ['tipo', b.dataset.tipo] as const : ['filone', b.dataset.filone!] as const;
+      const on = b.getAttribute('aria-pressed') === 'true';
+      b.setAttribute('aria-pressed', String(!on));
+      on ? off[k].add(v) : off[k].delete(v);
+    }
+    aggiorna();
+  }));
+  if (chiesto) aggiorna(); // applica subito il filtro chiesto dal link
+</script>
+<style>
+  .controls { display: grid; gap: 10px; margin: 24px 0 32px; }
+  .tl { list-style: none; margin: 0; padding: 0; position: relative; }
+  .tl::before { content: ''; position: absolute; left: 118px; top: 0; bottom: 0; width: 2px; background: var(--line); }
+  .era { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; padding: 20px 0 8px 140px; }
+  .ev { display: grid; grid-template-columns: 110px 1fr; gap: 30px; padding: 10px 0; position: relative; }
+  .ev::before { content: ''; position: absolute; left: 113px; top: 17px; width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 4px var(--bg); }
+  .y { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; padding-top: 2px; }
+  .body { display: grid; gap: 2px; }
+  .nota { color: var(--muted); font-style: italic; }
+  [hidden] { display: none !important; }
+  @media (max-width: 560px) {
+    .tl::before { left: 6px; } .ev::before { left: 1px; }
+    .ev { grid-template-columns: 1fr; gap: 2px; padding-left: 28px; }
+    .y { text-align: left; }
+    .era { padding-left: 28px; }
+  }
+</style>

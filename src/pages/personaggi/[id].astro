@@ -1,0 +1,94 @@
+---
+import { u } from '../../lib/url';
+import Base from '../../layouts/Base.astro';
+import Fonti from '../../components/Fonti.astro';
+import { render } from 'astro:content';
+import { dati, TIPI, periodo, annoTesto, type Personaggio } from '../../lib/data';
+export async function getStaticPaths() {
+  const { personaggi } = await dati();
+  return personaggi.map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+const { p } = Astro.props as { p: Personaggio };
+const { Content } = await render(p);
+const { idx, relazioni, perCronologia, glossario } = await dati();
+const d = p.data;
+
+const verso = { genitore: ['genitore di', 'figlio/a di'], parente: ['parente di', 'parente di'], mentore: ['mentore di', 'allievo/a di'], alleato: ['alleato di', 'alleato di'], nemico: ['nemico di', 'nemico di'], antenato: ['antenato di', 'discendente di'], amore: ['legato a', 'legato a'] } as const;
+type Legame = { label: string; altro: string; dettaglio?: string };
+const rel = relazioni.flatMap<Legame>((r) =>
+  r.data.da.id === p.id ? [{ label: verso[r.data.tipo][0], altro: r.data.a.id, dettaglio: r.data.dettaglio }] :
+  r.data.a.id === p.id ? [{ label: verso[r.data.tipo][1], altro: r.data.da.id, dettaglio: r.data.dettaglio }] : []);
+
+const apparizioni = perCronologia.filter((s) => s.data.personaggi.some((x) => x.id === p.id));
+const opere = [...new Map(apparizioni.map((s) => [s.data.opera.id, idx.opere.get(s.data.opera.id)!])).values()];
+const termini = glossario.filter((g) => g.data.opere.some((o) => opere.some((x) => x.id === o.id))).slice(0, 6);
+const AFF = { assassini: 'Assassini', templari: 'Templari', isu: 'Isu', alleato: 'Alleato', neutrale: 'Neutrale', altro: 'Altro' };
+const vissuto = d.nascita || d.morte ? `${d.nascita ? annoTesto(d.nascita) : '?'} – ${d.morte ? annoTesto(d.morte) : '?'}` : null;
+const jsonld = d.storico ? {
+  '@context': 'https://schema.org', '@type': 'Person', name: d.nome,
+  ...(d.nascita && { birthDate: String(d.nascita) }), ...(d.morte && { deathDate: String(d.morte) }),
+  ...(d.fonti.length && { sameAs: d.fonti }),
+} : null;
+---
+<Base titolo={d.nome} descrizione={d.sommario ?? `${d.nome} in Assassin's Creed: chi è, in quali opere compare e con chi è in relazione.`}>
+  {jsonld && <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
+  <p class="eyebrow"><a href={u('/personaggi')}>Personaggi</a> · {AFF[d.affiliazione]}{d.storico && ' · personaggio storico'}</p>
+  <h1 data-sync>{d.nome}</h1>
+  {d.sommario && <p class="lead muted">{d.sommario}</p>}
+  {!d.verificato && <p><span class="tag warn">dati non ancora verificati su una fonte</span></p>}
+
+  <div class="layout">
+    <article data-sync><Content /></article>
+    <aside class="card">
+      <dl class="meta small">
+        {d.epoca && <><dt>Epoca</dt><dd>{d.epoca}</dd></>}
+        {vissuto && <><dt>Vissuto</dt><dd>{vissuto}</dd></>}
+        <dt>Affiliazione</dt><dd>{AFF[d.affiliazione]}</dd>
+        {d.alias.length > 0 && <><dt>Anche</dt><dd>{d.alias.join(', ')}</dd></>}
+        {opere.length > 0 && <><dt>Opere</dt><dd>{opere.length}</dd></>}
+      </dl>
+    </aside>
+  </div>
+
+  {d.storiaVera && (
+    <section class="storia card" data-sync>
+      <p class="eyebrow">Storico o inventato?</p>
+      <p>{d.storiaVera}</p>
+    </section>
+  )}
+
+  {d.curiosita.length > 0 && <>
+    <h2>Curiosità</h2>
+    <ul class="curiosita" data-sync>{d.curiosita.map((c) => <li>{c}</li>)}</ul>
+  </>}
+
+  {rel.length > 0 && <>
+    <h2>Relazioni</h2>
+    <ul class="plain">{rel.map((r) => <li>{r.label} <a href={u(`/personaggi/${r.altro}`)}>{idx.personaggi.get(r.altro)!.data.nome}</a>{r.dettaglio && <span class="muted"> ({r.dettaglio})</span>}</li>)}</ul>
+    <p class="small"><a href={u('/personaggi/grafo')}>Vedi tutto nel grafo delle relazioni →</a></p>
+  </>}
+
+  {apparizioni.length > 0 && <>
+    <h2>Apparizioni</h2>
+    <ul class="plain">{apparizioni.map((s) => { const o = idx.opere.get(s.data.opera.id)!; return <li><strong>{periodo(s.data.inizio, s.data.fine, s.data.approssimato)}</strong> · <a href={u(`/opere/${o.id}`)}>{o.data.titolo}</a> <span class="tag">{TIPI[o.data.tipo]}</span> <span class="muted small">{s.data.titolo}</span></li>; })}</ul>
+  </>}
+
+  {termini.length > 0 && <>
+    <h2>Dal glossario</h2>
+    <div class="chips">{termini.map((g) => <a class="chip" href={u(`/glossario/${g.id}`)}>{g.data.termine}</a>)}</div>
+  </>}
+
+  <Fonti fonti={d.fonti} interne={d.fontiInterne} />
+</Base>
+<style>
+  .lead { font-size: 1.15rem; max-width: 62ch; }
+  .layout { display: grid; grid-template-columns: 1fr 280px; gap: 32px; align-items: start; margin-top: 16px; }
+  @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } }
+  article { font-size: 1.06rem; max-width: 65ch; }
+  article :global(p) { margin: 0 0 1em; }
+  .storia { border-left: 3px solid var(--gold); max-width: 70ch; margin-top: 8px; }
+  .storia p:last-child { margin: 0; }
+  .curiosita { display: grid; gap: 10px; padding-left: 20px; max-width: 70ch; }
+  .curiosita li::marker { color: var(--accent); }
+  .plain { list-style: none; padding: 0; display: grid; gap: 8px; }
+</style>

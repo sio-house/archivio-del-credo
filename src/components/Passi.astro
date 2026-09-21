@@ -1,0 +1,35 @@
+---
+import { u } from '../lib/url';
+import { dati, TIPI, anno, type Opera } from '../lib/data';
+interface Props { passi: { opera: { id: string }; nota?: string; opzionale?: boolean }[] }
+const { idx, copie } = await dati();
+const posseduteOpere = new Set(
+  copie.filter((c) => c.data.stato === 'posseduto').map((c) => idx.edizioni.get(c.data.edizione.id)!.data.opera.id),
+);
+const passi = Astro.props.passi.map((p) => ({ ...p, o: idx.opere.get(p.opera.id)! as Opera }));
+---
+<ol class="passi">
+  {passi.map((p, i) => (
+    <li data-sync class:list={{ opz: p.opzionale }}>
+      <span class="n">{i + 1}</span>
+      <div>
+        <a href={u(`/opere/${p.o.id}`)} class="t">{p.o.data.titolo}</a>
+        <div class="chips small">
+          <span class="tag">{TIPI[p.o.data.tipo]}</span>
+          <span class="tag">{anno(p.o.data.uscita)}</span>
+          {p.opzionale && <span class="tag">opzionale</span>}
+          {posseduteOpere.has(p.o.id) && <span class="tag">in collezione</span>}
+        </div>
+        {p.nota && <p class="muted small">{p.nota}</p>}
+      </div>
+    </li>
+  ))}
+</ol>
+<style>
+  .passi { list-style: none; padding: 0; margin: 24px 0; display: grid; gap: 0; }
+  li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .n { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: .9rem; }
+  .opz .n { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
+  .t { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; text-decoration: none; display: inline-block; margin-bottom: 4px; }
+  p { margin: 6px 0 0; }
+</style>

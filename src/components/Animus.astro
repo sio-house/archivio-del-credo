@@ -1,0 +1,60 @@
+---
+/** Interruttore della modalità Animus + rivelazione progressiva degli elementi. */
+---
+<button class="animus-btn" id="animus" type="button" aria-pressed="false" title="Tema Animus">
+  <span class="spia" aria-hidden="true"></span> Animus
+</button>
+
+<script is:inline>
+  // applicato prima del primo disegno, per evitare il lampo di tema sbagliato
+  (function () {
+    const applica = () => {
+      try {
+        if (localStorage.getItem('animus') === 'on') document.documentElement.dataset.animus = 'on';
+      } catch {}
+    };
+    applica();
+    // dopo una navigazione con transizioni l'attributo va riapplicato
+    document.addEventListener('astro:after-swap', applica);
+  })();
+</script>
+
+<script>
+  const html = document.documentElement;
+  const sincronizza = () => {
+    const btn = document.getElementById('animus');
+    if (!btn || btn.dataset.pronto) return; // evita di legare due volte lo stesso pulsante
+    btn.dataset.pronto = '1';
+    const stato = () => html.dataset.animus === 'on';
+    btn.setAttribute('aria-pressed', String(stato()));
+    btn.addEventListener('click', () => {
+      html.dataset.animus = stato() ? 'off' : 'on';
+      btn.setAttribute('aria-pressed', String(stato()));
+      try { localStorage.setItem('animus', html.dataset.animus); } catch {}
+    });
+  };
+
+  // rivela gli elementi quando entrano nello schermo, uno dopo l'altro
+  const rivela = () => {
+    const el = document.querySelectorAll<HTMLElement>('[data-sync]:not(.sync-in)');
+    if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.forEach((e) => e.classList.add('sync-in'));
+      return;
+    }
+    const io = new IntersectionObserver((voci) => {
+      let i = 0;
+      for (const v of voci) {
+        if (!v.isIntersecting) continue;
+        const e = v.target as HTMLElement;
+        e.style.setProperty('--ritardo', `${Math.min(i++ * 60, 360)}ms`);
+        e.classList.add('sync-in');
+        io.unobserve(e);
+      }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    el.forEach((e) => io.observe(e));
+  };
+
+  const avvia = () => { sincronizza(); rivela(); };
+  avvia();
+  document.addEventListener('astro:page-load', avvia);
+</script>
