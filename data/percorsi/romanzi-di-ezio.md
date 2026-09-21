@@ -7,4 +7,4 @@ passi:
   - { opera: romanzo-brotherhood, nota: "In italiano: Fratellanza." }
   - { opera: romanzo-revelations }
 ---
-Le romanzizzazioni seguono fedelmente i giochi. Valgono soprattutto per chi vuole la storia senza rigiocare.
+I romanzi seguono da vicino i giochi. Servono soprattutto a chi vuole la storia senza rigiocare.

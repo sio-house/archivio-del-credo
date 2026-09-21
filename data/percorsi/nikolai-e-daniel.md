@@ -1,6 +1,6 @@
 ---
 titolo: Nikolai Orelov e Daniel Cross
-sommario: La coppia di fumetti che spiega chi è Daniel Cross prima di AC III.
+sommario: Due fumetti che raccontano chi è Daniel Cross prima di AC III.
 livello: completista
 passi:
   - { opera: the-fall }
