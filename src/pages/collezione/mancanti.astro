@@ -21,7 +21,7 @@ const perc = Math.round((possedute.size / opere.length) * 100);
 <Base titolo="Cosa mi manca" descrizione="Le opere di Assassin's Creed che non sono ancora in collezione, ordinate per quanto contano nei percorsi.">
   <p class="eyebrow"><a href={u('/collezione')}>Collezione</a></p>
   <h1 data-sync>Cosa mi manca</h1>
-  <p class="muted">{possedute.size} opere su {opere.length} sono in collezione ({perc}%). In cima quelle che pesano di più: contano i percorsi curati in cui compaiono e quante storie raccontano.</p>
+  <p class="muted">{possedute.size} opere su {opere.length} sono in collezione ({perc}%). In cima ci sono quelle che mi servono di più, cioè quelle che compaiono nei percorsi e che raccontano più storie.</p>
 
   {mancanti.length === 0 ? <p>Collezione completa: non manca niente.</p> : (
     <ul class="mancanti">

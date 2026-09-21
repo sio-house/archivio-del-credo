@@ -7,7 +7,6 @@
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'Spectral', Georgia, serif;
   --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
-  --mano: 'Caveat', 'Bradley Hand', cursive;
   --grana: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .33 0 0 0 0 .24 0 0 0 0 .14 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E");
   --macchie: radial-gradient(ellipse 80% 60% at 15% 0%, rgb(255 252 240 / .7), transparent 70%), radial-gradient(ellipse 70% 60% at 100% 100%, rgb(130 90 35 / .12), transparent 70%);
   --inchiostro: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M3 5.2C38 2.6 76 6.4 118 4.1S176 3.2 197 4.8' fill='none' stroke='%23a3262a' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M14 6.3C60 4.6 110 6.8 170 5.2' fill='none' stroke='%23a3262a' stroke-width='1' stroke-linecap='round' opacity='.55'/%3E%3C/svg%3E");
@@ -35,12 +34,10 @@ h1, h2, h3 { font-variant-numeric: lining-nums; font-family: var(--serif); font-
 h1 { font-size: clamp(2.2rem, 5.4vw, 3.4rem); letter-spacing: -.01em; padding-bottom: .28em;
   background: var(--inchiostro) no-repeat 0 100% / min(220px, 60%) 9px; }
 h2 { font-size: 1.7rem; margin-top: 1.6em; }
-h2:not(.card h2, .notizia h2)::before { content: '§ '; color: var(--accent); font-weight: 500; opacity: .8; }
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
 .muted { color: var(--muted); }
 .small { font-size: .9rem; }
-.eyebrow { font: 500 .7rem/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.mano { font-family: var(--mano); font-size: 1.45rem; line-height: 1.1; color: var(--accent); font-weight: 500; }
+.eyebrow { font-size: .88rem; font-style: italic; color: var(--muted); }
 
 /* schede d'archivio: angoli vivi, ombra di carta, appena storte */
 .grid { display: grid; gap: 22px 20px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
@@ -54,7 +51,7 @@ a.card { text-decoration: none; display: block; transition: rotate .25s, transla
 a.card:hover { rotate: 0deg; translate: 0 -3px; border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); color: inherit; }
 
 /* etichette come timbri e cartellini */
-.tag { display: inline-block; font: 500 .66rem/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 1px 7px; border-radius: 2px; border: 1px solid var(--line); color: color-mix(in srgb, var(--ink) 80%, var(--bg)); white-space: nowrap; }
+.tag { display: inline-block; font-size: .8rem; line-height: 1.5; padding: 0 7px; border-radius: 2px; border: 1px solid var(--line); color: color-mix(in srgb, var(--ink) 80%, var(--bg)); white-space: nowrap; }
 .tag.warn { border: 1.5px solid var(--gold); outline: 1px solid color-mix(in srgb, var(--gold) 45%, transparent); outline-offset: 1.5px; color: var(--gold); rotate: -2deg; }
 .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -65,7 +62,7 @@ dl.meta { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; 
 dl.meta dt { color: var(--muted); font-style: italic; } dl.meta dd { margin: 0; }
 table { min-width: 600px; width: 100%; border-collapse: collapse; font-size: .95rem; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
-th { font: 500 .7rem/1.4 var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .1em; border-bottom: 3px double var(--line); }
+th { font-weight: 500; font-size: .9rem; color: var(--muted); border-bottom: 3px double var(--line); }
 .table-scroll { overflow-x: auto; }
 blockquote { margin: 1.2em 0; padding: .2em 0 .2em 1.1em; border-left: 2px solid var(--accent); font-style: italic; color: color-mix(in srgb, var(--ink) 85%, var(--bg)); }
 hr { border: 0; height: 9px; background: var(--inchiostro) no-repeat center / 120px 9px; margin: 2.2em 0; opacity: .7; }
@@ -74,5 +71,4 @@ hr { border: 0; height: 9px; background: var(--inchiostro) no-repeat center / 12
 :root[data-animus='on'] { --inchiostro: linear-gradient(90deg, #4db2ff, transparent); }
 :root[data-animus='on'] html, html[data-animus='on'] { background: var(--bg); }
 :root[data-animus='on'] .grid > .card { rotate: none; }
-:root[data-animus='on'] .mano { font-family: var(--mono); font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; }
 @media (prefers-reduced-motion: reduce) { a.card { transition: none; } }

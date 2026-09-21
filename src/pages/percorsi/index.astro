@@ -5,10 +5,10 @@ import { dati } from '../../lib/data';
 const { percorsi } = await dati();
 const livelli = { 'nuovo-arrivato': 'Per iniziare', appassionato: 'Per appassionati', completista: 'Per completisti' };
 ---
-<Base titolo="Percorsi" descrizione="In che ordine giocare e leggere Assassin's Creed: percorsi curati e ordini automatici.">
+<Base titolo="Percorsi" descrizione="In che ordine giocare e leggere Assassin's Creed.">
   <h1>Percorsi</h1>
-  <p class="muted">Guide all'ordine di fruizione. Quelle curate hanno note e passi opzionali; le altre due sono generate dai dati.</p>
-  <h2>Curati</h2>
+  <p class="muted">In che ordine giocare e leggere. I primi li ho scritti io, con qualche nota e le tappe che si possono saltare. Gli ultimi due il sito li costruisce da solo.</p>
+  <h2>Scritti da me</h2>
   <div class="grid">
     {percorsi.map((p) => (
       <a class="card" href={u(`/percorsi/${p.id}`)}>
@@ -18,9 +18,9 @@ const livelli = { 'nuovo-arrivato': 'Per iniziare', appassionato: 'Per appassion
       </a>
     ))}
   </div>
-  <h2>Automatici</h2>
+  <h2>In automatico</h2>
   <div class="grid">
     <a class="card" href={u('/percorsi/cronologico')}><p class="eyebrow">Generato</p><h3>Ordine cronologico</h3><p class="small muted">Nell'ordine in cui accadono gli eventi.</p></a>
-    <a class="card" href={u('/percorsi/uscita')}><p class="eyebrow">Generato</p><h3>Ordine di uscita</h3><p class="small muted">Come li hanno vissuti i fan, anno dopo anno.</p></a>
+    <a class="card" href={u('/percorsi/uscita')}><p class="eyebrow">Generato</p><h3>Ordine di uscita</h3><p class="small muted">Nell'ordine in cui sono usciti.</p></a>
   </div>
 </Base>

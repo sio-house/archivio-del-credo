@@ -12,28 +12,26 @@ const numeri = [
   ['Percorsi curati', percorsi.length], ['Pezzi in collezione', copie.filter((c) => c.data.stato === 'posseduto').length],
 ];
 ---
-<Base titolo="Info" descrizione="Cos'è Archivio del Credo, com'è costruito e con quali dati.">
+<Base titolo="Info" descrizione="Perché ho fatto questo sito, come funziona e da dove vengono le informazioni.">
   <h1 data-sync>Info</h1>
-  <p class="lead">Archivio del Credo è un portale amatoriale su Assassin's Creed: una timeline che incrocia giochi, libri e fumetti, una mappa dei luoghi, guide all'ordine di fruizione, un glossario e la collezione che tiene insieme il tutto.</p>
-  <p class="muted small">Non è affiliato né approvato da Ubisoft. Assassin's Creed è un marchio di Ubisoft Entertainment; marchi e opere citati appartengono ai rispettivi proprietari. Le immagini della collezione sono foto personali.</p>
+  <p class="lead">Ho tutti i giochi di Assassin's Creed e buona parte dei libri, fumetti e manga. Dopo quasi vent'anni di uscite non è facile capire cosa viene prima e cosa dopo, così ho fatto questo sito: una timeline che mette insieme tutto, una mappa, qualche percorso di lettura, un glossario e la mia collezione.</p>
+  <p class="muted small">Non è un sito ufficiale e Ubisoft non c'entra. Assassin's Creed è un marchio di Ubisoft Entertainment e le opere citate appartengono ai rispettivi proprietari.</p>
 
-  <h2>In numeri</h2>
+  <h2>Qualche numero</h2>
   <div class="numeri">
     {numeri.map(([label, n]) => <div class="card" data-sync><p class="eyebrow">{label}</p><p class="big">{n}</p></div>)}
   </div>
 
-  <h2>Com'è costruito</h2>
-  <ul class="elenco">
-    <li><strong>Un modello di dati, tante viste.</strong> Opere, segmenti narrativi, personaggi, relazioni, edizioni, copie, luoghi, percorsi, glossario e notizie stanno in file di testo versionati. Timeline, mappa, ordini automatici, statistiche della collezione e pagina "cosa mi manca" sono tutte derivate dagli stessi dati: nessun dato è scritto due volte.</li>
-    <li><strong>Integrità garantita dalla build.</strong> Ogni riferimento è tipizzato con uno schema: se un segmento punta a un'opera inesistente o un luogo non ha coordinate, la build si ferma o avvisa. Controllo dei tipi senza errori su tutto il progetto.</li>
-    <li><strong>Calcoli in fase di build, non nel browser.</strong> Il layout del grafo delle relazioni e la proiezione della mappa sono calcolati quando il sito viene generato: il visitatore riceve coordinate già pronte. Le coste ad alta definizione si caricano solo se ingrandisce.</li>
-    <li><strong>Sito statico.</strong> Astro, nessun framework di interfaccia, JavaScript solo dove serve davvero: {metriche.jsKB} KB di script e {metriche.cssKB} KB di CSS in tutto il sito. Ricerca full-text lato client con Pagefind.</li>
-    <li><strong>Accessibilità e condivisione.</strong> Nessuna violazione rilevata da axe-core sulle pagine chiave, in tema chiaro e scuro; le animazioni si spengono se il sistema chiede meno movimento. Ogni pagina ha dati strutturati schema.org e un'anteprima social generata in build.</li>
-    <li><strong>Tracciabilità.</strong> Ogni affermazione dovrebbe avere una fonte consultabile: le opere non ancora controllate sono marcate "da verificare" ({daVerificare} su {opere.length}), le schede personaggio senza fonte lo dicono in testa, le notizie non confermate sono marcate come indiscrezioni. L'elenco di lavoro delle voci ancora senza fonte sta in <a href={u('/da-verificare')}>/da-verificare</a>. Dove le fonti non concordano — l'anno della cornice moderna di Black Flag Resynced, per esempio — il portale riporta entrambe le versioni invece di sceglierne una.</li>
-  </ul>
+  <h2>Come l'ho fatto</h2>
+  <div class="prosa">
+    <p>Opere, personaggi, luoghi, edizioni e tutto il resto stanno in semplici file di testo. La timeline, la mappa, gli ordini di lettura e le statistiche della collezione li genera il sito a partire da quei file, quindi ogni informazione la scrivo una volta sola. Se un file punta a un'opera che non esiste, il sito non si pubblica finché non lo sistemo.</p>
+    <p>È un sito statico fatto con Astro. Il grafo dei personaggi e la mappa vengono calcolati al momento della pubblicazione, così il browser ha poco lavoro da fare: in tutto ci sono {metriche.jsKB} KB di JavaScript e {metriche.cssKB} KB di CSS. La ricerca usa Pagefind e funziona senza server. Le coste dettagliate della mappa si scaricano solo se fai zoom.</p>
+    <p>Ho controllato l'accessibilità con axe-core, in tema chiaro e scuro, e le animazioni si spengono se il sistema chiede meno movimento.</p>
+    <p>Sulle fonti ho cercato di essere pignolo. Le opere che non ho ancora controllato sono segnate «da verificare» ({daVerificare} su {opere.length}), le notizie non confermate sono segnate come indiscrezioni e l'elenco di quello che manca è in <a href={u('/da-verificare')}>questa pagina</a>. Quando le fonti non sono d'accordo, come sull'anno del presente in Black Flag Resynced, le riporto tutte e due.</p>
+  </div>
 
-  <h2>Misure dell'ultima build</h2>
-  <p class="muted small">Rilevate il {new Date(metriche.misurato).toLocaleDateString('it-IT', { dateStyle: 'long', timeZone: 'UTC' })}.</p>
+  <h2>Quanto pesa</h2>
+  <p class="muted small">Misurato il {new Date(metriche.misurato).toLocaleDateString('it-IT', { dateStyle: 'long', timeZone: 'UTC' })}.</p>
   <div class="table-scroll">
     <table>
       <tbody>
@@ -46,15 +44,13 @@ const numeri = [
   </div>
 
   <h2>Fonti</h2>
-  <p>I testi sono originali. I dati provengono da Wikipedia, dalle pagine ufficiali Ubisoft, dagli editori e da siti di settore, elencati in fondo a ogni scheda. Le wiki sono pubblicate con licenza CC BY-SA: per questo qui si citano, non si copiano.</p>
-  <p class="muted small">Un progetto di <a href="https://s-io.net">S-IO</a>.</p>
+  <p>I testi li ho scritti io. Le informazioni vengono da Wikipedia, dalle pagine ufficiali di Ubisoft, dagli editori e da siti di settore, e ogni scheda ha le sue fonti in fondo. Le wiki dei fan le cito ma non le copio, perché hanno una licenza CC BY-SA.</p>
 </Base>
 <style>
   .lead { font-size: 1.15rem; max-width: 65ch; }
   .numeri { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 20px 0; }
   .numeri .eyebrow { margin: 0 0 6px; }
   .big { font-family: var(--serif); font-variant-numeric: lining-nums; font-size: 2.2rem; margin: 0; line-height: 1; }
-  .elenco { display: grid; gap: 12px; max-width: 70ch; padding-left: 20px; }
-  .elenco li::marker { color: var(--accent); }
+  .prosa { max-width: 68ch; }
   table th { text-transform: none; font-size: .95rem; letter-spacing: 0; color: var(--ink); font-weight: 500; }
 </style>

@@ -10,7 +10,7 @@ const host = (u: string) => new URL(u).hostname.replace('www.', '');
   <div class="contesto" data-sync><Content /></div>
   <div class="colonne">
     <div class="card vero" data-sync>
-      <p class="eyebrow">È successo davvero</p>
+      <p class="eyebrow">Documentato</p>
       <ul>{v.data.reali.map((x) => <li>{x}</li>)}</ul>
     </div>
     <div class="card finto" data-sync>
@@ -20,7 +20,7 @@ const host = (u: string) => new URL(u).hostname.replace('www.', '');
   </div>
   {v.data.licenze.length > 0 && (
     <div class="card licenze" data-sync>
-      <p class="eyebrow">Dove la storia è stata piegata</p>
+      <p class="eyebrow">Dove la storia è stata cambiata</p>
       <ul>{v.data.licenze.map((x) => <li>{x}</li>)}</ul>
     </div>
   )}
@@ -28,7 +28,7 @@ const host = (u: string) => new URL(u).hostname.replace('www.', '');
     <p class="small muted">Fonti storiche: {v.data.fonti.map((f, i) => <>{i > 0 && ', '}<a href={f} rel="noopener">{decodeURIComponent(host(f) + new URL(f).pathname.replace('/wiki/', '/'))}</a></>)}</p>
   )}
   {v.data.fontiInterne.length > 0 && (
-    <p class="small muted">Dal materiale in collezione: {v.data.fontiInterne.map((f, i) => <>{i > 0 && ', '}{f.riferimento}</>)}</p>
+    <p class="small muted">Dalla mia collezione: {v.data.fontiInterne.map((f, i) => <>{i > 0 && ', '}{f.riferimento}</>)}</p>
   )}
 </section>
 <style>

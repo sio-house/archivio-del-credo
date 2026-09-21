@@ -6,7 +6,7 @@ const { perUscita } = await dati();
 ---
 <Base titolo="Opere">
   <h1>Opere</h1>
-  <p class="muted">Tutto il franchise in ordine di uscita. Per i giochi c'è anche il confronto fra <a href={u('/storia')}>storia e finzione</a>.</p>
+  <p class="muted">Tutte le opere in ordine di uscita. Per i giochi c'è anche il confronto fra <a href={u('/storia')}>storia e finzione</a>.</p>
   <div class="grid">
     {perUscita.map((o) => (
       <a class="card" href={u(`/opere/${o.id}`)}>

@@ -7,7 +7,7 @@ import Intro from '../components/Intro.astro';
 import Glifo from '../components/Glifo.astro';
 import { ClientRouter } from 'astro:transitions';
 interface Props { titolo: string; descrizione?: string }
-const { titolo, descrizione = "Portale non ufficiale su Assassin's Creed: timeline, guide all'ordine di lettura e una collezione." } = Astro.props;
+const { titolo, descrizione = "Sito non ufficiale su Assassin's Creed: giochi, libri, fumetti e manga in ordine, con la mia collezione." } = Astro.props;
 const voci = [
   ['/timeline', 'Timeline'], ['/mappa', 'Mappa'], ['/percorsi', 'Percorsi'], ['/opere', 'Opere'], ['/storia', 'Storia'],
   ['/personaggi', 'Personaggi'], ['/glossario', 'Glossario'], ['/collezione', 'Collezione'], ['/notizie', 'Notizie'], ['/about', 'Info'],
@@ -28,7 +28,7 @@ const og = new URL(u(`/og/${slug}.png`), Astro.site);
   <link rel="canonical" href={new URL(qui, Astro.site)} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Archivio del Credo" />
   <meta property="og:title" content={titolo} />
@@ -60,9 +60,8 @@ const og = new URL(u(`/og/${slug}.png`), Astro.site);
     <slot />
   </main>
   <footer class="wrap small muted">
-    <p class="mano firma">compilato a mano, un'opera alla volta</p>
-    Sito amatoriale non ufficiale, non affiliato né approvato da Ubisoft. Assassin's Creed è un marchio di Ubisoft Entertainment.
-    · Un progetto di <a href="https://s-io.net">S-IO</a>
+    Sito amatoriale, non ufficiale e non collegato a Ubisoft. Assassin's Creed è un marchio di Ubisoft Entertainment.
+    · Fatto da <a href="https://s-io.net">S-IO</a>
   </footer>
 </body>
 </html>

@@ -35,7 +35,7 @@ export async function anteprima({ titolo, occhiello, nota }: { titolo: string; o
           children: [
             el('div', { style: { width: 26, height: 26, background: ROSSO, transform: 'rotate(45deg)' } }),
             el('div', { style: { fontFamily: 'Cormorant', fontSize: 38 }, children: 'Archivio del Credo' }),
-            el('div', { style: { color: GRIGIO, fontSize: 24 }, children: '· portale non ufficiale' }),
+            el('div', { style: { color: GRIGIO, fontSize: 24 }, children: '· sito non ufficiale' }),
           ],
         }),
       ],

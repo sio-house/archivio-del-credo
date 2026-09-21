@@ -11,9 +11,9 @@ const schede = await Promise.all(verita.map(async (v) => {
 schede.sort((a, b) => +a.o.data.uscita - +b.o.data.uscita);
 const totali = schede.reduce((n, s) => n + s.v.data.reali.length, 0);
 ---
-<Base titolo="Storia e finzione" descrizione="Che cosa è vero nei giochi di Assassin's Creed e che cosa è inventato: eventi, personaggi e licenze narrative, opera per opera.">
+<Base titolo="Storia e finzione" descrizione="Cosa è vero e cosa è inventato nei giochi di Assassin's Creed, gioco per gioco.">
   <h1 data-sync>Storia e finzione</h1>
-  <p class="lead muted">La saga costruisce le sue storie dentro eventi reali. Qui, gioco per gioco, si distingue ciò che è documentato da ciò che è inventato e dai punti in cui la storia è stata piegata per farci stare il racconto. {totali} fatti storici verificati su {schede.length} giochi. Se invece cerchi come sono organizzati i piani narrativi della saga, c'è la pagina sui <a href={u('/storia/piani')}>tre piani della storia</a>.</p>
+  <p class="lead muted">I giochi mettono le loro storie dentro eventi veri. Qui, gioco per gioco, separo quello che è documentato da quello che è inventato e segno i punti in cui la storia è stata aggiustata per farci stare la trama. Per ora sono {totali} fatti controllati su {schede.length} giochi. Se ti interessa come si incastrano Isu, Animus e presente, c'è la pagina sui <a href={u('/storia/piani')}>tre piani della storia</a>.</p>
 
   <div class="elenco">
     {schede.map(({ v, Content, o }) => (

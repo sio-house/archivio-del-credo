@@ -7,9 +7,9 @@ const CAT = { organizzazione: 'Organizzazioni', tecnologia: 'Tecnologia', artefa
 const voci = [...glossario].sort((a, b) => a.data.termine.localeCompare(b.data.termine));
 const gruppi = Object.entries(CAT).map(([k, label]) => ({ k, label, voci: voci.filter((v) => v.data.categoria === k) })).filter((g) => g.voci.length);
 ---
-<Base titolo="Glossario" descrizione="Il glossario di Assassin's Creed: Animus, Isu, Frutti dell'Eden, Templari, Occulti e gli altri termini della saga spiegati.">
+<Base titolo="Glossario" descrizione="Glossario di Assassin's Creed con Animus, Isu, Frutti dell'Eden, Templari, Occulti e gli altri termini della serie.">
   <h1 data-sync>Glossario</h1>
-  <p class="muted">I termini che tornano in tutta la saga, spiegati una volta sola. Ogni voce rimanda alle opere in cui compare.</p>
+  <p class="muted">Le parole che tornano in tutta la serie. Ogni voce rimanda alle opere in cui compare.</p>
   <div class="chips filtri" role="group" aria-label="Filtra per categoria">
     <button class="chip" data-cat="tutte" aria-pressed="true">Tutte</button>
     {gruppi.map((g) => <button class="chip" data-cat={g.k} aria-pressed="false">{g.label}</button>)}

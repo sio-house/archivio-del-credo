@@ -17,10 +17,10 @@ const piani = [
   { k: 'moderno', nome: 'Il presente', quando: estremi('moderno') },
 ];
 ---
-<Base titolo="I tre piani della storia" descrizione="Assassin's Creed si muove su tre livelli: l'era degli Isu, i ricordi storici rivissuti nell'Animus e l'epoca moderna. Come si tengono insieme.">
+<Base titolo="I tre piani della storia" descrizione="Le tre storie di Assassin's Creed: l'epoca degli Isu, i ricordi rivissuti nell'Animus e il presente, e come si collegano.">
   <p class="eyebrow"><a href={u('/storia')}>Storia e finzione</a></p>
   <h1 data-sync>I tre piani della storia</h1>
-  <p class="lead muted">Ogni capitolo della saga racconta tre storie insieme. Una è ambientata prima dell'umanità, una nel passato che si gioca, una nel presente di chi sta usando l'Animus. Sono legate dalla memoria genetica e dagli oggetti lasciati dai primi.</p>
+  <p class="lead muted">Quasi ogni capitolo racconta tre storie. Una si svolge prima dell'umanità, una nel passato che giochi e una nel presente di chi usa l'Animus. A collegarle sono la memoria genetica e gli oggetti lasciati dagli Isu.</p>
 
   <figure class="schema" data-sync>
     <svg viewBox="0 0 900 330" role="img" aria-label="Schema dei tre piani: era degli Isu, ricordi nell'Animus, presente">
@@ -57,22 +57,22 @@ const piani = [
         <h2>{p.nome}</h2>
         {p.k === 'isu' && (
           <>
-            <p>Gli Isu — chiamati anche Prima Civiltà o Coloro Che Vennero Prima — crearono l'Homo sapiens e lo tennero sotto controllo con i Frutti dell'Eden. Poi una tempesta solare di intensità eccezionale provocò un cataclisma che portò gli Isu quasi all'estinzione, mentre gli esseri umani sopravvissero in gran numero.</p>
-            <p class="small muted">Le fonti consultate non datano quell'evento: sulla timeline la sua collocazione è convenzionale.</p>
-            <p>I sopravvissuti passarono il tempo che restava a cercare un modo per impedire che si ripetesse, e lasciarono le Volte: stanze sigillate con dentro messaggi rivolti a chi sarebbe arrivato dopo. Nella saga questo piano non si gioca quasi mai: lo si ascolta, quando Minerva o Giunone parlano a un protagonista che non può rispondere.</p>
+            <p>Gli Isu (chiamati anche Prima Civiltà o Coloro Che Vennero Prima) crearono l'Homo sapiens e lo tennero sotto controllo con i Frutti dell'Eden. Poi una tempesta solare di intensità eccezionale provocò un cataclisma che portò gli Isu quasi all'estinzione, mentre gli esseri umani sopravvissero in gran numero.</p>
+            <p class="small muted">Le fonti che ho consultato non danno una data per quell'evento, quindi sulla timeline la sua posizione è indicativa.</p>
+            <p>I sopravvissuti passarono il tempo che restava a cercare un modo per impedire che si ripetesse, e lasciarono le Volte, stanze sigillate con dentro messaggi per chi sarebbe arrivato dopo. Questo piano non si gioca quasi mai. Di solito lo si ascolta, quando Minerva o Giunone parlano a un protagonista che non può rispondere.</p>
           </>
         )}
         {p.k === 'storico' && (
           <>
-            <p>È il piano dei giochi: quello che si attraversa dentro l'Animus rivivendo i ricordi di un antenato. Va dalla Grecia della guerra del Peloponneso alla Londra vittoriana, e ogni capitolo ne illumina un pezzo.</p>
-            <p>Qui vale la regola della sincronizzazione: si può fare solo ciò che l'antenato ha fatto davvero, perché il ricordo è già scritto.</p>
+            <p>Qui c'è la parte che si gioca, cioè i ricordi di un antenato rivissuti dentro l'Animus. Si va dalla Grecia della guerra del Peloponneso fino agli anni Venti del Novecento.</p>
+            <p>Vale la regola della sincronizzazione. Puoi fare solo quello che l'antenato ha fatto, perché il ricordo è già scritto.</p>
           </>
         )}
         {p.k === 'moderno' && (
           <>
-            <p>È la cornice: chi sta usando l'Animus e perché. Prima Desmond, prigioniero di Abstergo e poi in fuga con la Confraternita; dopo di lui Layla Hassan, che attraversa i tre capitoli di ruolo. In mezzo ci sono i fumetti e il manga, che seguono altri personaggi nello stesso presente.</p>
-            <p>Con Shadows e Black Flag Resynced la cornice cambia forma: al posto di un personaggio moderno con un nome c'è l'Animus Hub, e chi usa l'Animus sei tu. Resynced porta il presente negli anni Novanta del secolo prossimo, con l'intelligenza artificiale EGO e un'Abstergo che ha ormai pacificato la popolazione.</p>
-            <p>È anche il piano in cui la posta si fa concreta: quello che gli Isu hanno lasciato serve a evitare una seconda catastrofe, e sia gli Assassini sia i Templari vogliono arrivarci per primi.</p>
+            <p>Racconta chi sta usando l'Animus e perché. All'inizio è Desmond, prima prigioniero di Abstergo e poi in fuga con la Confraternita. Dopo di lui arriva Layla Hassan, presente nei tre capitoli di ruolo. In mezzo ci sono i fumetti e il manga, che seguono altri personaggi nello stesso presente.</p>
+            <p>Con Shadows e Black Flag Resynced le cose cambiano. Non c'è più un personaggio moderno con un nome ma l'Animus Hub, e chi usa l'Animus sei tu. Resynced porta il presente negli anni Novanta del secolo prossimo, con l'intelligenza artificiale EGO e un'Abstergo che ha ormai pacificato la popolazione.</p>
+            <p>Nel presente si capisce anche perché tutto questo conta. Quello che gli Isu hanno lasciato serve a evitare una seconda catastrofe, e Assassini e Templari vogliono arrivarci per primi.</p>
           </>
         )}
         <p class="small muted">{perFilone(p.k).length} frammenti · {opereDi(p.k).length} opere</p>
@@ -87,9 +87,9 @@ const piani = [
 
   <h2>Dove i tre piani si toccano</h2>
   <ul class="tocchi">
-    <li><strong>I Frutti dell'Eden.</strong> Nascono nell'era degli Isu, passano di mano per secoli nei ricordi storici e nel presente sono ciò che Abstergo cerca.</li>
-    <li><strong>L'effetto osmosi.</strong> Il passato entra letteralmente nella testa di chi lo rivive: è il modo in cui il piano storico agisce su quello moderno.</li>
-    <li><strong>Il 2012.</strong> La data annunciata da Minerva nella Volta è quella in cui si chiude la storia di Desmond: l'unico momento in cui tutti e tre i piani si trovano nello stesso punto.</li>
+    <li><strong>I Frutti dell'Eden.</strong> Li hanno fatti gli Isu, passano di mano per secoli nei ricordi storici e nel presente Abstergo li cerca.</li>
+    <li><strong>L'effetto osmosi.</strong> Chi passa molto tempo nell'Animus acquista le abilità dell'antenato, ma rischia di confondere il proprio presente con il passato di un altro.</li>
+    <li><strong>Il 2012.</strong> È l'anno annunciato da Minerva nella Volta e quello in cui finisce la storia di Desmond. Lì i tre piani si trovano tutti nello stesso punto.</li>
   </ul>
 </Base>
 <style>

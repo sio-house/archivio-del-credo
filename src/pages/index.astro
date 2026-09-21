@@ -10,18 +10,17 @@ const ultime = (await getCollection('notizie')).sort((a, b) => +b.data.data - +a
 const possedute = copie.filter((c) => c.data.stato === 'posseduto').length;
 const data = (d: Date) => d.toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
 
-// l'indice del codice: numero romano, voce, cosa contiene, quanto è grande
+// le sezioni del sito, con una riga di descrizione
 const indice = [
-  { href: '/timeline', nome: 'Timeline', desc: 'Epoca storica ed epoca moderna, in ordine di storia o di uscita.', conta: `${segmenti.length} momenti`, icona: 'linea' },
-  { href: '/percorsi', nome: 'Percorsi', desc: 'Cosa leggere e giocare, in che ordine, e cosa si può saltare.', conta: `${percorsi.length + 2} guide`, icona: 'sentiero', nota: 'se sei nuovo, parti da qui' },
-  { href: '/mappa', nome: 'Mappa', desc: 'I luoghi della saga e i viaggi dei personaggi.', conta: `${luoghi.length} luoghi`, icona: 'bussola' },
-  { href: '/opere', nome: 'Opere', desc: 'Giochi, romanzi, fumetti, manga e corti, con fonti.', conta: `${opere.length} opere`, icona: 'libro' },
-  { href: '/personaggi', nome: 'Personaggi', desc: 'Schede, legami di sangue e alleanze, con il grafo delle relazioni.', conta: `${personaggi.length} schede`, icona: 'volto' },
-  { href: '/storia', nome: 'Storia e finzione', desc: 'Cosa prendono dalla storia i giochi, e cosa inventano.', conta: `${verita.length} confronti`, icona: 'bilancia' },
-  { href: '/glossario', nome: 'Glossario', desc: 'Isu, Animus, Frutti dell\'Eden: le parole del Credo.', conta: `${glossario.length} voci`, icona: 'penna' },
-  { href: '/collezione', nome: 'Collezione', desc: 'Edizioni, stato e note della collezione personale.', conta: `${possedute} pezzi`, icona: 'scaffale' },
+  { href: '/timeline', nome: 'Timeline', desc: 'Tutte le storie sulla linea del tempo, dagli Isu fino al futuro di Black Flag Resynced.', conta: `${segmenti.length} voci`, icona: 'linea' },
+  { href: '/percorsi', nome: 'Percorsi', desc: 'In che ordine giocare e leggere, e cosa si può saltare. Se non sai da dove cominciare, parti da qui.', conta: `${percorsi.length + 2} guide`, icona: 'sentiero' },
+  { href: '/mappa', nome: 'Mappa', desc: 'Dove è ambientata ogni storia, con i viaggi di alcuni personaggi.', conta: `${luoghi.length} luoghi`, icona: 'bussola' },
+  { href: '/opere', nome: 'Opere', desc: 'Una scheda per ogni gioco, romanzo, fumetto, manga e corto.', conta: `${opere.length} opere`, icona: 'libro' },
+  { href: '/personaggi', nome: 'Personaggi', desc: 'Protagonisti e comprimari, con parentele e alleanze.', conta: `${personaggi.length} schede`, icona: 'volto' },
+  { href: '/storia', nome: 'Storia e finzione', desc: 'Gioco per gioco, cosa è successo veramente e cosa è inventato.', conta: `${verita.length} confronti`, icona: 'bilancia' },
+  { href: '/glossario', nome: 'Glossario', desc: 'Isu, Animus, Frutti dell\'Eden e le altre parole che tornano sempre.', conta: `${glossario.length} voci`, icona: 'penna' },
+  { href: '/collezione', nome: 'Collezione', desc: 'Quello che ho sullo scaffale, edizione per edizione.', conta: `${possedute} pezzi`, icona: 'scaffale' },
 ];
-const romani = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 // piccole icone disegnate a tratto, tutte originali
 const icone: Record<string, string> = {
   linea: '<path d="M3 12h18"/><circle cx="7" cy="12" r="2"/><circle cx="14" cy="12" r="2"/><path d="M19 9v6"/>',
@@ -37,10 +36,8 @@ const icone: Record<string, string> = {
 <Base titolo="Home">
   <section class="frontespizio">
     <div class="testo">
-      <p class="eyebrow" data-sync>Portale non ufficiale · codice di consultazione</p>
-      <h1 data-sync>Tutto il Credo, in ordine.</h1>
-      <p class="lead" data-sync>Giochi, romanzi, fumetti, manga e corti di <em>Assassin's Creed</em> messi su un'unica linea del tempo, con i percorsi di lettura e la collezione che li tiene insieme.</p>
-      <p class="mano nota-cerca" data-sync aria-hidden="true">cerca un nome, un anno, un luogo <span class="freccia">↓</span></p>
+      <h1 data-sync>Archivio del Credo</h1>
+      <p class="lead" data-sync>Il mio sito su <em>Assassin's Creed</em>. Ho tutti i giochi e buona parte di libri, fumetti e manga, e volevo un posto dove vedere in che ordine vanno giocati e letti e come si collegano fra loro.</p>
       <div id="search" class="search" data-sync></div>
     </div>
     <div class="sigillo" aria-hidden="true">
@@ -50,27 +47,25 @@ const icone: Record<string, string> = {
 
   <div class="corpo">
     <nav class="indice" aria-labelledby="titolo-indice">
-      <h2 id="titolo-indice" data-sync>Indice</h2>
+      <h2 id="titolo-indice" data-sync>Cosa c'è</h2>
       <ol>
-        {indice.map((v, i) => (
+        {indice.map((v) => (
           <li data-sync>
             <a href={u(v.href)}>
-              <span class="num">{romani[i]}</span>
               <svg class="icona" viewBox="0 0 24 24" aria-hidden="true" set:html={icone[v.icona]} />
               <span class="voce">
                 <span class="riga"><span class="nome">{v.nome}</span><span class="puntini" aria-hidden="true"></span><span class="conta">{v.conta}</span></span>
                 <span class="desc">{v.desc}</span>
               </span>
             </a>
-            {v.nota && <span class="mano nota" aria-hidden="true">↑ {v.nota}</span>}
           </li>
         ))}
       </ol>
-      <p class="small muted appendice" data-sync>Appendici: <a href={u('/personaggi/grafo')}>grafo delle relazioni</a> · <a href={u('/storia/piani')}>i tre piani del racconto</a> · <a href={u('/collezione/mancanti')}>cosa manca alla collezione</a></p>
+      <p class="small muted appendice" data-sync>Altro: <a href={u('/personaggi/grafo')}>grafo delle relazioni</a> · <a href={u('/storia/piani')}>i tre piani del racconto</a> · <a href={u('/collezione/mancanti')}>cosa manca alla collezione</a></p>
     </nav>
 
     <aside class="dispacci" aria-labelledby="titolo-dispacci">
-      <h2 id="titolo-dispacci" data-sync>Dispacci</h2>
+      <h2 id="titolo-dispacci" data-sync>Notizie</h2>
       <ul>
         {ultime.map((n) => (
           <li data-sync>
@@ -79,7 +74,7 @@ const icone: Record<string, string> = {
           </li>
         ))}
       </ul>
-      <p class="small"><a href={u('/notizie')}>Tutti i dispacci →</a></p>
+      <p class="small"><a href={u('/notizie')}>Tutte le notizie →</a></p>
     </aside>
   </div>
 
@@ -91,7 +86,7 @@ const icone: Record<string, string> = {
         const box = document.getElementById('search');
         if (window.PagefindUI && box && !box.dataset.pronto) {
           box.dataset.pronto = '1';
-          new PagefindUI({ element: '#search', showImages: false, translations: { placeholder: 'Cerca opere, personaggi, luoghi…' } });
+          new PagefindUI({ element: '#search', showImages: false, translations: { placeholder: 'Cerca un gioco, un personaggio, un luogo…' } });
         }
       };
       window.addEventListener('DOMContentLoaded', avviaRicerca);
@@ -107,10 +102,6 @@ const icone: Record<string, string> = {
   .frontespizio { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; padding-bottom: 36px; border-bottom: 3px double var(--line); }
   @media (min-width: 860px) { .frontespizio { grid-template-columns: 1.55fr 1fr; gap: 48px; } }
   .lead { font-size: 1.2rem; max-width: 56ch; }
-  .nota-cerca { margin: 22px 0 -6px 4px; rotate: -1.5deg; }
-  .freccia { display: inline-block; }
-  @media (prefers-reduced-motion: no-preference) { .freccia { animation: dondola 2.2s ease-in-out infinite; } }
-  @keyframes dondola { 50% { translate: 0 4px; } }
   .search { margin: 12px 0 0; --pagefind-ui-font: var(--sans); --pagefind-ui-border: var(--line); --pagefind-ui-background: var(--surface); --pagefind-ui-text: var(--ink); --pagefind-ui-primary: var(--accent); --pagefind-ui-border-radius: 3px; }
 
   /* il glifo come un sigillo impresso sulla pagina */
@@ -124,9 +115,8 @@ const icone: Record<string, string> = {
 
   .indice ol { list-style: none; margin: 0; padding: 0; }
   .indice li { position: relative; border-bottom: 1px dashed var(--line); }
-  .indice li a { display: grid; grid-template-columns: 2.6rem 26px 1fr; gap: 14px; align-items: start; padding: 14px 4px; text-decoration: none; transition: background .2s, padding .2s; }
+  .indice li a { display: grid; grid-template-columns: 26px 1fr; gap: 14px; align-items: start; padding: 14px 4px; text-decoration: none; transition: background .2s, padding .2s; }
   .indice li a:hover { color: inherit; background: color-mix(in srgb, var(--surface) 70%, transparent); padding-left: 10px; }
-  .num { font: 500 1.05rem/1.9 var(--serif); color: var(--accent); text-align: right; font-variant-numeric: lining-nums; }
   .icona { width: 24px; height: 24px; margin-top: 5px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; color: var(--muted); transition: color .2s, rotate .3s; }
   .indice li a:hover .icona { color: var(--accent); rotate: -8deg; }
   .riga { display: flex; align-items: baseline; gap: 8px; }
@@ -134,7 +124,6 @@ const icone: Record<string, string> = {
   .puntini { flex: 1; border-bottom: 2px dotted color-mix(in srgb, var(--muted) 55%, transparent); translate: 0 -5px; min-width: 20px; }
   .conta { font: .75rem var(--mono); letter-spacing: .06em; color: var(--muted); white-space: nowrap; }
   .desc { display: block; color: var(--muted); font-size: .98rem; }
-  .indice .nota { display: block; margin: -10px 0 12px 5.6rem; rotate: -1.2deg; font-size: 1.3rem; }
   .appendice { margin-top: 18px; }
 
   .dispacci ul { list-style: none; margin: 0; padding: 0; }
@@ -147,5 +136,4 @@ const icone: Record<string, string> = {
     .dispacci h2 { margin-top: .8em; }
   }
   :global(:root[data-animus='on']) .dispacci, :global(:root[data-animus='on']) .sigillo { rotate: none; }
-  :global(:root[data-animus='on']) .indice .nota, :global(:root[data-animus='on']) .nota-cerca { font-size: .78rem; rotate: none; }
 </style>

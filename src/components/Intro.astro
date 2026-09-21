@@ -21,9 +21,9 @@ import Glifo from './Glifo.astro';
   <div class="intro-cuore">
     <Glifo size="min(38vmin, 220px)" class="intro-glifo" />
     <p class="intro-titolo" data-testo="ARCHIVIO DEL CREDO">ARCHIVIO DEL CREDO</p>
-    <p class="intro-stato"><span id="intro-stato">Ricomposizione della memoria</span> <span id="intro-perc">0%</span></p>
+    <p class="intro-stato"><span id="intro-stato">Sincronizzazione</span> <span id="intro-perc">0%</span></p>
   </div>
-  <p class="intro-salta">clic o tasto per saltare</p>
+  <p class="intro-salta">clicca per saltare</p>
 </div>
 
 <script>
@@ -85,7 +85,7 @@ import Glifo from './Glifo.astro';
       const k = Math.min(1, (performance.now() - t0) / 1700);
       perc.textContent = `${Math.round(100 * (1 - (1 - k) ** 3))}%`;
       if (k < 1) requestAnimationFrame(conta);
-      else { stato.textContent = 'Memoria sincronizzata'; el.classList.add('completo'); }
+      else { stato.textContent = 'Sincronizzato'; el.classList.add('completo'); }
     };
     requestAnimationFrame(conta);
     timer.push(setTimeout(() => chiudi(), 2500) as unknown as number);

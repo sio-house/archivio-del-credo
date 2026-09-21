@@ -5,9 +5,9 @@ import Notizia from '../components/Notizia.astro';
 import { getCollection } from 'astro:content';
 const notizie = (await getCollection('notizie')).sort((a, b) => +b.data.data - +a.data.data);
 ---
-<Base titolo="Notizie" descrizione="Le ultime notizie su Assassin's Creed: giochi in arrivo, remake, serie TV.">
+<Base titolo="Notizie" descrizione="Le ultime notizie su Assassin's Creed, con le fonti.">
   <h1 data-sync>Notizie</h1>
-  <p class="muted">Aggiornamenti sul franchise, sempre con la fonte. C'è anche il <a href={u('/notizie.xml')}>feed RSS</a>. Le voci non confermate sono segnate come indiscrezioni.</p>
+  <p class="muted">Novità sulla serie, ognuna con la sua fonte. Quelle non confermate sono segnate come indiscrezioni. Se ti serve, c'è anche il <a href={u('/notizie.xml')}>feed RSS</a>.</p>
   <div class="lista">{notizie.map((n) => <div id={n.id}><Notizia n={n} /></div>)}</div>
 </Base>
 <style>.lista { display: grid; gap: 16px; max-width: 760px; margin-top: 24px; }</style>
