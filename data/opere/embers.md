@@ -17,4 +17,4 @@ curiosita:
 - 'Introduce Shao Jun, poi protagonista di Chronicles: China e del manga.'
 - In italiano Ezio è doppiato da Diego Baldoin e Shao Jun da Emanuela Pacotto.
 ---
-Corto animato: gli ultimi giorni di Ezio in Toscana e l'arrivo di Shao Jun. Uscito insieme ad alcune edizioni di Revelations.
+Corto animato sugli ultimi giorni di Ezio in Toscana e sull'arrivo di Shao Jun. Uscito insieme ad alcune edizioni di Revelations.

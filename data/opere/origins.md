@@ -21,4 +21,4 @@ curiosita:
 - Ha venduto oltre dieci milioni di copie.
 - Gli Occulti nascono ad Alessandria d'Egitto nel 47 a.C., dopo la sconfitta dell'Ordine degli Antichi.
 ---
-Bayek e Aya nell'Egitto tolemaico: la nascita degli Occulti.
+Bayek e Aya nell'Egitto tolemaico e la nascita degli Occulti.

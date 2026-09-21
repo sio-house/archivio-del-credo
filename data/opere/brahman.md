@@ -15,7 +15,7 @@ fonti:
 - https://www.accesstheanimus.com/I_fumetti_di_AssassinsCreed_Brahman.html
 curiosita:
 - Il protagonista moderno, Jot Soora, è un programmatore di MysoreTech che scopre codici nascosti in un nuovo dispositivo.
-- È firmato dagli stessi disegnatori di The Fall e The Chain, con i testi di Brenden Fletcher.
-- 'Sulla data le fonti non concordano: 2013 secondo alcune, 2014 secondo Access the Animus.'
+- Lo firmano gli stessi disegnatori di The Fall e The Chain, con i testi di Brenden Fletcher.
+- 'Sulla data le fonti non concordano (2013 per alcune, 2014 per Access the Animus).'
 ---
 Arbaaz Mir nell'India britannica del XIX secolo e Jot Soora nel presente. In Italia in due albi.

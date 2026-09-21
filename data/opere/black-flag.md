@@ -24,7 +24,7 @@ verificato: true
 fonti:
 - https://it.wikipedia.org/wiki/Assassin%27s_Creed_IV:_Black_Flag
 curiosita:
-- È il primo capitolo numerato ad avere anche un sottotitolo.
+- Primo capitolo numerato ad avere anche un sottotitolo.
 - Nel 2013 Ubisoft finanziò l'esumazione del corsaro Amaro Pargo per ricostruirne il volto nel gioco.
 - Ha superato i 15 milioni di copie vendute entro il 2020.
 - Nel 2026 è uscito il remake Black Flag Resynced.

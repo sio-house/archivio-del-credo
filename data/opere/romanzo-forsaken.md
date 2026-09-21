@@ -10,7 +10,7 @@ verificato: false
 fonti:
 - https://it.wikipedia.org/wiki/Assassin%27s_Creed:_Forsaken
 curiosita:
-- 'È scritto come il diario di Haytham: gli eventi di AC III visti dal lato dei Templari.'
+- 'Scritto come il diario di Haytham, racconta gli eventi di AC III dal lato dei Templari.'
 - In Italia è uscito nel 2013 per Sperling & Kupfer.
 ---
-Il diario di Haytham Kenway: AC III visto dalla parte dei Templari.
+Il diario di Haytham Kenway, con AC III visto dalla parte dei Templari.

@@ -16,4 +16,4 @@ fonti:
 verificato: false
 ---
 
-Il seguito che tira le fila delle due serie Titan precedenti.
+Seguito che chiude le due serie Titan precedenti.

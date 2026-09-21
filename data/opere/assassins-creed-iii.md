@@ -17,7 +17,7 @@ verificato: true
 fonti:
 - https://it.wikipedia.org/wiki/Assassin%27s_Creed_III
 curiosita:
-- 'Fino ad allora è stato il capitolo con lo sviluppo più lungo: oltre due anni e mezzo.'
+- 'Fino ad allora nessun capitolo aveva avuto uno sviluppo così lungo, oltre due anni e mezzo.'
 - Ha venduto più di 3,5 milioni di copie nella prima settimana.
 - Il nuovo motore AnvilNext permette battaglie con fino a duemila soldati in scena.
 - Le prime sequenze si giocano con Haytham, e solo dopo si scopre che è un Templare.

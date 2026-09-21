@@ -22,6 +22,6 @@ curiosita:
 - Pensato per i 15 anni della serie, dura circa 15-20 ore, come i primi capitoli.
 - Baghdad è divisa in quattro distretti, tra cui quello con la Casa della Sapienza.
 - Su iOS è arrivato il 6 giugno 2024.
-- 'È ambientato a Baghdad nell''861: undici anni prima di Valhalla e nove secoli dopo Origins.'
+- 'Ambientato a Baghdad nell''861, undici anni prima di Valhalla e nove secoli dopo Origins.'
 ---
 Basim a Baghdad, prima di Valhalla.

@@ -15,4 +15,4 @@ curiosita:
 - Oliver Bowden è lo pseudonimo dello storico inglese Anton Gill.
 - Ripercorre il primo gioco e Bloodlines, fino alla vecchiaia di Altaïr.
 ---
-La vita di Altaïr, raccontata da Niccolò Polo. Si intreccia con Revelations.
+La vita di Altaïr, raccontata da Niccolò Polo. Si collega a Revelations.

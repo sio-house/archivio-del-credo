@@ -15,7 +15,7 @@ fonti:
 curiosita:
 - In Europa è uscito il 22 aprile 2015, un giorno dopo il Nord America.
 - Lo stile cupo e tendente al rosso si ispira agli acquerelli cinesi del XVI secolo.
-- È il primo gioco della serie realizzato con Unreal Engine 3.
-- 'Tra i luoghi: le grotte di Maijishan, Macao, la Città Proibita e la Grande Muraglia.'
+- Primo gioco della serie fatto con Unreal Engine 3.
+- 'Tra i luoghi ci sono le grotte di Maijishan, Macao, la Città Proibita e la Grande Muraglia.'
 ---
-Action 2.5D: Shao Jun, ultima Assassina cinese, contro le Otto Tigri.
+Action 2.5D con Shao Jun, ultima Assassina cinese, contro le Otto Tigri.

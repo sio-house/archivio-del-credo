@@ -26,4 +26,4 @@ curiosita:
 - Premiato come miglior gioco d'azione/avventura del 2009 agli Spike Video Game Awards e ai Golden Joystick Awards.
 - Ha venduto oltre nove milioni di copie.
 ---
-Il primo capitolo di Ezio Auditore: dalla Firenze del 1476, con la vendetta per la famiglia tradita, fino al confronto con Rodrigo Borgia nella Cappella Sistina.
+Primo capitolo con Ezio Auditore, dalla Firenze del 1476 e la vendetta per la famiglia tradita fino allo scontro con Rodrigo Borgia nella Cappella Sistina.

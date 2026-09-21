@@ -21,4 +21,4 @@ curiosita:
 - La rivista giapponese Famitsu gli diede 37/40, un voto raro per un gioco occidentale.
 - La versione PC, uscita l'11 aprile 2008, aggiunse nuovi tipi di missioni secondarie.
 ---
-Il primo capitolo: Altaïr in Terra Santa durante la Terza Crociata, e Desmond prigioniero di Abstergo.
+Il primo capitolo, con Altaïr in Terra Santa durante la Terza Crociata e Desmond prigioniero di Abstergo.
