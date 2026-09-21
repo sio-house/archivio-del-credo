@@ -9,7 +9,7 @@ inventati:
   - "Eivor e il clan del Corvo."
   - "L'insediamento di Ravensthorpe."
 licenze:
-  - "Le saghe nordiche sono già di per sé un misto di storia e leggenda: il gioco vi aggiunge un terzo livello, quello degli Isu."
+  - "Le saghe nordiche mescolano già storia e leggenda, e il gioco ci aggiunge un terzo livello, quello degli Isu."
   - "Il gioco riunisce in pochi anni campagne che durarono decenni."
 fonti:
   - https://it.wikipedia.org/wiki/Assassin%27s_Creed:_Valhalla

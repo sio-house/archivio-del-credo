@@ -8,7 +8,7 @@ inventati:
   - "Shay Cormac e la nave Morrigan."
   - "L'artefatto Isu come causa del disastro."
 licenze:
-  - "Il gioco attribuisce a un Frutto dell'Eden un terremoto che fu, semplicemente, un terremoto: è la licenza più grossa della serie su un evento reale."
+  - "Il gioco attribuisce a un Frutto dell'Eden un terremoto naturale. Fra le licenze della serie su eventi reali è la più grossa."
 fonti:
   - https://it.wikipedia.org/wiki/Terremoto_di_Lisbona_del_1755
 ---

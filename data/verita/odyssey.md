@@ -11,7 +11,7 @@ inventati:
   - "Le creature mitologiche, spiegate nel gioco con la tecnologia Isu."
 licenze:
   - "Un solo mercenario incontra quasi tutte le figure del secolo."
-  - "Il racconto antico della peste viene da Tucidide, che la visse: il gioco ne riprende l'atmosfera più che i dettagli."
+  - "Il racconto antico della peste è di Tucidide, che la visse; il gioco ne riprende più l'atmosfera che i dettagli."
 fonti:
   - https://it.wikipedia.org/wiki/Peste_di_Atene
 ---

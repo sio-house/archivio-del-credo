@@ -10,9 +10,9 @@ inventati:
   - "La Mela dell'Eden nelle mani di Cesare."
 licenze:
   - "L'assedio di Monteriggioni da parte di Cesare non è mai avvenuto."
-  - "Nel gioco Cesare muore per mano di Ezio: le cronache parlano di un agguato in cui fu trovato con ventitré ferite di picca."
+  - "Nel gioco Cesare muore per mano di Ezio, mentre le cronache parlano di un agguato in cui fu trovato con ventitré ferite di picca."
 fonti:
   - https://it.wikipedia.org/wiki/Cesare_Borgia
 ---
 
-Roma all'inizio del Cinquecento, mentre Cesare Borgia costruisce con le armi e il nome del padre un dominio personale sull'Italia centrale.
+Roma all'inizio del Cinquecento, mentre Cesare Borgia usa le armi e il nome del padre per costruirsi un dominio personale sull'Italia centrale.

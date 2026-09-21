@@ -14,4 +14,4 @@ fonti:
   - https://it.wikipedia.org/wiki/Assassin%27s_Creed:_Syndicate
 ---
 
-Londra nel 1868, in piena rivoluzione industriale: fabbriche, lavoro minorile, bande di strada e una città che cresce più in fretta di quanto riesca a governarsi.
+Londra nel 1868, in piena rivoluzione industriale, fra fabbriche, lavoro minorile e bande di strada, in una città che cresce più in fretta di quanto riesca a governarsi.

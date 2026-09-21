@@ -10,7 +10,7 @@ inventati:
   - "La regia templare dietro le fasi della Rivoluzione."
 licenze:
   - "La Rivoluzione diventa il risultato di una cospirazione, mentre fu un processo collettivo con cause sociali ed economiche profonde."
-  - "Il gioco sceglie di far sparare ad Arno: sull'episodio storico le fonti non concordano."
+  - "Nel gioco a sparare è Arno; sull'episodio storico le fonti non concordano."
 fonti:
   - https://it.wikipedia.org/wiki/Presa_della_Bastiglia
 ---

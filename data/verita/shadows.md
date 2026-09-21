@@ -10,7 +10,7 @@ inventati:
   - "Naoe, presentata come figlia di Fujibayashi Nagato."
   - "La rete templare dietro le guerre del periodo."
 licenze:
-  - "La sorte di Yasuke dopo Honnō-ji è ignota: fu consegnato ai gesuiti e le tracce si perdono. Il gioco riempie quel vuoto."
+  - "Non si sa che fine abbia fatto Yasuke dopo Honnō-ji. Fu consegnato ai gesuiti, poi le tracce si perdono, e il gioco inventa il seguito."
   - "Alcune campagne sono avvicinate per farle rientrare nell'arco della storia."
 fonti:
   - https://it.wikipedia.org/wiki/Yasuke

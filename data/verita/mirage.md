@@ -3,7 +3,7 @@ opera: mirage
 reali:
   - "La Città Rotonda, il nucleo di Baghdad fondato nel 762 dal califfo al-Mansur."
   - "La Casa della Sapienza e l'attività di traduzione e studio che rese Baghdad un centro scientifico."
-  - "Alamut, la fortezza che sarà il cuore dei Nizariti."
+  - "Alamut, la fortezza che diventerà il centro dei Nizariti."
 inventati:
   - "Basim come lo conosciamo e la Confraternita degli Occulti in quella forma."
 licenze:
