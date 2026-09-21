@@ -1,8 +1,8 @@
 # Notizie datate. stato: ufficiale | indiscrezione. Aggiorna o aggiungi in cima.
 - id: presente-2090
   data: 2026-07-20
-  titolo: Il presente della saga si sposta nel 2090
-  testo: "Black Flag Resynced elimina le sezioni moderne dell'originale, ambientate in Abstergo Entertainment nel 2013, e porta la cornice del presente negli anni Novanta del secolo prossimo: un utente senza nome dell'Animus, un'intelligenza artificiale chiamata EGO e una fazione di Assassini, i Watchers, che usa i ricordi di Edward come propaganda. Le fonti non concordano sull'anno: 2095 secondo alcune, 2096 secondo altre. La struttura riprende l'Animus Hub introdotto con Shadows."
+  titolo: Il presente della saga si sposta negli anni 2090
+  testo: "Black Flag Resynced elimina le sezioni moderne dell'originale, ambientate in Abstergo Entertainment nel 2013, e sposta la cornice del presente negli anni Novanta del secolo prossimo. Ci sono un utente senza nome dell'Animus, un'intelligenza artificiale chiamata EGO e una fazione di Assassini, i Watchers, che usa i ricordi di Edward come propaganda. Le fonti non concordano sull'anno: 2095 secondo alcune, 2096 secondo altre. La struttura riprende l'Animus Hub introdotto con Shadows."
   opere: [black-flag-resynced, shadows]
   fonti:
     - https://www.videogameschronicle.com/news/assassins-creed-black-flag-resynced-creative-director-explains-why-the-modern-day-scenes-are-gone/
@@ -16,15 +16,15 @@
     - https://www.everyeye.it/notizie/assassin-s-creed-sviluppo-giochi-uscita-black-flag-resynced-889791.html
 - id: black-flag-resynced-uscito
   data: 2026-07-09
-  titolo: È uscito Black Flag Resynced
-  testo: "Il remake di Black Flag è disponibile su PS5, Xbox Series X|S e PC. È costruito sul motore di Shadows, aggiunge missioni con Matt Ryan (la voce di Edward), nuove canzoni marinaresche e un sistema di furtività rivisto. Dopo l'installazione si può giocare offline."
+  titolo: Black Flag Resynced è uscito
+  testo: "Il remake di Black Flag è disponibile su PS5, Xbox Series X|S e PC. Usa il motore di Shadows e aggiunge missioni con Matt Ryan (la voce di Edward), nuove canzoni marinaresche e un sistema di furtività rivisto. Dopo l'installazione si può giocare offline."
   opere: [black-flag-resynced, black-flag]
   fonti:
     - https://news.ubisoft.com/en-us/article/4WSO7FBW76v05UxZSqG5L8/assassins-creed-black-flag-resynced-out-july-9-everything-you-need-to-know
 - id: serie-netflix-riprese
   data: 2026-03-20
   titolo: La serie Netflix si gira a Roma
-  testo: "La serie live action di Netflix è ambientata nell'antica Roma, nei primi anni del regno di Nerone: un'epoca mai toccata dalla saga. Le riprese sono iniziate a Roma il 9 marzo 2026. Guidano il progetto Roberto Patino e David Wiener; nel cast Toby Wallace, Lola Petticrew, Claes Bang e Noomi Rapace. La data di uscita non è ancora stata annunciata."
+  testo: "La serie live action di Netflix è ambientata nell'antica Roma, nei primi anni del regno di Nerone, un'epoca che la saga non aveva mai toccato. Le riprese sono iniziate a Roma il 9 marzo 2026. Guidano il progetto Roberto Patino e David Wiener; nel cast Toby Wallace, Lola Petticrew, Claes Bang e Noomi Rapace. La data di uscita non è ancora stata annunciata."
   fonti:
     - https://www.whats-on-netflix.com/news/assassins-creed-netflix-live-action-series-everything-we-know-so-far-03-2026/
 - id: unity-60fps

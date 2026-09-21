@@ -392,7 +392,7 @@
   inizio: -75000
   fine: -75000
   approssimato: true
-  nota: "Le fonti consultate non datano l'evento: la collocazione sulla linea del tempo è convenzionale."
+  nota: "Le fonti consultate non datano l'evento, quindi la posizione sulla linea del tempo è convenzionale."
 - id: isu-volte
   opera: brotherhood
   titolo: "Le Volte costruite per la seconda catastrofe"
@@ -400,7 +400,7 @@
   inizio: -75000
   fine: -75000
   approssimato: true
-  nota: "Le fonti consultate non datano l'evento: la collocazione sulla linea del tempo è convenzionale."
+  nota: "Le fonti consultate non datano l'evento, quindi la posizione sulla linea del tempo è convenzionale."
 - id: isu-grande-tempio
   opera: assassins-creed-iii
   titolo: "Il messaggio lasciato nel Grande Tempio"
@@ -408,7 +408,7 @@
   inizio: -75000
   fine: -75000
   approssimato: true
-  nota: "Le fonti consultate non datano l'evento: la collocazione sulla linea del tempo è convenzionale."
+  nota: "Le fonti consultate non datano l'evento, quindi la posizione sulla linea del tempo è convenzionale."
 - id: isu-valhalla
   opera: valhalla
   titolo: "I ricordi dell'era degli Isu"
@@ -416,7 +416,7 @@
   inizio: -75000
   fine: -75000
   approssimato: true
-  nota: "Le fonti consultate non datano l'evento: la collocazione sulla linea del tempo è convenzionale."
+  nota: "Le fonti consultate non datano l'evento, quindi la posizione sulla linea del tempo è convenzionale."
 
 # --- la cornice moderna di Black Flag Resynced ---
 - id: resynced-ego
@@ -446,7 +446,7 @@
   approssimato: true
   luoghi: [Salem]
   personaggi: [charlotte-de-la-cruz]
-  nota: "Le fonti indicano solo «la Salem del Seicento»: l'anno è quello dei processi alle streghe."
+  nota: "Le fonti indicano solo «la Salem del Seicento»; come anno si usa quello dei processi alle streghe."
 - id: trial-charlotte
   opera: assassins-trial-by-fire
   titolo: "Charlotte de la Cruz entra nella Confraternita"
