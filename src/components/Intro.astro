@@ -1,0 +1,141 @@
+---
+/**
+ * Intro "Animus": il glifo si ricompone dai frammenti, il titolo si decifra,
+ * poi l'immagine si desincronizza e lascia il posto al sito.
+ * Una volta per sessione; si salta con un clic o un tasto;
+ * non parte se il sistema chiede meno animazioni.
+ */
+import Glifo from './Glifo.astro';
+---
+<script is:inline>
+  (function () {
+    try {
+      if (sessionStorage.getItem('intro-vista')) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      document.documentElement.dataset.intro = '1';
+    } catch {}
+  })();
+</script>
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-griglia"></div>
+  <div class="intro-cuore">
+    <Glifo size="min(38vmin, 220px)" class="intro-glifo" />
+    <p class="intro-titolo" data-testo="ARCHIVIO DEL CREDO">ARCHIVIO DEL CREDO</p>
+    <p class="intro-stato"><span id="intro-stato">Ricomposizione della memoria</span> <span id="intro-perc">0%</span></p>
+  </div>
+  <p class="intro-salta">clic o tasto per saltare</p>
+</div>
+
+<script>
+  const html = document.documentElement;
+  const fine = () => document.dispatchEvent(new Event('archivio:intro-fine'));
+
+  function avvia() {
+    const el = document.getElementById('intro');
+    if (!el || html.dataset.intro !== '1' || el.dataset.partito) return;
+    el.dataset.partito = '1';
+    const rnd = (a: number, b: number) => a + Math.random() * (b - a);
+    const timer: number[] = [];
+    let chiuso = false;
+
+    const chiudi = (rapido = false) => {
+      if (chiuso) return;
+      chiuso = true;
+      timer.forEach(clearTimeout);
+      try { sessionStorage.setItem('intro-vista', '1'); } catch {}
+      el.classList.add(rapido ? 'via-rapido' : 'desync');
+      setTimeout(() => {
+        delete html.dataset.intro;
+        el.remove();
+        fine();
+      }, rapido ? 260 : 900);
+    };
+    addEventListener('keydown', () => chiudi(true), { once: true });
+    el.addEventListener('pointerdown', () => chiudi(true), { once: true });
+
+    // 1. i frammenti arrivano da punti diversi e si incastrano
+    const pezzi = el.querySelectorAll<SVGElement>('[data-frammento]');
+    pezzi.forEach((p, i) => {
+      const lontano = p.tagName === 'circle' ? 0 : 1;
+      p.animate([
+        { transform: `translate(${rnd(-90, 90) * lontano}px, ${rnd(-90, 90) * lontano}px) rotate(${rnd(-120, 120) * lontano}deg) scale(${lontano ? rnd(.4, 1.6) : 0})`, opacity: 0 },
+        { opacity: 1, offset: .35 },
+        { transform: 'none', opacity: 1 },
+      ], { duration: rnd(650, 1000), delay: 120 + i * 45 + rnd(0, 140), easing: 'cubic-bezier(.2,.8,.15,1)', fill: 'backwards' });
+    });
+
+    // 2. il titolo si decifra lettera per lettera
+    const titolo = el.querySelector<HTMLElement>('.intro-titolo')!;
+    const vero = titolo.dataset.testo!;
+    const segni = 'ABCDEFGHIKLMNOPRSTUVZ0123456789/\\<>#';
+    let passo = 0;
+    const decifra = () => {
+      passo++;
+      titolo.textContent = [...vero].map((c, i) => (c === ' ' || i < passo - 6 ? c : segni[(Math.random() * segni.length) | 0])).join('');
+      if (passo - 6 < vero.length) timer.push(setTimeout(decifra, 38) as unknown as number);
+    };
+    timer.push(setTimeout(decifra, 700) as unknown as number);
+
+    // 3. la percentuale sale, poi "sincronizzato" e desincronizzazione
+    const perc = document.getElementById('intro-perc')!;
+    const stato = document.getElementById('intro-stato')!;
+    const t0 = performance.now();
+    const conta = () => {
+      if (chiuso) return;
+      const k = Math.min(1, (performance.now() - t0) / 1700);
+      perc.textContent = `${Math.round(100 * (1 - (1 - k) ** 3))}%`;
+      if (k < 1) requestAnimationFrame(conta);
+      else { stato.textContent = 'Memoria sincronizzata'; el.classList.add('completo'); }
+    };
+    requestAnimationFrame(conta);
+    timer.push(setTimeout(() => chiudi(), 2500) as unknown as number);
+  }
+
+  avvia();
+  document.addEventListener('astro:page-load', avvia);
+</script>
+
+<style is:global>
+  .intro { display: none; }
+  html[data-intro] body { overflow: hidden; }
+  html[data-intro] .intro {
+    display: grid; place-items: center; position: fixed; inset: 0; z-index: 1000;
+    background: radial-gradient(ellipse at 50% 45%, #0f1c2b 0%, #070b11 70%);
+    color: #cfe6ff; cursor: pointer; user-select: none;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+  .intro-griglia {
+    position: absolute; inset: 0; opacity: .5;
+    background:
+      linear-gradient(transparent 96%, rgb(120 190 255 / .10) 96%) 0 0 / 100% 32px,
+      linear-gradient(90deg, transparent 96%, rgb(120 190 255 / .10) 96%) 0 0 / 32px 100%;
+    mask-image: radial-gradient(circle at 50% 45%, #000, transparent 70%);
+    animation: intro-griglia 2.6s ease-out both;
+  }
+  @keyframes intro-griglia { from { opacity: 0; transform: scale(1.15); } }
+  .intro-cuore { position: relative; display: grid; justify-items: center; gap: 18px; text-align: center; }
+  .intro-glifo { color: #d8ecff; filter: drop-shadow(0 0 14px rgb(90 170 255 / .55)); overflow: visible; }
+  .intro-glifo [data-frammento] { transform-box: fill-box; transform-origin: center; }
+  .intro-glifo .glifo-gemma { color: #6fb8ff; }
+  .intro.completo .intro-glifo { animation: intro-lampo .5s ease-out; }
+  .intro.completo .intro-glifo .glifo-gemma { color: #ff6a55; transition: color .35s; }
+  @keyframes intro-lampo { 30% { filter: drop-shadow(0 0 30px rgb(200 230 255 / .95)) brightness(1.6); } }
+  .intro-titolo { margin: 0; font-size: clamp(.95rem, 2.6vw, 1.25rem); letter-spacing: .38em; padding-left: .38em; color: #eaf4ff; }
+  .intro-stato { margin: 0; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: #6f93b8; }
+  #intro-perc { color: #9fd0ff; display: inline-block; min-width: 4ch; text-align: right; }
+  .intro-salta { position: absolute; bottom: 24px; margin: 0; font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: #4d6a88; }
+
+  /* desincronizzazione: l'immagine si spacca in bande e svanisce */
+  .intro.desync .intro-cuore { animation: intro-strappo .55s steps(7) both; }
+  .intro.desync { animation: intro-via .5s .4s ease-in both; }
+  @keyframes intro-strappo {
+    0%   { clip-path: inset(0); transform: none; }
+    20%  { clip-path: inset(10% 0 55% 0); transform: translateX(-14px); }
+    40%  { clip-path: inset(48% 0 12% 0); transform: translateX(18px); filter: hue-rotate(40deg); }
+    60%  { clip-path: inset(25% 0 40% 0); transform: translateX(-8px); }
+    80%  { clip-path: inset(62% 0 30% 0); transform: translateX(24px); opacity: .6; }
+    100% { clip-path: inset(50% 0 50% 0); opacity: 0; }
+  }
+  @keyframes intro-via { to { opacity: 0; clip-path: inset(0 0 0 0 round 0); transform: scale(1.03); } }
+  .intro.via-rapido { transition: opacity .25s; opacity: 0; }
+</style>

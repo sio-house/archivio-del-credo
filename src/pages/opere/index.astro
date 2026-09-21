@@ -11,7 +11,7 @@ const { perUscita } = await dati();
     {perUscita.map((o) => (
       <a class="card" href={u(`/opere/${o.id}`)}>
         <p class="eyebrow">{TIPI[o.data.tipo]} · {anno(o.data.uscita)}</p>
-        <h3>{o.data.titolo}</h3>
+        <h2>{o.data.titolo}</h2>
         <p class="small muted">{o.data.studio ?? o.data.autori.join(', ')}</p>
         {!o.data.verificato && <span class="tag warn">da verificare</span>}
       </a>

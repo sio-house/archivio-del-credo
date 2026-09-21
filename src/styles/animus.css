@@ -15,7 +15,7 @@
 }
 
 /* --- 2. Scansione che attraversa i titoli di pagina --- */
-h1 { position: relative; overflow: hidden; padding-bottom: .06em; }
+h1 { position: relative; overflow: hidden; }
 h1.sync-in::after {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(100deg, transparent 40%, color-mix(in srgb, var(--accent) 45%, transparent) 50%, transparent 60%);

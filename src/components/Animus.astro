@@ -54,7 +54,12 @@
     el.forEach((e) => io.observe(e));
   };
 
-  const avvia = () => { sincronizza(); rivela(); };
+  const avvia = () => {
+    sincronizza();
+    // se c'è l'intro, gli elementi si rivelano solo quando è finita
+    if (html.dataset.intro) { document.addEventListener('archivio:intro-fine', rivela, { once: true }); return; }
+    rivela();
+  };
   avvia();
   document.addEventListener('astro:page-load', avvia);
 </script>

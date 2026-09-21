@@ -12,7 +12,7 @@ const ord = [...personaggi].sort((a, b) => (a.data.nascita ?? a.data.morte ?? 99
     {ord.map((p) => (
       <a class="card" href={u(`/personaggi/${p.id}`)} data-sync>
         <p class="eyebrow">{p.data.affiliazione}{p.data.storico && ' · storico'}</p>
-        <h3>{p.data.nome}</h3>
+        <h2>{p.data.nome}</h2>
         {p.data.sommario && <p class="small muted">{p.data.sommario}</p>}
         <p class="small tenue">{p.data.epoca ?? `${p.data.nascita ? annoTesto(p.data.nascita) : '?'}–${p.data.morte ? annoTesto(p.data.morte) : '?'}`}</p>
       </a>
@@ -20,5 +20,5 @@ const ord = [...personaggi].sort((a, b) => (a.data.nascita ?? a.data.morte ?? 99
   </div>
 </Base>
 <style>
-  .tenue { color: var(--muted); opacity: .8; margin-bottom: 0; }
+  .tenue { color: var(--muted); margin-bottom: 0; }
 </style>
