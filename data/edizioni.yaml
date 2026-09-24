@@ -42,3 +42,7 @@
 - { id: blade-of-shao-jun-vol2, opera: blade-of-shao-jun, nome: "Vol. 2", lingua: it, editore: "Planet Manga", formato: fisico }
 - { id: blade-of-shao-jun-vol3, opera: blade-of-shao-jun, nome: "Vol. 3", lingua: it, editore: "Planet Manga", formato: fisico }
 - { id: blade-of-shao-jun-vol4, opera: blade-of-shao-jun, nome: "Vol. 4", lingua: it, editore: "Planet Manga", formato: fisico }
+- { id: romanzo-heresy-it, opera: romanzo-heresy, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer", formato: fisico, anno: 2017, isbn: "9788820062323" }
+- { id: romanzo-geirmund-it, opera: romanzo-geirmund, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer", formato: fisico, anno: 2020, isbn: "9788820070342" }
+- { id: romanzo-tomba-dei-khan-it, opera: romanzo-tomba-dei-khan, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer", formato: fisico, anno: 2018, isbn: "9788820065799" }
+- { id: romanzo-destino-degli-dei-it, opera: romanzo-destino-degli-dei, nome: "Edizione italiana", lingua: it, editore: "Sperling & Kupfer", formato: fisico, anno: 2018, isbn: "9788820061333" }

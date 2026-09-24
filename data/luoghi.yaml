@@ -51,3 +51,6 @@
 - { id: Delfi, lat: 38.48, lon: 22.5 }
 - { id: Salem, lat: 42.52, lon: -70.90 }
 - { id: Shanghai, lat: 31.23, lon: 121.47 }
+- { id: Francia, lat: 47.0, lon: 2.5 }
+- { id: Scandinavia, lat: 60.0, lon: 12.0 }
+- { id: Africa occidentale, lat: 13.5, lon: -4.0 }

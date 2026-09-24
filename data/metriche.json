@@ -1,11 +1,11 @@
 {
-  "misurato": "2026-09-21",
-  "pagine": 123,
-  "pesoTotaleMB": 7.3,
+  "misurato": "2026-09-24",
+  "pagine": 128,
+  "pesoTotaleMB": 7.6,
   "htmlMedioKB": 17.4,
   "paginaPiuPesante": {
     "f": "/mappa/",
-    "kb": 228
+    "kb": 229.2
   },
   "jsKB": 21.5,
   "cssKB": 76.1

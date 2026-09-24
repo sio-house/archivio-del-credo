@@ -481,3 +481,46 @@
   approssimato: true
   luoghi: [Londra]
   nota: "Le fonti indicano solo «Londra vittoriana»."
+- id: heresy-giovanna-darco
+  opera: romanzo-heresy
+  titolo: "Gabriel Laxart e Giovanna d'Arco"
+  filone: storico
+  inizio: 1429
+  fine: 1431
+  approssimato: true
+  luoghi: ["Francia"]
+  nota: "Le fonti sul romanzo parlano dell'epoca di Giovanna d'Arco senza dare anni precisi."
+- id: geirmund-inghilterra
+  opera: romanzo-geirmund
+  titolo: "Geirmund nell'esercito di Guthrum"
+  filone: storico
+  inizio: 850
+  fine: 878
+  approssimato: true
+  luoghi: ["Norvegia", "Inghilterra"]
+  nota: "Le fonti indicano genericamente l'Inghilterra della metà del IX secolo e l'esercito di Guthrum."
+- id: last-descendants-newyork
+  opera: romanzo-last-descendants
+  titolo: "New York, 1863"
+  filone: storico
+  inizio: 1863
+  fine: 1863
+  luoghi: ["New York"]
+- id: tomba-dei-khan-cina
+  opera: romanzo-tomba-dei-khan
+  titolo: "L'assedio mongolo in Cina"
+  filone: storico
+  inizio: 1259
+  fine: 1259
+  approssimato: true
+  luoghi: ["Cina", "Africa occidentale"]
+  nota: "Oltre alla Cina dei Song, una parte dei ricordi si svolge in Africa occidentale."
+- id: destino-degli-dei-scandinavia
+  opera: romanzo-destino-degli-dei
+  titolo: "La Scandinavia dei vichinghi"
+  filone: storico
+  inizio: 970
+  fine: 1000
+  approssimato: true
+  luoghi: ["Scandinavia"]
+  nota: "Le fonti parlano della fine del X secolo."
