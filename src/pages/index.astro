@@ -1,13 +1,20 @@
 ---
 import { u } from '../lib/url';
 import Base from '../layouts/Base.astro';
-import Glifo from '../components/Glifo.astro';
-import { dati } from '../lib/data';
+import Scaffale from '../components/Scaffale.astro';
+import { dati, TIPI } from '../lib/data';
 import { getCollection } from 'astro:content';
-const { opere, segmenti, personaggi, copie, percorsi, glossario, verita } = await dati();
+const { opere, segmenti, personaggi, copie, percorsi, glossario, verita, idx, perUscita, perCronologia } = await dati();
 const luoghi = await getCollection('luoghi');
 const ultime = (await getCollection('notizie')).sort((a, b) => +b.data.data - +a.data.data).slice(0, 4);
-const possedute = copie.filter((c) => c.data.stato === 'posseduto').length;
+const mie = copie.filter((c) => c.data.stato === 'posseduto');
+const possedute = mie.length;
+const opereMie = new Set(mie.map((c) => idx.edizioni.get(c.data.edizione.id)!.data.opera.id));
+// ordine di storia: la prima epoca raccontata da ogni opera; senza epoche, in coda per uscita
+const primaVolta = new Map<string, number>();
+perCronologia.forEach((s, i) => { if (!primaVolta.has(s.data.opera.id)) primaVolta.set(s.data.opera.id, i); });
+const perStoria = [...perUscita].sort((a, b) => (primaVolta.get(a.id) ?? 1e9) - (primaVolta.get(b.id) ?? 1e9));
+const tipiPresenti = [...new Set(opere.map((o) => o.data.tipo))];
 const data = (d: Date) => d.toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
 
 // le sezioni del sito, con una riga di descrizione
@@ -34,23 +41,37 @@ const icone: Record<string, string> = {
 };
 ---
 <Base titolo="Home">
-  <section class="frontespizio">
-    <div class="testo">
-      <h1 data-sync>Archivio del Credo</h1>
-      <p class="lead" data-sync>Il mio sito su <em>Assassin's Creed</em>. Ho tutti i giochi e buona parte di libri, fumetti e manga, e volevo un posto dove vedere in che ordine vanno giocati e letti e come si collegano fra loro.</p>
-      <div id="search" class="search" data-sync></div>
+  <section class="testata">
+    <div>
+      <h1>Archivio del Credo</h1>
+      <p class="lead">Il mio sito su <em>Assassin's Creed</em>. Ho tutti i giochi e buona parte di libri, fumetti e manga, e volevo un posto dove vedere in che ordine vanno giocati e letti e come si collegano fra loro.</p>
     </div>
-    <div class="sigillo" aria-hidden="true">
-      <Glifo size="100%" />
+    <div id="search" class="search"></div>
+  </section>
+
+  <section class="sullo-scaffale" aria-labelledby="titolo-scaffale">
+    <div class="sopra">
+      <h2 id="titolo-scaffale">Sullo scaffale</h2>
+      <div class="chips" role="group" aria-label="Ordine dello scaffale">
+        <button class="chip" type="button" data-ordine="uscita" aria-pressed="true">In ordine di uscita</button>
+        <button class="chip" type="button" data-ordine="storia" aria-pressed="false">In ordine di storia</button>
+      </div>
     </div>
+    <p class="conto">Ho {opereMie.size} delle {opere.length} opere uscite finora, in {possedute} pezzi. Tocca un dorso per aprire la sua scheda.</p>
+    <Scaffale id="scaffale-uscita" opere={perUscita} possedute={opereMie} etichetta="Opere in ordine di uscita" />
+    <Scaffale id="scaffale-storia" opere={perStoria} possedute={opereMie} etichetta="Opere in ordine di storia" hidden />
+    <ul class="legenda">
+      {tipiPresenti.map((tp) => <li><span class="campione" style={`--c:var(--dorso-${tp})`}></span>{TIPI[tp]}</li>)}
+      <li><span class="campione vuoto"></span>Mi manca (<a href={u('/collezione/mancanti')}>lista</a>)</li>
+    </ul>
   </section>
 
   <div class="corpo">
     <nav class="indice" aria-labelledby="titolo-indice">
-      <h2 id="titolo-indice" data-sync>Cosa c'è</h2>
+      <h2 id="titolo-indice">Cosa c'è</h2>
       <ol>
         {indice.map((v) => (
-          <li data-sync>
+          <li>
             <a href={u(v.href)}>
               <svg class="icona" viewBox="0 0 24 24" aria-hidden="true" set:html={icone[v.icona]} />
               <span class="voce">
@@ -61,20 +82,20 @@ const icone: Record<string, string> = {
           </li>
         ))}
       </ol>
-      <p class="small muted appendice" data-sync>Altro: <a href={u('/personaggi/grafo')}>grafo delle relazioni</a> · <a href={u('/storia/piani')}>i tre piani del racconto</a> · <a href={u('/collezione/mancanti')}>cosa manca alla collezione</a></p>
+      <p class="small muted appendice">Altro: <a href={u('/personaggi/grafo')}>grafo delle relazioni</a> · <a href={u('/storia/piani')}>i tre piani del racconto</a> · <a href={u('/collezione/mancanti')}>cosa manca alla collezione</a></p>
     </nav>
 
     <aside class="dispacci" aria-labelledby="titolo-dispacci">
-      <h2 id="titolo-dispacci" data-sync>Notizie</h2>
+      <h2 id="titolo-dispacci">Notizie</h2>
       <ul>
         {ultime.map((n) => (
-          <li data-sync>
+          <li>
             <p class="eyebrow"><time datetime={n.data.data.toISOString().slice(0, 10)}>{data(n.data.data)}</time>{n.data.stato === 'indiscrezione' && <span class="tag warn">indiscrezione</span>}</p>
             <a href={u(`/notizie#${n.id}`)}>{n.data.titolo}</a>
           </li>
         ))}
       </ul>
-      <p class="small"><a href={u('/notizie')}>Tutte le notizie →</a></p>
+      <p class="small"><a href={u('/notizie')}>Tutte le notizie</a></p>
     </aside>
   </div>
 
@@ -95,45 +116,60 @@ const icone: Record<string, string> = {
       document.addEventListener('astro:page-load', etichetta);
       setTimeout(etichetta, 300);
       document.addEventListener('astro:page-load', avviaRicerca);
+
+      // scaffale: ordine di uscita o di storia
+      const avviaScaffale = () => {
+        document.querySelectorAll('[data-ordine]').forEach((b) => {
+          if (b.dataset.pronto) return;
+          b.dataset.pronto = '1';
+          b.addEventListener('click', () => {
+            const o = b.dataset.ordine;
+            document.querySelectorAll('[data-ordine]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+            document.getElementById('scaffale-uscita').hidden = o !== 'uscita';
+            document.getElementById('scaffale-storia').hidden = o !== 'storia';
+          });
+        });
+      };
+      window.addEventListener('DOMContentLoaded', avviaScaffale);
+      document.addEventListener('astro:page-load', avviaScaffale);
     </script>
   </Fragment>
 </Base>
 <style>
-  .frontespizio { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; padding-bottom: 36px; border-bottom: 3px double var(--line); }
-  @media (min-width: 860px) { .frontespizio { grid-template-columns: 1.55fr 1fr; gap: 48px; } }
-  .lead { font-size: 1.2rem; max-width: 56ch; }
-  .search { margin: 12px 0 0; --pagefind-ui-font: var(--sans); --pagefind-ui-border: var(--line); --pagefind-ui-background: var(--surface); --pagefind-ui-text: var(--ink); --pagefind-ui-primary: var(--accent); --pagefind-ui-border-radius: 3px; }
+  .testata { display: grid; grid-template-columns: 1fr; gap: 20px 56px; align-items: end; }
+  @media (min-width: 860px) { .testata { grid-template-columns: 1.4fr 1fr; } }
+  .testata h1 { margin-bottom: .25em; }
+  .lead { font-size: 1.15rem; max-width: 58ch; margin: 0; }
+  .search { --pagefind-ui-font: var(--testo); --pagefind-ui-border: var(--line); --pagefind-ui-background: var(--surface); --pagefind-ui-text: var(--ink); --pagefind-ui-primary: var(--ink); --pagefind-ui-border-radius: 2px; --pagefind-ui-border-width: 1px; }
 
-  /* il glifo come un sigillo impresso sulla pagina */
-  .sigillo { display: none; justify-self: center; width: min(300px, 100%); aspect-ratio: 1; color: var(--ink); opacity: .1; rotate: -8deg; }
-  .sigillo :global(.glifo-gemma), .sigillo :global(.glifo-occhio) { color: var(--accent); fill: var(--accent); }
-  @media (min-width: 860px) { .sigillo { display: block; } }
-  @media (prefers-color-scheme: dark) { .sigillo { opacity: .14; } }
+  .sullo-scaffale { margin: 48px 0 56px; }
+  .sopra { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+  .sopra h2 { margin: 0; }
+  .conto { margin: 6px 0 4px; color: var(--muted); }
 
   .corpo { display: grid; gap: 8px 56px; grid-template-columns: 1fr; }
   @media (min-width: 860px) { .corpo { grid-template-columns: 1.7fr 1fr; } }
 
   .indice ol { list-style: none; margin: 0; padding: 0; }
-  .indice li { position: relative; border-bottom: 1px dashed var(--line); }
+  .indice li { position: relative; border-bottom: 1px solid var(--line); }
   .indice li a { display: grid; grid-template-columns: 26px 1fr; gap: 14px; align-items: start; padding: 14px 4px; text-decoration: none; transition: background .2s, padding .2s; }
-  .indice li a:hover { color: inherit; background: color-mix(in srgb, var(--surface) 70%, transparent); padding-left: 10px; }
+  .indice li a:hover { color: inherit; background: var(--surface); }
   .icona { width: 24px; height: 24px; margin-top: 5px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; color: var(--muted); transition: color .2s, rotate .3s; }
-  .indice li a:hover .icona { color: var(--accent); rotate: -8deg; }
+  .indice li a:hover .icona { color: var(--ink); }
   .riga { display: flex; align-items: baseline; gap: 8px; }
-  .nome { font: 600 1.45rem/1.3 var(--serif); }
+  .nome { font: 600 1.35rem/1.3 var(--titoli); }
   .puntini { flex: 1; border-bottom: 2px dotted color-mix(in srgb, var(--muted) 55%, transparent); translate: 0 -5px; min-width: 20px; }
-  .conta { font: .75rem var(--mono); letter-spacing: .06em; color: var(--muted); white-space: nowrap; }
+  .conta { font: 500 .9rem var(--titoli); color: var(--muted); white-space: nowrap; }
   .desc { display: block; color: var(--muted); font-size: .98rem; }
   .appendice { margin-top: 18px; }
 
   .dispacci ul { list-style: none; margin: 0; padding: 0; }
-  .dispacci li { padding: 12px 0 14px; border-bottom: 1px dashed var(--line); }
+  .dispacci li { padding: 12px 0 14px; border-bottom: 1px solid var(--line); }
   .dispacci li .eyebrow { margin: 0 0 4px; display: flex; gap: 8px; align-items: center; }
-  .dispacci li a { font: 500 1.2rem/1.3 var(--serif); text-decoration: none; }
+  .dispacci li a { font: 600 1.15rem/1.3 var(--titoli); text-decoration: none; }
   .dispacci li a:hover { text-decoration: underline; }
   @media (min-width: 860px) {
-    .dispacci { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--ombra); padding: 4px 22px 16px; align-self: start; margin-top: 2.2em; rotate: .6deg; }
+    .dispacci { background: var(--surface); border: 1px solid var(--line); padding: 4px 22px 16px; align-self: start; margin-top: 2.2em; }
     .dispacci h2 { margin-top: .8em; }
   }
-  :global(:root[data-animus='on']) .dispacci, :global(:root[data-animus='on']) .sigillo { rotate: none; }
 </style>

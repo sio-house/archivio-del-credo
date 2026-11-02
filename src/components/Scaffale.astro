@@ -1,0 +1,36 @@
+---
+/**
+ * Uno scaffale: un dorso per opera. Pieno se e' in collezione, solo il
+ * contorno se manca. Altezza e spessore seguono il formato, il colore il tipo.
+ */
+import { u } from '../lib/url';
+import { TIPI, anno, type Opera } from '../lib/data';
+
+interface Props { opere: Opera[]; possedute: Set<string>; etichetta: string; id?: string; hidden?: boolean }
+const { opere, possedute, etichetta, id, hidden = false } = Astro.props;
+
+// misure in px: [spessore, altezza], come oggetti veri su uno scaffale
+const formato: Record<Opera['data']['tipo'], [number, number]> = {
+  gioco: [34, 196], dlc: [24, 176], romanzo: [30, 184], fumetto: [20, 214],
+  manga: [20, 160], corto: [26, 150], film: [26, 150], saggio: [28, 190], altro: [24, 170],
+};
+// sul dorso basta la parte che distingue l'opera
+const breve = (t: string) => {
+  const r = t.replace(/^Assassin['’]s Creed\s*:?\s*/i, '').trim();
+  // "II" da solo non dice niente: per i titoli brevi resta il nome intero
+  return r.length <= 4 ? t : r;
+};
+---
+<div class="scaffale" id={id} hidden={hidden} role="list" aria-label={etichetta}>
+  {opere.map((o) => {
+    const ho = possedute.has(o.id);
+    const [w, h] = formato[o.data.tipo];
+    const descr = `${o.data.titolo}, ${TIPI[o.data.tipo].toLowerCase()} del ${anno(o.data.uscita)}: ${ho ? "ce l'ho" : 'mi manca'}`;
+    return (
+      <a role="listitem" href={u(`/opere/${o.id}`)} class:list={['dorso', { manca: !ho }]} data-tipo={o.data.tipo}
+        style={`--w:${w}px;--h:${h}px`} title={descr} aria-label={descr}>
+        <span class="t" aria-hidden="true">{breve(o.data.titolo)}</span>
+      </a>
+    );
+  })}
+</div>
