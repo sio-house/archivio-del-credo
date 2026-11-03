@@ -2,11 +2,11 @@
   /* l'archivio: muro verde-grigio, carta da schedario, inchiostro blu notte,
      cartone per le etichette, rosso solo per quello che manca */
   --bg: #d9ded5; --surface: #eef0ea; --ink: #1e2933; --muted: #56616a; --line: #b9c1b6;
-  --cartone: #c7b188; --manca: #b3392f;
+  --cartone: #c7b188; --manca: #a8352c;
   --accent: #1e2933; --accent-ink: #eef0ea; --gold: #7d6431;
   --storico: #9c3a2c; --moderno: #2f5f86; --isu: #6b4f8c;
   /* dorsi in tela, uno per tipo di opera */
-  --dorso-gioco: #2f4a5a; --dorso-dlc: #4a6470; --dorso-romanzo: #6b3a2e; --dorso-fumetto: #9a6d24;
+  --dorso-gioco: #2f4a5a; --dorso-dlc: #4a6470; --dorso-romanzo: #6b3a2e; --dorso-fumetto: #8c6321;
   --dorso-manga: #4f5f3a; --dorso-corto: #5a4a6b; --dorso-film: #5a4a6b; --dorso-saggio: #5d5a52; --dorso-altro: #5d5a52;
   --radius: 2px; --max: 1120px;
   --titoli: 'Archivo Narrow', 'Arial Narrow', sans-serif;
@@ -24,8 +24,9 @@
     --cartone: #b39d72; --manca: #e06a5c;
     --accent: #e2e6dc; --accent-ink: #171c1a; --gold: #d1b06a;
     --storico: #e0806f; --moderno: #7fb0d8; --isu: #b39ad8;
-    --dorso-gioco: #4f7488; --dorso-dlc: #6a8793; --dorso-romanzo: #9a5a49; --dorso-fumetto: #c09145;
-    --dorso-manga: #76885a; --dorso-corto: #84729b; --dorso-film: #84729b; --dorso-saggio: #8a867b; --dorso-altro: #8a867b;
+    /* scuri quanto basta perche' il titolo chiaro sul dorso resti leggibile (AA) */
+    --dorso-gioco: #4c7083; --dorso-dlc: #576f78; --dorso-romanzo: #9a5a49; --dorso-fumetto: #86642d;
+    --dorso-manga: #616f4a; --dorso-corto: #75638b; --dorso-film: #75638b; --dorso-saggio: #6e6b61; --dorso-altro: #6e6b61;
     color-scheme: dark;
   }
 }
@@ -94,6 +95,6 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2.2em 0; }
 .legenda .campione.vuoto { background: transparent; box-shadow: inset 0 0 0 1.5px var(--manca); }
 
 /* in modalità Animus l'archivio diventa ologramma */
-:root[data-animus='on'] .dorso { --c: color-mix(in srgb, var(--accent) 35%, #0a1320); color: var(--ink); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent); }
+:root[data-animus='on'] .dorso { color: var(--ink); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent); }
 :root[data-animus='on'] .scaffale { background: repeating-linear-gradient(to bottom, transparent 0 var(--rip), var(--accent) var(--rip) calc(var(--rip) + var(--mensola))); }
 @media (prefers-reduced-motion: reduce) { a.card, .dorso { transition: none; } }

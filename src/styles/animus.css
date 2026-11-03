@@ -11,6 +11,9 @@
   --accent: #4db2ff; --accent-ink: #04080f; --gold: #8fd0ff;
   --storico: #4db2ff; --moderno: #7ee0c8; --isu: #c9a0ff;
   --cartone: #1d4a73; --manca: #ff8f7a;
+  /* anche nell'ologramma ogni tipo di opera ha il suo colore: la legenda resta vera */
+  --dorso-gioco: #12406a; --dorso-dlc: #1d5670; --dorso-romanzo: #5a2f4f; --dorso-fumetto: #6b5418;
+  --dorso-manga: #22543f; --dorso-corto: #3f2f6b; --dorso-film: #3f2f6b; --dorso-saggio: #2f3d4d; --dorso-altro: #2f3d4d;
   color-scheme: dark;
 }
 :root[data-animus='on'] body::before {

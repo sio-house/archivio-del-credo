@@ -9,10 +9,11 @@ import { TIPI, anno, type Opera } from '../lib/data';
 interface Props { opere: Opera[]; possedute: Set<string>; etichetta: string; id?: string; hidden?: boolean }
 const { opere, possedute, etichetta, id, hidden = false } = Astro.props;
 
-// misure in px: [spessore, altezza], come oggetti veri su uno scaffale
+// misure in px: [spessore, altezza], come oggetti veri su uno scaffale.
+// Almeno 24 px di spessore: e' anche la misura minima per toccarli col dito (WCAG 2.5.8).
 const formato: Record<Opera['data']['tipo'], [number, number]> = {
-  gioco: [34, 196], dlc: [24, 176], romanzo: [30, 184], fumetto: [20, 214],
-  manga: [20, 160], corto: [26, 150], film: [26, 150], saggio: [28, 190], altro: [24, 170],
+  gioco: [34, 196], dlc: [24, 176], romanzo: [30, 184], fumetto: [24, 214],
+  manga: [24, 160], corto: [26, 150], film: [26, 150], saggio: [28, 190], altro: [24, 170],
 };
 // sul dorso basta la parte che distingue l'opera
 const breve = (t: string) => {

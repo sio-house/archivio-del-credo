@@ -137,13 +137,24 @@ const payload = { W, H, luoghi, segmenti, ERE };
     const sc = Math.max(cw / D.W, ch / D.H), vw = cw / sc, vh = ch / sc;
     return { x0: (D.W - vw) / 2, y0: (D.H - vh) / 2, vw, vh, u: 1 / sc };
   };
+  // sul telefono (schermo alto e stretto) si puo' rimpicciolire fino a vedere tutto il mondo
+  const kMin = () => { const v = vista(); return Math.min(1, v.vw / D.W); };
   const clamp = () => {
     const v = vista();
-    k = Math.min(KMAX, Math.max(1, k));
-    tx = Math.min(v.x0, Math.max(v.x0 + v.vw - D.W * k, tx));
-    ty = Math.min(v.y0, Math.max(v.y0 + v.vh - D.H * k, ty));
+    k = Math.min(KMAX, Math.max(kMin(), k));
+    tx = D.W * k <= v.vw ? v.x0 + (v.vw - D.W * k) / 2 : Math.min(v.x0, Math.max(v.x0 + v.vw - D.W * k, tx));
+    ty = D.H * k <= v.vh ? v.y0 + (v.vh - D.H * k) / 2 : Math.min(v.y0, Math.max(v.y0 + v.vh - D.H * k, ty));
   };
-  const reset = () => { const v = vista(); k = 1; tx = v.x0 + v.vw / 2 - D.W * 0.52; ty = 0; };
+  const stretto = () => vista().vw < D.W * 0.8;
+  const reset = () => {
+    const v = vista();
+    if (stretto()) { k = kMin(); tx = v.x0; ty = v.y0 + (v.vh - D.H * k) / 2; return; }
+    k = 1; tx = v.x0 + v.vw / 2 - D.W * 0.52; ty = 0;
+  };
+  // sotto i 1000 px il pannello sta sotto la mappa: dopo la scelta lo si porta in vista
+  const pannelloSotto = matchMedia('(max-width: 999px)');
+  const lento = matchMedia('(prefers-reduced-motion: reduce)');
+  const vaiAlPannello = () => { if (pannelloSotto.matches) panel.scrollIntoView({ behavior: lento.matches ? 'auto' : 'smooth', block: 'start' }); };
   // coste dettagliate caricate solo al primo zoom
   let caricato = false;
   const dettaglio = () => {
@@ -189,7 +200,7 @@ const payload = { W, H, luoghi, segmenti, ERE };
     for (const g of gruppi) {
       const r = 8 + Math.min(8, Math.sqrt(g.n) * 2);
       const gr = el('g', { class: 'pin' + (g.ids.includes(selezionato) ? ' on' : ''), transform: `translate(${g.sx} ${g.sy}) scale(${u})`, tabindex: 0, role: 'button',
-        'aria-label': `${g.ids.join(', ')}: ${g.n} storie` });
+        'aria-label': `${g.ids.join(', ')}: ${g.n} ${g.n === 1 ? 'storia' : 'storie'}` });
       gr.append(el('circle', { r: r + 5, class: 'halo' }), el('circle', { r, class: 'disc' }), el('path', { d: `M0 ${-r * .55}L${r * .4} 0L0 ${r * .55}L${-r * .4} 0Z`, class: 'gem' }));
       if (g.n > 1) { const b = el('text', { x: r * .9, y: -r * .75, class: 'count' }); b.textContent = String(g.n); gr.append(b); }
       const lab = el('text', { y: r + 16, class: 'label', 'text-anchor': 'middle' });
@@ -197,7 +208,7 @@ const payload = { W, H, luoghi, segmenti, ERE };
       gr.append(lab);
       const scegli = () => {
         if (g.ids.length > 1 && k < KMAX) { zoomSu(g.sx, g.sy, 2.5); return; }
-        selezionato = g.ids[0]; mostra(g.ids, g.ids.flatMap((id) => m.get(id)!)); disegna();
+        selezionato = g.ids[0]; mostra(g.ids, g.ids.flatMap((id) => m.get(id)!)); disegna(); vaiAlPannello();
       };
       gr.addEventListener('click', scegli);
       gr.addEventListener('keydown', (e) => { if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') { e.preventDefault(); scegli(); } });
@@ -284,7 +295,7 @@ const payload = { W, H, luoghi, segmenti, ERE };
   .stage { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); box-shadow: 0 10px 30px -18px #000; }
   svg { display: block; width: 100%; aspect-ratio: 1600 / 820; height: auto; touch-action: none; cursor: grab; user-select: none; background: #eee4cc; }
   svg:active { cursor: grabbing; }
-  @media (max-width: 700px) { .stage svg { aspect-ratio: auto; height: 68vh; } }
+  @media (max-width: 700px) { .stage svg { aspect-ratio: auto; height: min(68vh, 115vw); } }
   .zoom { position: absolute; right: 10px; top: 10px; display: grid; gap: 6px; }
   .zoom button { width: 36px; height: 36px; border-radius: 8px; border: 1px solid #b9a67f; background: #f6eedb; color: #2b2418; font-size: 1.2rem; cursor: pointer; }
   #panel { overflow: auto; }
