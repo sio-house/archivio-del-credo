@@ -35,7 +35,7 @@ const jsonld = {
   ...(d.studio && { creator: { '@type': 'Organization', name: d.studio } }),
 };
 ---
-<Base titolo={d.titolo} descrizione={`${TIPI[d.tipo]} del ${d.uscita.getUTCFullYear()}: dove si colloca nella timeline di Assassin's Creed e cosa leggere o giocare prima e dopo.`}>
+<Base titolo={d.titolo} descrizione={`${TIPI[d.tipo]} del ${d.uscita.getUTCFullYear()}: dove si colloca nella timeline di Assassin’s Creed e cosa leggere o giocare prima e dopo.`}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonld)} />
   <h1 data-sync>{d.titolo}</h1>
   <p class="sotto">{TIPI[d.tipo]}{d.serie && `, ${d.serie}`}</p>

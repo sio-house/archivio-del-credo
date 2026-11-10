@@ -30,7 +30,7 @@ const jsonld = d.storico ? {
   ...(d.fonti.length && { sameAs: d.fonti }),
 } : null;
 ---
-<Base titolo={d.nome} descrizione={d.sommario ?? `${d.nome} in Assassin's Creed: chi è, in quali opere compare e con chi è in relazione.`}>
+<Base titolo={d.nome} descrizione={d.sommario ?? `${d.nome} in Assassin’s Creed: chi è, in quali opere compare e con chi è in relazione.`}>
   {jsonld && <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
   <h1 data-sync>{d.nome}</h1>
   <p class="sotto">Tra i <a href={u('/personaggi')}>personaggi</a>: {AFF[d.affiliazione]}{d.storico && ', personaggio storico'}</p>
