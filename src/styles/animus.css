@@ -14,6 +14,8 @@
   /* anche nell'ologramma ogni tipo di opera ha il suo colore: la legenda resta vera */
   --dorso-gioco: #12406a; --dorso-dlc: #1d5670; --dorso-romanzo: #5a2f4f; --dorso-fumetto: #6b5418;
   --dorso-manga: #22543f; --dorso-corto: #3f2f6b; --dorso-film: #3f2f6b; --dorso-saggio: #2f3d4d; --dorso-altro: #2f3d4d;
+  /* la mappa come ologramma */
+  --holo-fondo: #061120; --holo-terra: #0e2a44; --holo-stella: #0c2237; --holo-disco: #071626;
   color-scheme: dark;
 }
 :root[data-animus='on'] body::before {
@@ -24,11 +26,11 @@
   mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 78%);
 }
 :root[data-animus='on'] body::after {
-  content: ''; position: fixed; left: 0; right: 0; height: 160px; z-index: 0; pointer-events: none;
+  content: ''; position: fixed; left: 0; right: 0; top: -160px; height: 160px; z-index: 0; pointer-events: none;
   background: linear-gradient(transparent, color-mix(in srgb, var(--accent) 7%, transparent), transparent);
   animation: scansione-schermo 7s linear infinite;
 }
-@keyframes scansione-schermo { from { top: -160px; } to { top: 100%; } }
+@keyframes scansione-schermo { to { transform: translateY(calc(100vh + 160px)); } }
 :root[data-animus='on'] header, :root[data-animus='on'] main, :root[data-animus='on'] footer { position: relative; z-index: 1; }
 :root[data-animus='on'] .card { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent); }
 :root[data-animus='on'] .brand { text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 45%, transparent); }
@@ -44,19 +46,19 @@
 @keyframes flusso { to { stroke-dashoffset: calc(var(--passo, 9) * -1px); } }
 @keyframes eco { 0% { transform: scale(1); opacity: .35; } 70%, 100% { transform: scale(2.1); opacity: 0; } }
 /* in modalità Animus la mappa diventa un ologramma: colori ridipinti, non filtrati */
-:root[data-animus='on'] #map .pergamena { fill: #061120; }
+:root[data-animus='on'] #map .pergamena { fill: var(--holo-fondo); }
 :root[data-animus='on'] #map .vignetta { opacity: .35; }
-:root[data-animus='on'] #map .land { fill: #0e2a44; }
+:root[data-animus='on'] #map .land { fill: var(--holo-terra); }
 :root[data-animus='on'] #map .land-ink { stroke: var(--accent); }
 :root[data-animus='on'] #map .land-smudge { stroke: var(--accent); stroke-opacity: .25; }
 :root[data-animus='on'] #map .grid { stroke: var(--accent); stroke-opacity: .22; }
 :root[data-animus='on'] #map .compass circle, :root[data-animus='on'] #map .compass .star { stroke: var(--accent); }
-:root[data-animus='on'] #map .compass .star { fill: #0c2237; }
+:root[data-animus='on'] #map .compass .star { fill: var(--holo-stella); }
 :root[data-animus='on'] #map .compass .star-dark { fill: var(--accent); }
 :root[data-animus='on'] #map .compass text, :root[data-animus='on'] #map .cartouche { fill: var(--accent); }
 :root[data-animus='on'] #map .grana { opacity: .2; }
-:root[data-animus='on'] #map .pin .disc { fill: #071626; stroke: var(--accent); }
-:root[data-animus='on'] #map .pin .count, :root[data-animus='on'] #map .pin .label { fill: var(--accent); stroke: #061120; }
+:root[data-animus='on'] #map .pin .disc { fill: var(--holo-disco); stroke: var(--accent); }
+:root[data-animus='on'] #map .pin .count, :root[data-animus='on'] #map .pin .label { fill: var(--accent); stroke: var(--holo-fondo); }
 :root[data-animus='on'] .stage { box-shadow: 0 0 40px -12px var(--accent); }
 
 /* --- 6. Interruttore --- */

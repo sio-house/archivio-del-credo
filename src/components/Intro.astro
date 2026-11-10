@@ -23,7 +23,7 @@ import Glifo from './Glifo.astro';
     <p class="intro-titolo" data-testo="ARCHIVIO DEL CREDO">ARCHIVIO DEL CREDO</p>
     <p class="intro-stato"><span id="intro-stato">Sincronizzazione</span> <span id="intro-perc">0%</span></p>
   </div>
-  <p class="intro-salta">clicca per saltare</p>
+  <p class="intro-salta">Clicca per saltare</p>
 </div>
 
 <script>
@@ -97,33 +97,33 @@ import Glifo from './Glifo.astro';
 
 <style is:global>
   .intro { display: none; }
-  html[data-intro] body { overflow: hidden; }
+  html[data-intro] body { overflow-y: hidden; }
   html[data-intro] .intro {
     display: grid; place-items: center; position: fixed; inset: 0; z-index: 1000;
-    background: radial-gradient(ellipse at 50% 45%, #0f1c2b 0%, #070b11 70%);
-    color: #cfe6ff; cursor: pointer; user-select: none;
+    background: radial-gradient(ellipse at 50% 45%, var(--intro-centro) 0%, var(--intro-fondo) 70%);
+    color: var(--intro-ink); cursor: pointer; user-select: none;
     font-family: 'IBM Plex Mono', ui-monospace, monospace;
   }
   .intro-griglia {
     position: absolute; inset: 0; opacity: .5;
     background:
-      linear-gradient(transparent 96%, rgb(120 190 255 / .10) 96%) 0 0 / 100% 32px,
-      linear-gradient(90deg, transparent 96%, rgb(120 190 255 / .10) 96%) 0 0 / 32px 100%;
+      linear-gradient(transparent 96%, var(--intro-griglia) 96%) 0 0 / 100% 32px,
+      linear-gradient(90deg, transparent 96%, var(--intro-griglia) 96%) 0 0 / 32px 100%;
     mask-image: radial-gradient(circle at 50% 45%, #000, transparent 70%);
     animation: intro-griglia 2.6s ease-out both;
   }
   @keyframes intro-griglia { from { opacity: 0; transform: scale(1.15); } }
   .intro-cuore { position: relative; display: grid; justify-items: center; gap: 18px; text-align: center; }
-  .intro-glifo { color: #d8ecff; filter: drop-shadow(0 0 14px rgb(90 170 255 / .55)); overflow: visible; }
+  .intro-glifo { color: var(--intro-glifo); filter: drop-shadow(0 0 14px var(--intro-alone)); overflow: visible; }
   .intro-glifo [data-frammento] { transform-box: fill-box; transform-origin: center; }
-  .intro-glifo .glifo-gemma { color: #6fb8ff; }
+  .intro-glifo .glifo-gemma { color: var(--intro-gemma); }
   .intro.completo .intro-glifo { animation: intro-lampo .5s ease-out; }
-  .intro.completo .intro-glifo .glifo-gemma { color: #ff6a55; transition: color .35s; }
-  @keyframes intro-lampo { 30% { filter: drop-shadow(0 0 30px rgb(200 230 255 / .95)) brightness(1.6); } }
-  .intro-titolo { margin: 0; font-size: clamp(.95rem, 2.6vw, 1.25rem); letter-spacing: .38em; padding-left: .38em; color: #eaf4ff; }
-  .intro-stato { margin: 0; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: #6f93b8; }
-  #intro-perc { color: #9fd0ff; display: inline-block; min-width: 4ch; text-align: right; }
-  .intro-salta { position: absolute; bottom: 24px; margin: 0; font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: #4d6a88; }
+  .intro.completo .intro-glifo .glifo-gemma { color: var(--intro-gemma-fine); transition: color .35s; }
+  @keyframes intro-lampo { 30% { filter: drop-shadow(0 0 30px var(--intro-lampo)) brightness(1.6); } }
+  .intro-titolo { margin: 0; font-size: clamp(.95rem, 2.6vw, 1.25rem); letter-spacing: .38em; padding-left: .38em; color: var(--intro-titolo); }
+  .intro-stato { margin: 0; font-size: .85rem; color: var(--intro-stato); font-variant-numeric: tabular-nums; }
+  #intro-perc { color: var(--intro-perc); display: inline-block; min-width: 4ch; text-align: right; }
+  .intro-salta { position: absolute; bottom: 24px; margin: 0; font-size: .8rem; color: var(--intro-salta); }
 
   /* desincronizzazione: l'immagine si spacca in bande e svanisce */
   .intro.desync .intro-cuore { animation: intro-strappo .55s steps(7) both; }

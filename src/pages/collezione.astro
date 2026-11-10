@@ -32,24 +32,25 @@ const fruizione = { 'da-iniziare': 'Da iniziare', 'in-corso': 'In corso', comple
 
   {perTipo.map((t) => (
     <section class="ripiano" aria-labelledby={`rip-${t.tipo}`}>
-      <h2 id={`rip-${t.tipo}`}>{t.label} <span class="quanti">{t.mie} su {t.tot}</span></h2>
+      <h2 id={`rip-${t.tipo}`}>{t.label}</h2>
+      <p class="quanti">{t.mie} su {t.tot}</p>
       <Scaffale opere={t.lista} possedute={opereCoperte} etichetta={`${t.label}: ${t.mie} su ${t.tot} in collezione`} />
     </section>
   ))}
 
   <h2>Tutti i pezzi</h2>
   <div class="table-scroll">
-    <table>
+    <table class="a-schede">
       <thead><tr><th>Opera</th><th>Edizione</th><th>Lingua</th><th>Stato</th><th>Fruizione</th><th>Voto</th></tr></thead>
       <tbody>
         {righe.map(({ c, e, o }) => (
           <tr>
             <td><a href={u(`/opere/${o.id}`)}>{o.data.titolo}</a><div class="small muted">{TIPI[o.data.tipo]}</div></td>
-            <td>{e.data.nome}{e.data.piattaforma && <span class="muted"> · {e.data.piattaforma}</span>}{e.data.isbn && <div class="small muted">ISBN {e.data.isbn}</div>}</td>
-            <td>{e.data.lingua.toUpperCase()}</td>
-            <td><span class="tag">{c.data.stato}</span></td>
-            <td>{c.data.fruizione ? fruizione[c.data.fruizione] : '—'}</td>
-            <td>{c.data.voto ?? '—'}</td>
+            <td data-col="Edizione">{e.data.nome}{e.data.piattaforma && <span class="muted">, {e.data.piattaforma}</span>}{e.data.isbn && <div class="small muted">ISBN {e.data.isbn}</div>}</td>
+            <td data-col="Lingua">{e.data.lingua.toUpperCase()}</td>
+            <td data-col="Stato"><span class="tag">{c.data.stato}</span></td>
+            <td data-col="Fruizione">{c.data.fruizione ? fruizione[c.data.fruizione] : 'non segnata'}</td>
+            <td data-col="Voto">{c.data.voto ?? 'nessuno'}</td>
           </tr>
         ))}
       </tbody>
@@ -58,6 +59,6 @@ const fruizione = { 'da-iniziare': 'Da iniziare', 'in-corso': 'In corso', comple
 </Base>
 <style>
   .lead { max-width: 64ch; font-size: 1.1rem; }
-  .ripiano h2 { display: flex; align-items: baseline; gap: 12px; margin: 1.6em 0 .2em; }
-  .quanti { font: 500 1rem var(--titoli); color: var(--muted); }
+  .ripiano h2 { margin: 1.6em 0 .1em; }
+  .quanti { font: 500 1rem var(--titoli); color: var(--muted); margin: 0 0 .6em; }
 </style>

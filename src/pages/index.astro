@@ -44,7 +44,7 @@ const icone: Record<string, string> = {
   <section class="testata">
     <div>
       <h1>Archivio del Credo</h1>
-      <p class="lead">Il mio sito su <em>Assassin's Creed</em>. Ho tutti i giochi e buona parte di libri, fumetti e manga, e volevo un posto dove vedere in che ordine vanno giocati e letti e come si collegano fra loro.</p>
+      <p class="lead">Il mio sito su <em>Assassin’s Creed</em>. Ho tutti i giochi e buona parte di libri, fumetti e manga, e volevo un posto dove vedere in che ordine vanno giocati e letti e come si collegano fra loro.</p>
     </div>
     <div id="search" class="search"></div>
   </section>
@@ -68,7 +68,7 @@ const icone: Record<string, string> = {
 
   <div class="corpo">
     <nav class="indice" aria-labelledby="titolo-indice">
-      <h2 id="titolo-indice">Cosa c'è</h2>
+      <h2 id="titolo-indice">Cosa c’è</h2>
       <ol>
         {indice.map((v) => (
           <li>
@@ -82,7 +82,7 @@ const icone: Record<string, string> = {
           </li>
         ))}
       </ol>
-      <p class="small muted appendice">Altro: <a href={u('/personaggi/grafo')}>grafo delle relazioni</a> · <a href={u('/storia/piani')}>i tre piani del racconto</a> · <a href={u('/collezione/mancanti')}>cosa manca alla collezione</a></p>
+      <p class="small muted appendice">Ci sono anche il <a href={u('/personaggi/grafo')}>grafo delle relazioni</a>, <a href={u('/storia/piani')}>i tre piani del racconto</a> e <a href={u('/collezione/mancanti')}>cosa manca alla collezione</a>.</p>
     </nav>
 
     <aside class="dispacci" aria-labelledby="titolo-dispacci">
@@ -140,7 +140,7 @@ const icone: Record<string, string> = {
   @media (min-width: 860px) { .testata { grid-template-columns: 1.4fr 1fr; } }
   .testata h1 { margin-bottom: .25em; }
   .lead { font-size: 1.15rem; max-width: 58ch; margin: 0; }
-  .search { --pagefind-ui-font: var(--testo); --pagefind-ui-border: var(--line); --pagefind-ui-background: var(--surface); --pagefind-ui-text: var(--ink); --pagefind-ui-primary: var(--ink); --pagefind-ui-border-radius: 2px; --pagefind-ui-border-width: 1px; }
+  .search { --pagefind-ui-font: var(--testo); --pagefind-ui-border: var(--muted); --pagefind-ui-background: var(--surface); --pagefind-ui-text: var(--ink); --pagefind-ui-primary: var(--ink); --pagefind-ui-border-radius: 2px; --pagefind-ui-border-width: 1px; }
 
   .sullo-scaffale { margin: 48px 0 56px; }
   .sopra { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
@@ -152,7 +152,7 @@ const icone: Record<string, string> = {
 
   .indice ol { list-style: none; margin: 0; padding: 0; }
   .indice li { position: relative; border-bottom: 1px solid var(--line); }
-  .indice li a { display: grid; grid-template-columns: 26px 1fr; gap: 14px; align-items: start; padding: 14px 4px; text-decoration: none; transition: background .2s, padding .2s; }
+  .indice li a { display: grid; grid-template-columns: 26px 1fr; gap: 14px; align-items: start; padding: 14px 4px; text-decoration: none; transition: background .2s; }
   .indice li a:hover { color: inherit; background: var(--surface); }
   .icona { width: 24px; height: 24px; margin-top: 5px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; color: var(--muted); transition: color .2s, rotate .3s; }
   .indice li a:hover .icona { color: var(--ink); }

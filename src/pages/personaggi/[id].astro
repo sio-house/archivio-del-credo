@@ -32,8 +32,8 @@ const jsonld = d.storico ? {
 ---
 <Base titolo={d.nome} descrizione={d.sommario ?? `${d.nome} in Assassin's Creed: chi è, in quali opere compare e con chi è in relazione.`}>
   {jsonld && <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
-  <p class="eyebrow"><a href={u('/personaggi')}>Personaggi</a> · {AFF[d.affiliazione]}{d.storico && ' · personaggio storico'}</p>
   <h1 data-sync>{d.nome}</h1>
+  <p class="sotto">Tra i <a href={u('/personaggi')}>personaggi</a>: {AFF[d.affiliazione]}{d.storico && ', personaggio storico'}</p>
   {d.sommario && <p class="lead muted">{d.sommario}</p>}
   {!d.verificato && <p><span class="tag warn">dati non ancora verificati su una fonte</span></p>}
 
@@ -65,7 +65,7 @@ const jsonld = d.storico ? {
   {rel.length > 0 && <>
     <h2>Relazioni</h2>
     <ul class="plain">{rel.map((r) => <li>{r.label} <a href={u(`/personaggi/${r.altro}`)}>{idx.personaggi.get(r.altro)!.data.nome}</a>{r.dettaglio && <span class="muted"> ({r.dettaglio})</span>}</li>)}</ul>
-    <p class="small"><a href={u('/personaggi/grafo')}>Vedi tutto nel grafo delle relazioni →</a></p>
+    <p class="small"><a href={u('/personaggi/grafo')}>Vedi tutto nel grafo delle relazioni</a></p>
   </>}
 
   {apparizioni.length > 0 && <>
@@ -86,7 +86,7 @@ const jsonld = d.storico ? {
   @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } }
   article { font-size: 1.06rem; max-width: 65ch; }
   article :global(p) { margin: 0 0 1em; }
-  .storia { border-left: 3px solid var(--gold); max-width: 70ch; margin-top: 8px; }
+  .storia { max-width: 70ch; margin-top: 8px; }
   .storia p:last-child { margin: 0; }
   .curiosita { display: grid; gap: 10px; padding-left: 20px; max-width: 70ch; }
   .curiosita li::marker { color: var(--accent); }
