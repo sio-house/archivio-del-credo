@@ -12,15 +12,15 @@ const livelli = { 'nuovo-arrivato': 'Per iniziare', appassionato: 'Per appassion
   <div class="grid">
     {percorsi.map((p) => (
       <a class="card" href={u(`/percorsi/${p.id}`)}>
-        <p class="eyebrow">{livelli[p.data.livello]} · {p.data.passi.length} passi</p>
         <h3>{p.data.titolo}</h3>
+        <p class="sotto">{livelli[p.data.livello]}, {p.data.passi.length} passi</p>
         <p class="small muted">{p.data.sommario}</p>
       </a>
     ))}
   </div>
   <h2>In automatico</h2>
   <div class="grid">
-    <a class="card" href={u('/percorsi/cronologico')}><p class="eyebrow">Generato</p><h3>Ordine cronologico</h3><p class="small muted">Nell'ordine in cui accadono gli eventi.</p></a>
-    <a class="card" href={u('/percorsi/uscita')}><p class="eyebrow">Generato</p><h3>Ordine di uscita</h3><p class="small muted">Nell'ordine in cui sono usciti.</p></a>
+    <a class="card" href={u('/percorsi/cronologico')}><h3>Ordine cronologico</h3><p class="small muted">Nell’ordine in cui accadono gli eventi.</p></a>
+    <a class="card" href={u('/percorsi/uscita')}><h3>Ordine di uscita</h3><p class="small muted">Nell’ordine in cui sono usciti.</p></a>
   </div>
 </Base>

@@ -18,15 +18,15 @@ const totali = schede.reduce((n, s) => n + s.v.data.reali.length, 0);
   <div class="elenco">
     {schede.map(({ v, Content, o }) => (
       <article class="card" data-sync>
-        <p class="eyebrow">{TIPI[o.data.tipo]} · {anno(o.data.uscita)}</p>
         <h2><a href={u(`/opere/${o.id}#storia`)}>{o.data.titolo}</a></h2>
+        <p class="sotto">{TIPI[o.data.tipo]} del {anno(o.data.uscita)}</p>
         <div class="contesto"><Content /></div>
         <p class="conta small">
           <span class="pallino vero"></span>{v.data.reali.length} fatti storici
           <span class="pallino finto"></span>{v.data.inventati.length} elementi inventati
           {v.data.licenze.length > 0 && <><span class="pallino licenza"></span>{v.data.licenze.length} licenze</>}
         </p>
-        <p class="small"><a href={u(`/opere/${o.id}#storia`)}>Leggi il confronto →</a></p>
+        <p class="small"><a href={u(`/opere/${o.id}#storia`)}>Leggi il confronto</a></p>
       </article>
     ))}
   </div>
@@ -39,7 +39,7 @@ const totali = schede.reduce((n, s) => n + s.v.data.reali.length, 0);
   .contesto :global(p) { margin: 0 0 .8em; }
   .conta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; color: var(--muted); }
   .pallino { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 2px; }
-  .pallino.vero { background: #2f7d5b; }
+  .pallino.vero { background: var(--vero); }
   .pallino.finto { background: var(--accent); }
   .pallino.licenza { background: var(--gold); }
 </style>

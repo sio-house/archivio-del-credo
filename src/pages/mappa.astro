@@ -44,7 +44,7 @@ const payload = { W, H, luoghi, segmenti, ERE };
     <div class="row">
       <label class="small">Viaggio di
         <select id="pg">
-          <option value="">— nessuno —</option>
+          <option value="">nessuno</option>
           {conPercorso.map((p) => <option value={p.id}>{p.nome}</option>)}
         </select>
       </label>
@@ -293,35 +293,35 @@ const payload = { W, H, luoghi, segmenti, ERE };
     #panel { position: absolute; left: 14px; top: 14px; width: 320px; max-height: calc(100% - 28px); background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(4px); }
   }
   .stage { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); box-shadow: 0 10px 30px -18px #000; }
-  svg { display: block; width: 100%; aspect-ratio: 1600 / 820; height: auto; touch-action: none; cursor: grab; user-select: none; background: #eee4cc; }
+  svg { display: block; width: 100%; aspect-ratio: 1600 / 820; height: auto; touch-action: none; cursor: grab; user-select: none; background: var(--mappa-carta); }
   svg:active { cursor: grabbing; }
   @media (max-width: 700px) { .stage svg { aspect-ratio: auto; height: min(68vh, 115vw); } }
   .zoom { position: absolute; right: 10px; top: 10px; display: grid; gap: 6px; }
-  .zoom button { width: 36px; height: 36px; border-radius: 8px; border: 1px solid #b9a67f; background: #f6eedb; color: #2b2418; font-size: 1.2rem; cursor: pointer; }
+  .zoom button { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--mappa-bordo); background: var(--mappa-tasto); color: var(--mappa-ink); font-size: 1.2rem; cursor: pointer; }
   #panel { overflow: auto; }
   #panel :global(h2) { margin-top: 0; font-size: 1.5rem; }
   #panel :global(.segs) { padding-left: 18px; display: grid; gap: 10px; font-size: .9rem; }
 
-  :global(#map .grid) { fill: none; stroke: #5a4a30; stroke-opacity: .28; stroke-width: 1; vector-effect: non-scaling-stroke; filter: url(#rough); }
-  :global(#map .land-smudge) { fill: none; stroke: #2b2418; stroke-opacity: .35; stroke-width: 9; vector-effect: non-scaling-stroke; filter: url(#smudge); }
-  :global(#map .land) { fill: #f5ecd6; }
-  :global(#map .land-ink) { fill: none; stroke: #2b2418; stroke-width: 1.6; stroke-linejoin: round; vector-effect: non-scaling-stroke; filter: url(#rough); }
+  :global(#map .grid) { fill: none; stroke: var(--mappa-griglia); stroke-opacity: .28; stroke-width: 1; vector-effect: non-scaling-stroke; filter: url(#rough); }
+  :global(#map .land-smudge) { fill: none; stroke: var(--mappa-ink); stroke-opacity: .35; stroke-width: 9; vector-effect: non-scaling-stroke; filter: url(#smudge); }
+  :global(#map .land) { fill: var(--mappa-terra); }
+  :global(#map .land-ink) { fill: none; stroke: var(--mappa-ink); stroke-width: 1.6; stroke-linejoin: round; vector-effect: non-scaling-stroke; filter: url(#rough); }
   :global(#map.moving .land-ink), :global(#map.moving .land-smudge), :global(#map.moving .grid) { filter: none; }
-  :global(#map .compass circle) { fill: none; stroke: #2b2418; stroke-opacity: .55; stroke-dasharray: 3 3; }
-  :global(#map .compass .star) { fill: #f5ecd6; stroke: #2b2418; stroke-width: 1; }
-  :global(#map .compass .star-dark) { fill: #2b2418; opacity: .75; }
-  :global(#map .compass text), :global(#map .cartouche) { font-family: 'Cormorant Garamond', serif; fill: #2b2418; font-style: italic; }
+  :global(#map .compass circle) { fill: none; stroke: var(--mappa-ink); stroke-opacity: .55; stroke-dasharray: 3 3; }
+  :global(#map .compass .star) { fill: var(--mappa-terra); stroke: var(--mappa-ink); stroke-width: 1; }
+  :global(#map .compass .star-dark) { fill: var(--mappa-ink); opacity: .75; }
+  :global(#map .compass text), :global(#map .cartouche) { font-family: 'Cormorant Garamond', serif; fill: var(--mappa-ink); font-style: italic; }
   :global(#map .compass text) { font-size: 20px; }
   :global(#map .cartouche) { font-size: 34px; opacity: .8; }
   :global(#map .pin) { cursor: pointer; }
-  :global(#map .pin .halo) { fill: #b3392f; opacity: .12; }
-  :global(#map .pin .disc) { fill: #f8f1df; stroke: #2b2418; stroke-width: 2; }
-  :global(#map .pin .gem) { fill: #b3392f; }
-  :global(#map .pin .count) { font: 600 13px Inter, sans-serif; fill: #2b2418; paint-order: stroke; stroke: #f8f1df; stroke-width: 3px; }
-  :global(#map .pin .label) { font: 600 15px 'Cormorant Garamond', serif; fill: #2b2418; paint-order: stroke; stroke: #eee4cc; stroke-width: 4px; opacity: 0; transition: opacity .15s; pointer-events: none; }
+  :global(#map .pin .halo) { fill: var(--mappa-rosso); opacity: .12; }
+  :global(#map .pin .disc) { fill: var(--mappa-disco); stroke: var(--mappa-ink); stroke-width: 2; }
+  :global(#map .pin .gem) { fill: var(--mappa-rosso); }
+  :global(#map .pin .count) { font: 600 13px Inter, sans-serif; fill: var(--mappa-ink); paint-order: stroke; stroke: var(--mappa-disco); stroke-width: 3px; }
+  :global(#map .pin .label) { font: 600 15px 'Cormorant Garamond', serif; fill: var(--mappa-ink); paint-order: stroke; stroke: var(--mappa-carta); stroke-width: 4px; opacity: 0; transition: opacity .15s; pointer-events: none; }
   :global(#map .pin:hover .label), :global(#map .pin:focus .label), :global(#map .pin.on .label) { opacity: 1; }
-  :global(#map .pin.on .disc) { stroke: #b3392f; stroke-width: 3; }
+  :global(#map .pin.on .disc) { stroke: var(--mappa-rosso); stroke-width: 3; }
   :global(#map .pin:focus) { outline: none; }
   :global(#map .pin:focus-visible .halo) { opacity: .45; }
-  :global(#map .route) { fill: none; stroke: #b3392f; stroke-width: 2.5; stroke-dasharray: 2 7; stroke-linecap: round; }
+  :global(#map .route) { fill: none; stroke: var(--mappa-rosso); stroke-width: 2.5; stroke-dasharray: 2 7; stroke-linecap: round; }
 </style>

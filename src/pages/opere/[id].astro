@@ -37,8 +37,8 @@ const jsonld = {
 ---
 <Base titolo={d.titolo} descrizione={`${TIPI[d.tipo]} del ${d.uscita.getUTCFullYear()}: dove si colloca nella timeline di Assassin's Creed e cosa leggere o giocare prima e dopo.`}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonld)} />
-  <p class="eyebrow">{TIPI[d.tipo]}{d.serie && ` · ${d.serie}`}</p>
   <h1 data-sync>{d.titolo}</h1>
+  <p class="sotto">{TIPI[d.tipo]}{d.serie && `, ${d.serie}`}</p>
   {!d.verificato && <p><span class="tag warn">dati da verificare sulle fonti</span></p>}
 
   <div class="layout">

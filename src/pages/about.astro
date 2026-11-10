@@ -14,20 +14,20 @@ const numeri = [
 ---
 <Base titolo="Info" descrizione="Perché ho fatto questo sito, come funziona e da dove vengono le informazioni.">
   <h1 data-sync>Info</h1>
-  <p class="lead">Ho tutti i giochi di Assassin's Creed e buona parte dei libri, fumetti e manga. Dopo quasi vent'anni di uscite non è facile capire cosa viene prima e cosa dopo, così ho fatto questo sito: una timeline che mette insieme tutto, una mappa, qualche percorso di lettura, un glossario e la mia collezione.</p>
-  <p class="muted small">Non è un sito ufficiale e Ubisoft non c'entra. Assassin's Creed è un marchio di Ubisoft Entertainment e le opere citate appartengono ai rispettivi proprietari.</p>
+  <p class="lead">Ho tutti i giochi di Assassin’s Creed e buona parte dei libri, fumetti e manga. Dopo quasi vent’anni di uscite non è facile capire cosa viene prima e cosa dopo, così ho fatto questo sito: una timeline che mette insieme tutto, una mappa, qualche percorso di lettura, un glossario e la mia collezione.</p>
+  <p class="muted small">Non è un sito ufficiale e Ubisoft non c’entra. Assassin’s Creed è un marchio di Ubisoft Entertainment e le opere citate appartengono ai rispettivi proprietari.</p>
 
   <h2>Qualche numero</h2>
-  <div class="numeri">
-    {numeri.map(([label, n]) => <div class="card" data-sync><p class="eyebrow">{label}</p><p class="big">{n}</p></div>)}
-  </div>
+  <dl class="conti">
+    {numeri.map(([label, n]) => <div><dt>{label}</dt><span class="puntini" aria-hidden="true"></span><dd>{n}</dd></div>)}
+  </dl>
 
-  <h2>Come l'ho fatto</h2>
+  <h2>Come l’ho fatto</h2>
   <div class="prosa">
-    <p>Opere, personaggi, luoghi, edizioni e tutto il resto stanno in semplici file di testo. La timeline, la mappa, gli ordini di lettura e le statistiche della collezione li genera il sito a partire da quei file, quindi ogni informazione la scrivo una volta sola. Se un file punta a un'opera che non esiste, il sito non si pubblica finché non lo sistemo.</p>
+    <p>Opere, personaggi, luoghi, edizioni e tutto il resto stanno in semplici file di testo. La timeline, la mappa, gli ordini di lettura e le statistiche della collezione li genera il sito a partire da quei file, quindi ogni informazione la scrivo una volta sola. Se un file punta a un’opera che non esiste, il sito non si pubblica finché non lo sistemo.</p>
     <p>È un sito statico fatto con Astro. Il grafo dei personaggi e la mappa vengono calcolati al momento della pubblicazione, così il browser ha poco lavoro da fare: in tutto ci sono {metriche.jsKB} KB di JavaScript e {metriche.cssKB} KB di CSS. La ricerca usa Pagefind e funziona senza server. Le coste dettagliate della mappa si scaricano solo se fai zoom.</p>
-    <p>Ho controllato l'accessibilità con axe-core, in tema chiaro e scuro, e le animazioni si spengono se il sistema chiede meno movimento.</p>
-    <p>Sulle fonti ho cercato di essere pignolo. Le opere che non ho ancora controllato sono segnate «da verificare» ({daVerificare} su {opere.length}), le notizie non confermate sono segnate come indiscrezioni e l'elenco di quello che manca è in <a href={u('/da-verificare')}>questa pagina</a>. Quando le fonti non sono d'accordo, come sull'anno del presente in Black Flag Resynced, le riporto tutte e due.</p>
+    <p>Ho controllato l’accessibilità con axe-core, in tema chiaro e scuro, e le animazioni si spengono se il sistema chiede meno movimento.</p>
+    <p>Sulle fonti ho cercato di essere pignolo. Le opere che non ho ancora controllato sono segnate «da verificare» ({daVerificare} su {opere.length}), le notizie non confermate sono segnate come indiscrezioni e l'elenco di quello che manca è in <a href={u('/da-verificare')}>questa pagina</a>. Quando le fonti non sono d’accordo, come sull’anno del presente in Black Flag Resynced, le riporto tutte e due.</p>
   </div>
 
   <h2>Quanto pesa</h2>
@@ -48,9 +48,12 @@ const numeri = [
 </Base>
 <style>
   .lead { font-size: 1.15rem; max-width: 65ch; }
-  .numeri { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 20px 0; }
-  .numeri .eyebrow { margin: 0 0 6px; }
-  .big { font-family: var(--serif); font-variant-numeric: lining-nums; font-size: 2.2rem; margin: 0; line-height: 1; }
+  /* stesso disegno dell'indice in home: voce, puntini, numero */
+  .conti { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0 56px; max-width: 820px; margin: 12px 0 0; }
+  .conti div { display: flex; align-items: baseline; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .conti dt { color: var(--ink); }
+  .conti .puntini { flex: 1; min-width: 20px; border-bottom: 2px dotted color-mix(in srgb, var(--muted) 55%, transparent); translate: 0 -5px; }
+  .conti dd { margin: 0; font: 600 1.35rem/1.3 var(--titoli); font-variant-numeric: tabular-nums lining-nums; }
   .prosa { max-width: 68ch; }
-  table th { text-transform: none; font-size: .95rem; letter-spacing: 0; color: var(--ink); font-weight: 500; }
+  table th { font-size: .95rem; color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
 </style>
