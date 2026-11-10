@@ -8,7 +8,7 @@ const epoca = (y: number) => y < -10000 ? 'Era degli Isu' : y < 1000 ? 'Antichit
 const tipiPresenti = [...new Set(perUscita.map((o) => o.data.tipo))];
 const cronologia = perCronologia.map((s) => ({ s, o: idx.opere.get(s.data.opera.id)!, era: epoca(s.data.inizio) }));
 ---
-<Base titolo="Timeline" descrizione="La linea del tempo di Assassin's Creed che incrocia giochi, romanzi, fumetti e manga.">
+<Base titolo="Timeline" descrizione="La linea del tempo di Assassin’s Creed che incrocia giochi, romanzi, fumetti e manga.">
   <h1 data-sync>Timeline</h1>
   <p class="muted">Ogni riga è un pezzo di storia, quindi un’opera che racconta più epoche compare più volte. Le storie si svolgono su <a href={u('/storia/piani')}>tre piani</a>, cioè l’epoca degli Isu, i ricordi rivissuti nell’Animus e il presente.</p>
 
